@@ -1,14 +1,15 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import logo from '../../../assets/images/logo-icon-30.png'
 const page = () => {
     return (
         <>
-            <section className="md:h-screen py-36 flex justify-center items-center  bg-no-repeat bg-center bg-cover" style={{ backgroundImage: "url('/images/cta.jpg')" }}>
+            <section className="md:h-screen py-36 flex justify-center items-center  bg-no-repeat bg-center bg-cover" style={{ backgroundImage: 'url("https://i.pinimg.com/564x/a8/fe/d5/a8fed574ea986e6b59296bba0378dcf7.jpg")', width: '100%' }}>
                 <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black"></div>
                 <div className="container relative">
                     <div className="flex justify-center">
                         <div className="max-w-[400px] w-full m-auto p-6 bg-white dark:bg-slate-900 shadow-md dark:shadow-gray-800 rounded-md">
-                            <img src="../../images/logo-icon-64.png" height={64} width={72} className="mx-auto" alt="" />
+                            <img src={logo} height={64} width={72} className="mx-auto" alt="" />
                             <h5 className="my-6 text-xl font-semibold">Login</h5>
                             <form className="text-start">
                                 <div className="grid grid-cols-1">
@@ -42,7 +43,7 @@ const page = () => {
                         </div>
                     </div>
                 </div>
-            </section>
+            </section >
         </>
     )
 }
