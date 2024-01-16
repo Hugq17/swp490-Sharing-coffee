@@ -1,7 +1,9 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import logo from '../../../assets/images/logo-icon-30.png'
-const page = () => {
+// import Switcher from '../../../components/common/switcher';
+const AuthLogin = () => {
+    const navigate = useNavigate();
     return (
         <>
             <section className="md:h-screen py-36 flex justify-center items-center  bg-no-repeat bg-center bg-cover" style={{ backgroundImage: 'url("https://i.pinimg.com/564x/a8/fe/d5/a8fed574ea986e6b59296bba0378dcf7.jpg")', width: '100%' }}>
@@ -28,7 +30,7 @@ const page = () => {
                                             <input className="form-checkbox rounded border-gray-200 dark:border-gray-800 text-indigo-600 focus:border-indigo-300 focus:ring focus:ring-offset-0 focus:ring-indigo-200 focus:ring-opacity-50 me-2" type="checkbox" value="" id="RememberMe" />
                                             <label className="form-checkbox-label text-slate-400" htmlFor="RememberMe">Remember me</label>
                                         </div>
-                                        <p className="text-slate-400 mb-0"><Link href="/auth-re-password" className="text-slate-400">Forgot password ?</Link></p>
+                                        {/* <p className="text-slate-400 mb-0"><Link href="/auth-re-password" className="text-slate-400">Forgot password ?</Link></p> */}
                                     </div>
 
                                     <div className="mb-4">
@@ -36,7 +38,8 @@ const page = () => {
                                     </div>
 
                                     <div className="text-center">
-                                        <span className="text-slate-400 me-2">Do not have an account ?</span> <Link href="/auth-signup" className="text-black dark:text-white font-bold inline-block">Sign Up</Link>
+                                        <span className="text-slate-400 me-2">Do not have an account ?</span> <button onClick={() => navigate('/signup')}>Sign up</button>
+
                                     </div>
                                 </div>
                             </form>
@@ -44,8 +47,9 @@ const page = () => {
                     </div>
                 </div>
             </section >
+            {/* <Switcher /> */}
         </>
     )
 }
 
-export default page
+export default AuthLogin
