@@ -1,5 +1,5 @@
 import AuthLogin from './pages/common/auth-login/Auth-login'
-import AuthSignup from './pages/common/auth-signup/Auth-signin';
+import AuthSignup from './pages/common/auth-signup/Auth-signup';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 
 function App() {
