@@ -1,10 +1,15 @@
-import './App.css';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
+import Login from './pages/Login/Login';
+
 
 function App() {
   return (
-    <div className="App">
-
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route path='/' element={<Navigate to="/login" />}></Route>
+        <Route path='/login' element={<Login />}></Route>
+      </Routes>
+    </BrowserRouter>
   );
 }
 
