@@ -1,13 +1,12 @@
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
-import Login from './pages/Login/Login';
-
+import { Routes, Route, BrowserRouter, Navigate } from 'react-router-dom'
+import AuthLayout from "./layouts/auth"
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path='/' element={<Navigate to="/login" />}></Route>
-        <Route path='/login' element={<Login />}></Route>
+        <Route path='auth/*' element={<AuthLayout />} />
+        <Route path="/" element={<Navigate to="/auth/sign-in" replace />} />
       </Routes>
     </BrowserRouter>
   );
