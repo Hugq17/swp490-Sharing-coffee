@@ -10,7 +10,7 @@ const routes = [
         component: <SignIn />,
     },
     {
-        name: "Main Dashboard Admin",
+        name: "Dashboard",
         layout: "/admin",
         path: "default",
         component: <MainDashboardAdmin />
