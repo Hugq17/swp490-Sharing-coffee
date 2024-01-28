@@ -1,6 +1,8 @@
 import InputField from "../../components/fields/InputField";
 import { FcGoogle } from "react-icons/fc";
+import { createContext } from 'react'
 
+const AuthContext = createContext();
 export default function SignIn() {
     return (
         <div className="">
