@@ -8,37 +8,52 @@ export default function SignIn() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const navigate = useNavigate();
+    const [values, setValues] = useState({
+        email: '',
+        password: ''
+    })
+    const url = 'https://sharing-coffee-be-capstone-com.onrender.com/api/admin';
 
-    const handleSignIn = async () => {
-        const url = 'https://sharing-coffee-be-capstone-com.onrender.com/api/admin/login';
-
-        try {
-            const response = await axios.post(url, {
-                email: email,
-                password: password
-            });
-
-            if (response.status === 200) {
-                const userData = response.data;
-                // Đăng nhập thành công, xử lý logic ở đây
-                if (userData && userData.UserRole && userData.UserRole.role_name === "ADMIN") {
-                    // Đăng nhập thành công và role là ADMIN, chuyển đến trang khác
-                    navigate('/admin/default'); // Thay đổi '/dashboard' thành đường dẫn bạn muốn chuyển đến
-                } else {
-                    console.error('Tài khoản không có quyền truy cập.');
+    const handleSignIn = (event) => {
+        event.preventDefault();
+        axios.post(`${url}/login`, {
+            email: email,
+            password: password
+        })
+            .then(res => {
+                if (res.status === 200) {
+                    const token = res.data.token;
+                    const userData = res.data;
+                    const userId = `${values.email}:${token}`;
+                    sessionStorage.setItem('token', userId);
+                    if (userData && userData.UserRole && userData.UserRole.role_name === "ADMIN") {
+                        // Đăng nhập thành công và role là ADMIN, chuyển đến trang khác
+                        navigate('/admin/default'); // Thay đổi '/dashboard' thành đường dẫn bạn muốn chuyển đến
+                    } else {
+                        console.error('Tài khoản không có quyền truy cập.');
+                    }
                 }
-            } else if (response.status === 404) {
-                console.log("Đăng nhập không thành công", response.data)
-            }
-
-            else {
-                // Xử lý lỗi khi đăng nhập không thành công
-                console.error('Đăng nhập không thành công:', response.data.error);
-            }
-        } catch (error) {
-            console.error('Lỗi kết nối:', error);
-        }
-    };
+                // if (res.data.Status === 'Error') {
+                //     setIsLoginFailed(true);
+                //     setTimeout(() => {
+                //         setIsLoginFailed(false);
+                //     }, 2000)
+                // }
+                // if (res.data.ban === 'Pending') {
+                //     setIsLoginPending(true);
+                //     setTimeout(() => {
+                //         setIsLoginPending(false);
+                //     }, 2000);
+                // }
+                // else if (res.data.ban === 'Disable') {
+                //     setIsLoginDisable(true);
+                //     setTimeout(() => {
+                //         setIsLoginDisable(false);
+                //     }, 2000);
+                // }
+            })
+            .catch(err => console.log(err));
+    }
     return (
         <div className="">
             {/* Sign in section */}
