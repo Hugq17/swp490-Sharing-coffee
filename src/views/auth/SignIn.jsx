@@ -12,6 +12,7 @@ export default function SignIn() {
         email: '',
         password: ''
     })
+    const [status, setStatus] = useState(false)
     const url = 'https://sharing-coffee-be-capstone-com.onrender.com/api/admin';
 
     const handleSignIn = (event) => {
@@ -22,6 +23,7 @@ export default function SignIn() {
         })
             .then(res => {
                 if (res.status === 200) {
+                    console.log('success');
                     const token = res.data.token;
                     const userData = res.data;
                     const userId = `${values.email}:${token}`;
@@ -33,26 +35,17 @@ export default function SignIn() {
                         console.error('Tài khoản không có quyền truy cập.');
                     }
                 }
-                // if (res.data.Status === 'Error') {
-                //     setIsLoginFailed(true);
-                //     setTimeout(() => {
-                //         setIsLoginFailed(false);
-                //     }, 2000)
-                // }
-                // if (res.data.ban === 'Pending') {
-                //     setIsLoginPending(true);
-                //     setTimeout(() => {
-                //         setIsLoginPending(false);
-                //     }, 2000);
-                // }
-                // else if (res.data.ban === 'Disable') {
-                //     setIsLoginDisable(true);
-                //     setTimeout(() => {
-                //         setIsLoginDisable(false);
-                //     }, 2000);
-                // }
             })
-            .catch(err => console.log(err));
+            .catch(error => {
+                if (error.response && error.response.status === 404) {
+                    console.log('Đăng nhập thất bại: Tài khoản không tồn tại.');
+                    // Xử lý khi tài khoản không tồn tại
+                    setStatus(true)
+                } else {
+                    console.error("Lỗi trong quá trình xử lý yêu cầu:");
+                    // Xử lý lỗi khi có lỗi trong quá trình gửi yêu cầu đến server
+                }
+            });
     }
     return (
         <div className="">
@@ -77,6 +70,7 @@ export default function SignIn() {
                     <p className="text-base text-gray-600 dark:text-white"> or </p>
                     <div className="h-px w-full bg-gray-200 dark:bg-navy-700" />
                 </div>
+                {status ? <p className="text-red-700 mb-6 flex justify-center"> Email hoặc mật khẩu không đúng</p> : ""}
                 {/* Email */}
                 {/* <InputField
                     variant="auth"
@@ -87,7 +81,7 @@ export default function SignIn() {
                     type="text"
                 /> */}
                 <input
-                    className="mb-3 w-full px-3 py-2 rounded-lg border border-gray-300 focus:outline-none focus:border-brand-500"
+                    className={`mb-3 w-full px-3 py-2 rounded-lg border ${status ? 'border-red-500' : 'border-gray-300'} focus:outline-none focus:border-brand-500`}
                     type="email"
                     placeholder="mail@simmmple.com"
                     value={email}
@@ -125,6 +119,7 @@ export default function SignIn() {
                         Forgot Password?
                     </a>
                 </div>
+
                 <button onClick={handleSignIn} className="linear mt-2 w-full rounded-xl bg-[#A4634D] py-[12px] text-base font-medium text-white transition duration-200 hover:bg-brand-600 active:bg-brand-700 dark:bg-brand-400 dark:text-white dark:hover:bg-brand-300 dark:active:bg-brand-200">
                     Sign In
                 </button>
