@@ -11,6 +11,10 @@ export default function Admin(props) {
     const [open, setOpen] = useState(true);
     const [currentRoute, setCurrentRoute] = React.useState("Main Dashboard");
 
+    const handleCloseSidebar = () => {
+        setOpen(!open); // Đặt trạng thái của sidebar thành false (đóng)
+    };
+
     useEffect(() => {
         window.addEventListener("resize", () =>
             window.innerWidth < 1200 ? setOpen(false) : setOpen(true)
@@ -56,16 +60,19 @@ export default function Admin(props) {
         });
     };
 
-    document.documentElement.dir = "ltr";
+    // document.documentElement.dir = "ltr";
     return (
         <div className="flex h-full w-full">
             <Sidebar open={open} onClose={() => setOpen(false)} />
             {/* Navbar & Main Content */}
             <div className="h-full w-full bg-white">
                 {/* Main Content */}
+
                 <main
                     className={`mx-[12px] h-full flex-none transition-all md:pr-2 xl:ml-[313px]`}
                 >
+                    <button onClick={handleCloseSidebar}>Ẩn Sidebar</button>
+
                     {/* Routes */}
                     <div className="h-full">
                         <Navbar
