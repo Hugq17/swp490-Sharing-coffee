@@ -1,0 +1,5 @@
+/* styles.css */
+.placeholder-color::placeholder {
+    color: #A4634D;
+    /* Màu của placeholder */
+}
