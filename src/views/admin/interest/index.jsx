@@ -3,6 +3,7 @@ import '../../../views/admin/interest/styles.css'
 const Index = () => {
     const [topics, setTopics] = useState([]);
     const [topicInput, setTopicInput] = useState('');
+    const [selectedTopicIndex, setSelectedTopicIndex] = useState(null);
 
     const handleAddTopic = () => {
         if (topicInput.trim() !== '') {
@@ -11,12 +12,23 @@ const Index = () => {
         }
     };
 
-    const handleSelectTopic = (topic) => {
-        setTopicInput(topic);
+    const handleSelectTopic = (index) => {
+        setSelectedTopicIndex(index);
+        setTopicInput(topics[index]);
     };
 
     const handleInputChange = (e) => {
         setTopicInput(e.target.value);
+    };
+
+    const handleUpdateTopic = () => {
+        if (selectedTopicIndex !== null) {
+            const updatedTopics = [...topics];
+            updatedTopics[selectedTopicIndex] = topicInput;
+            setTopics(updatedTopics);
+            setSelectedTopicIndex(null);
+            setTopicInput('');
+        }
     };
 
     return (
@@ -30,34 +42,33 @@ const Index = () => {
                         placeholder='Nhập chủ đề'
                     />
                 </div>
-                <button onClick={handleAddTopic} className="bg-red-300 w-[350px] h-[52px] rounded-md">
+                <button onClick={handleAddTopic} className="bg-[#A4634D] w-[180px] h-[52px] rounded-[100px]">
                     Thêm chủ đề
+                </button>
+                <button onClick={handleUpdateTopic} className="bg-blue-300 w-[180px] h-[52px] rounded-[100px] mt-3">
+                    Cập nhật chủ đề
                 </button>
             </div>
 
             <div className='border-[1px] rounded-xl h-auto w-[500px] border-blue-900 p-3'>
                 {topics.map((topic, index) => (
-                    <p style={{
-                        borderWidth: '2px',
-                        width: `${topic.length * 20}px`,
-                        height: '40px',
-                        textAlign: 'center',
-                        justifyItems: 'center',
-                        borderRadius: '120px',
-                        borderColor: '#A4634D',
-                        marginRight: '8px',
-                        fontWeight: 'bold',
-                        color: '#A4634D',
-                        marginTop: '10px'
-                    }}
-                        key={index}
-                        onClick={() => handleSelectTopic(topic)}
-                    >
-                        {topic}
-                    </p>
+                    <p
+                        style={{
+                            borderWidth: '2px',
+                            width: `${topic.length * 20}px`,
+                            height: '40px',
+                            textAlign: 'center',
+                            justifyItems: 'center',
+                            borderRadius: '120px',
+                            borderColor: '#A4634D',
+                            marginRight: '8px',
+                            fontWeight: 'bold',
+                            color: '#A4634D',
+                            marginTop: '10px'
+                        }} key={index} onClick={() => handleSelectTopic(index)}>{topic}</p>
                 ))}
             </div>
-        </div >
+        </div>
     );
 }
 
