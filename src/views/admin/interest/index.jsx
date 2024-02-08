@@ -1,20 +1,22 @@
-import React, { useState } from 'react';
+import React, { useState } from 'react'
 import '../../../views/admin/interest/styles.css'
-
-function YourComponent() {
+const Index = () => {
     const [topics, setTopics] = useState([]);
     const [topicInput, setTopicInput] = useState('');
 
     const handleAddTopic = () => {
         if (topicInput.trim() !== '') {
             setTopics([...topics, topicInput]);
-            setTopicInput(''); // Reset input after adding
+            setTopicInput(''); // Clear input field after adding topic
         }
     };
 
+    const handleSelectTopic = (topic) => {
+        setTopicInput(topic);
+    };
+
     const handleInputChange = (e) => {
-        const inputValue = e.target.value;
-        setTopicInput(inputValue);
+        setTopicInput(e.target.value);
     };
 
     return (
@@ -28,38 +30,35 @@ function YourComponent() {
                         placeholder='Nhập chủ đề'
                     />
                 </div>
-                <button
-                    onClick={handleAddTopic}
-                    className="bg-red-300 w-[350px] h-[52px] rounded-md">
+                <button onClick={handleAddTopic} className="bg-red-300 w-[350px] h-[52px] rounded-md">
                     Thêm chủ đề
                 </button>
             </div>
 
             <div className='border-[1px] rounded-xl h-auto w-[500px] border-blue-900 p-3'>
                 {topics.map((topic, index) => (
-                    <input
+                    <p style={{
+                        borderWidth: '2px',
+                        width: `${topic.length * 20}px`,
+                        height: '40px',
+                        textAlign: 'center',
+                        justifyItems: 'center',
+                        borderRadius: '120px',
+                        borderColor: '#A4634D',
+                        marginRight: '8px',
+                        fontWeight: 'bold',
+                        color: '#A4634D',
+                        marginTop: '10px'
+                    }}
                         key={index}
-                        className="placeholder-color"
-                        style={{
-                            width: `${topic.length * 20}px`,
-                            padding: '10px',
-                            border: '2px solid #ccc',
-                            borderRadius: '5px',
-                            marginBottom: '10px', // Thêm khoảng cách giữa các ô input
-                            outline: 'none', // Loại bỏ đường viền khi focus
-                            transition: 'border-color 0.3s ease', // Hiệu ứng khi hover
-                            color: '#A4634D', // Màu của văn bản trong ô input
-                            marginRight: '10px',
-                            borderColor: '#A4634D',
-                            textAlign: 'center',
-                        }}
-                        placeholder={topic}
-                    />
-
+                        onClick={() => handleSelectTopic(topic)}
+                    >
+                        {topic}
+                    </p>
                 ))}
             </div>
-        </div>
+        </div >
     );
 }
 
-export default YourComponent;
+export default Index
