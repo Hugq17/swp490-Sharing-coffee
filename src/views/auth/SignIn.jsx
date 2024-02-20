@@ -54,7 +54,7 @@ export default function SignIn() {
                     Đăng nhập
                 </h4>
                 <p className="mb-9 ml-1 text-base text-gray-600">
-                    Enter your email and password to sign in!
+                    Nhập email và mật khẩu của bạn để đăng nhập
                 </p>
                 <div className="mb-6 flex h-[50px] w-full items-center justify-center gap-2 rounded-xl bg-lightPrimary hover:cursor-pointer dark:bg-navy-800">
                     <div className="rounded-full text-xl">
@@ -95,12 +95,12 @@ export default function SignIn() {
                         className=" text-sm font-medium text-brand-500 hover:text-brand-600 dark:text-white"
                         href=" "
                     >
-                        Forgot password?
+                        Quên mật khẩu
                     </a>
                 </div>
 
                 <button onClick={handleSignIn} className="linear mt-2 w-full rounded-xl bg-[#A4634D] py-[12px] text-base font-medium text-white transition duration-200 hover:bg-brand-600 active:bg-brand-700 dark:bg-brand-400 dark:text-white dark:hover:bg-brand-300 dark:active:bg-brand-200">
-                    Sign In
+                    Đăng nhập
                 </button>
 
             </div>

@@ -71,7 +71,7 @@ export default function Admin(props) {
                 <main
                     className={`mx-[12px] h-full flex-none transition-all md:pr-2 xl:ml-[313px]`}
                 >
-                    <button onClick={handleCloseSidebar}>Ẩn Sidebar</button>
+                    {/*<button onClick={handleCloseSidebar}>Ẩn Sidebar</button>*/}
 
                     {/* Routes */}
                     <div className="h-full">

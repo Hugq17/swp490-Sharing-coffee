@@ -34,7 +34,7 @@ const Index = () => {
     return (
         <div className='grid grid-cols-2 mt-4'>
             <div className='flex flex-col items-center mt-6'>
-                <div className='border-[1px] rounded-xl border-pink-400 w-[350px] h-[52px] shadow-2xl mb-4'>
+                <div className='border-[1px] rounded-xl w-[350px] h-[52px] shadow-xl mb-4'>
                     <input
                         value={topicInput}
                         onChange={handleInputChange}
@@ -42,15 +42,18 @@ const Index = () => {
                         placeholder='Nhập chủ đề'
                     />
                 </div>
-                <button onClick={handleAddTopic} className="bg-[#A4634D] w-[180px] h-[52px] rounded-[100px]">
-                    Thêm chủ đề
-                </button>
-                <button onClick={handleUpdateTopic} className="bg-blue-300 w-[180px] h-[52px] rounded-[100px] mt-3">
-                    Cập nhật chủ đề
-                </button>
+
+                <div>
+                    <button onClick={handleAddTopic} className="bg-[#A4634D] w-[180px] h-[52px] rounded-[100px] mr-2">
+                        Thêm chủ đề
+                    </button>
+                    <button onClick={handleUpdateTopic} className="bg-blue-300 w-[180px] h-[52px] rounded-[100px] mt-3">
+                        Cập nhật chủ đề
+                    </button>
+                </div>
             </div>
 
-            <div className='border-[1px] rounded-xl h-auto w-[500px] border-blue-900 p-3'>
+            <div className='border-[1px] rounded-xl h-auto w-[500px] border-[#A4634D] p-3 '>
                 {topics.map((topic, index) => (
                     <p
                         style={{
@@ -58,13 +61,15 @@ const Index = () => {
                             width: `${topic.length * 20}px`,
                             height: '40px',
                             textAlign: 'center',
-                            justifyItems: 'center',
                             borderRadius: '120px',
                             borderColor: '#A4634D',
                             marginRight: '8px',
                             fontWeight: 'bold',
                             color: '#A4634D',
-                            marginTop: '10px'
+                            marginTop: '10px',
+                            display: 'inline-flex', // Sử dụng inline-flex thay vì flex
+                            alignItems: 'center',
+                            justifyContent: 'center' // Căn giữa nội dung ngang
                         }} key={index} onClick={() => handleSelectTopic(index)}>{topic}</p>
                 ))}
             </div>

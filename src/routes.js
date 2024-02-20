@@ -11,7 +11,7 @@ const routes = [
         component: <SignIn />,
     },
     {
-        name: "Dashboard",
+        name: "Homepage",
         layout: "/admin",
         path: "default",
         component: <MainDashboardAdmin />
