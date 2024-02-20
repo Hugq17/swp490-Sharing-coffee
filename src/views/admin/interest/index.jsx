@@ -9,7 +9,7 @@ const Index = () => {
         fetchInterests();
     }, []);
 
-    const fetchInterests = async () => {
+    const fetchInterests = async () => { //get all interests
         try {
             const response = await fetch('https://sharing-coffee-be-capstone-com.onrender.com/api/interest');
             const data = await response.json();
@@ -19,10 +19,29 @@ const Index = () => {
         }
     };
 
-    const handleAddTopic = () => {
+
+
+    const handleAddTopic = async () => {
         if (topicInput.trim() !== '') {
-            setTopics([...topics, topicInput]);
-            setTopicInput(''); // Clear input field after adding topic
+            try {
+                const response = await fetch('https://sharing-coffee-be-capstone-com.onrender.com/api/interest', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ name: topicInput })
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    setTopics([...topics, data]);
+                    setTopicInput(''); // Clear input field after adding topic
+                } else {
+                    console.error('Failed to add topic');
+                }
+            } catch (error) {
+                console.error('Error adding topic:', error);
+            }
         }
     };
 
@@ -72,7 +91,7 @@ const Index = () => {
                     <p
                         style={{
                             borderWidth: '2px',
-                            width: `${topic.name.length * 25}px`,
+                            width: `${topic.name.length * 17}px`,
                             height: '40px',
                             textAlign: 'center',
                             borderRadius: '120px',
