@@ -3,6 +3,9 @@ import SignIn from "./views/auth/SignIn";
 import MainDashboardAdmin from './views/admin/default'
 import Interest from './views/admin/interest'
 import Hobbies from "./components/icons/Hobbies";
+import Users from "./components/icons/Users";
+import Events from "./components/icons/Events";
+import Blogs from "./components/icons/Blogs";
 
 const routes = [
     {
@@ -23,6 +26,24 @@ const routes = [
         icon: <Hobbies className="h-6 w-6" />,
         path: "interest",
         component: <Interest />
+    },
+    {
+        name: "Tài khoản",
+        layout: "/admin",
+        icon: <Users className="h-6 w-6" />,
+        path: "account",
+    },
+    {
+        name: "Sự kiện",
+        layout: "/admin",
+        icon: <Events className="h-6 w-6" />,
+        path: "event",
+    },
+    {
+        name: "Bài viết",
+        layout: "/admin",
+        icon: <Blogs className="h-6 w-6" />,
+        path: "blog",
     },
 ]
 
