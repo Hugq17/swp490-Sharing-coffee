@@ -16,7 +16,7 @@ const Sidebar = ({ open, onClose }) => {
             </span>
 
             <div className={`mx-[56px] mt-[50px] flex items-center`}>
-                <div className="mt-1 ml-1 h-2.5 font-poppins text-[26px] font-bold uppercase text-navy-700 dark:text-white">
+                <div className="mt-1 ml-1 h-2.5 font-poppins text-[26px] font-bold  text-navy-700 text-white">
                     Sharing <span className="font-medium">Café</span>
                 </div>
             </div>

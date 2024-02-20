@@ -5,6 +5,7 @@ const Index = () => {
     const [topicInput, setTopicInput] = useState('');
     const [selectedTopicIndex, setSelectedTopicIndex] = useState(null);
 
+
     useEffect(() => {
         fetchInterests();
     }, []);
@@ -23,6 +24,14 @@ const Index = () => {
 
     const handleAddTopic = async () => {
         if (topicInput.trim() !== '') {
+            // Kiểm tra xem topic đã tồn tại chưa
+            const isTopicExists = topics.some(topic => topic.name === topicInput);
+
+            if (isTopicExists) {
+                alert('Chủ đề đã tồn tại. Vui lòng nhập một chủ đề khác.');
+                return; // Không thêm chủ đề nếu đã tồn tại
+            }
+
             try {
                 const response = await fetch('https://sharing-coffee-be-capstone-com.onrender.com/api/interest', {
                     method: 'POST',
@@ -45,6 +54,7 @@ const Index = () => {
         }
     };
 
+
     const handleSelectTopic = (index, topicName) => {
         setSelectedTopicIndex(index);
         setTopicInput(topicName);
@@ -63,10 +73,13 @@ const Index = () => {
             setTopicInput('');
         }
     };
+    //-------------------------------------------------------------------//
+    // Select and delete
+
 
     return (
-        <div className='grid grid-cols-2 mt-4'>
-            <div className='flex flex-col items-center mt-6'>
+        <div className='grid grid-cols-2 mt-4 '>
+            <div className='flex flex-col items-center mt-6 justify-center'>
                 <div className='border-[1px] rounded-xl w-[350px] h-[52px] shadow-xl mb-4'>
                     <input
                         value={topicInput}

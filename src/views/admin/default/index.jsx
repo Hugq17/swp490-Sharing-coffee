@@ -1,39 +1,73 @@
-// import Widget from '../../../components/widget/Widget'
-import { profitData } from './data'
+import React, { useState, useEffect } from 'react';
+import * as Icon from 'react-feather';
 import CountUp from 'react-countup';
+import axios from 'axios';
 
 const DashboardAdmin = () => {
+    const [profitData, setProfitData] = useState([]);
+
+    useEffect(() => {
+        async function fetchData() {
+            try {
+                const response = await axios.get('https://sharing-coffee-be-capstone-com.onrender.com/api/admin/statics');
+
+                // Mapping entity counts to profitData
+                const newData = response.data.map(entity => {
+                    let icon = null;
+                    switch (entity.entity_type) {
+                        case 'Account':
+                            icon = Icon.Users;
+                            break;
+                        case 'Event':
+                            icon = Icon.Award;
+                            break;
+                        case 'Blog':
+                            icon = Icon.Bold;
+                            break;
+                        default:
+                            break;
+                    }
+                    return {
+                        icon: icon,
+                        title: `Total ${entity.entity_type}s`,
+                        amount: entity.entity_count
+                    };
+                });
+
+                setProfitData(newData);
+            } catch (error) {
+                console.error('Error fetching data:', error);
+            }
+        }
+
+        fetchData();
+    }, []); // Empty dependency array ensures this effect runs only once after the initial render
+
     return (
         <div className="grid xl:grid-cols-5 md:grid-cols-3 grid-cols-1 mt-6 gap-6">
             {profitData.map((item, index) => {
-                const Icons = item.icon
+                const Icons = item.icon;
                 return (
                     <div className="relative overflow-hidden rounded-md shadow dark:shadow-gray-700 bg-white dark:bg-slate-900" key={index}>
                         <div className="p-5 flex items-center">
                             <span className="flex justify-center items-center rounded-md h-14 w-14 min-w-[56px] bg-indigo-600/5 dark:bg-indigo-600/10 shadow shadow-indigo-600/5 dark:shadow-indigo-600/10 text-indigo-600">
                                 <Icons className="h-5 w-5" />
                             </span>
-
                             <span className="ms-3">
                                 <span className="text-slate-400 font-semibold block">{item.title}</span>
                                 <span className="flex items-center justify-between mt-1">
-                                    <span className="text-xl font-semibold"><span className="counter-value">$<CountUp start={0} end={item.amount} /></span></span>
-                                    {item?.loss ? <span className="text-red-600 text-sm ms-1 font-semibold flex items-center">{item?.loss}</span> : ''}
-                                    {item?.profit ? <span className="text-emerald-600 text-sm ms-1 font-semibold flex items-center">{item?.profit}</span> : ''}
-                                    {item?.null ? <span className="text-slate-400 text-sm ms-1 font-semibold flex items-center">{item?.null}</span> : ''}
-
+                                    <span className="text-xl font-semibold"><span className="counter-value"><CountUp start={0} end={parseInt(item.amount)} /></span></span>
                                 </span>
                             </span>
                         </div>
-
                         <div className="px-5 py-4 bg-gray-50 dark:bg-slate-800">
                             <div href="#" className="relative inline-flex items-center font-semibold tracking-wide align-middle text-base text-center border-none after:content-[''] after:absolute after:h-px after:w-0 hover:after:w-full after:end-0 hover:after:end-auto after:bottom-0 after:start-0 after:transition-all after:duration-500 text-indigo-600 dark:text-white/70 hover:text-indigo-600 dark:hover:text-white after:bg-indigo-600 dark:after:bg-white duration-500">View data </div>
                         </div>
                     </div>
-                )
+                );
             })}
         </div>
-    )
-}
+    );
+};
 
-export default DashboardAdmin
+export default DashboardAdmin;
