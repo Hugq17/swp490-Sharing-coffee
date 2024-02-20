@@ -11,13 +11,13 @@ const routes = [
         component: <SignIn />,
     },
     {
-        name: "Homepage",
+        name: "Trang chủ",
         layout: "/admin",
         path: "default",
         component: <MainDashboardAdmin />
     },
     {
-        name: "Interest",
+        name: "Chủ để quan tâm",
         layout: "/admin",
         path: "interest",
         component: <Interest />

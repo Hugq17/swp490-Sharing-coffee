@@ -1,9 +1,23 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import '../../../views/admin/interest/styles.css'
 const Index = () => {
     const [topics, setTopics] = useState([]);
     const [topicInput, setTopicInput] = useState('');
     const [selectedTopicIndex, setSelectedTopicIndex] = useState(null);
+
+    useEffect(() => {
+        fetchInterests();
+    }, []);
+
+    const fetchInterests = async () => {
+        try {
+            const response = await fetch('https://sharing-coffee-be-capstone-com.onrender.com/api/interest');
+            const data = await response.json();
+            setTopics(data);
+        } catch (error) {
+            console.error('Error fetching data:', error);
+        }
+    };
 
     const handleAddTopic = () => {
         if (topicInput.trim() !== '') {
@@ -12,9 +26,9 @@ const Index = () => {
         }
     };
 
-    const handleSelectTopic = (index) => {
+    const handleSelectTopic = (index, topicName) => {
         setSelectedTopicIndex(index);
-        setTopicInput(topics[index]);
+        setTopicInput(topicName);
     };
 
     const handleInputChange = (e) => {
@@ -44,11 +58,11 @@ const Index = () => {
                 </div>
 
                 <div>
-                    <button onClick={handleAddTopic} className="bg-[#A4634D] w-[180px] h-[52px] rounded-[100px] mr-2">
-                        Thêm chủ đề
+                    <button onClick={handleAddTopic} className="bg-[#A4634D] w-[120px] h-[52px] rounded-[60px] mr-5 text-white font-semibold">
+                        Thêm
                     </button>
-                    <button onClick={handleUpdateTopic} className="bg-blue-300 w-[180px] h-[52px] rounded-[100px] mt-3">
-                        Cập nhật chủ đề
+                    <button onClick={handleUpdateTopic} className="bg-[#5766E5] w-[150px] h-[52px] rounded-[60px] mt-3 text-white font-semibold">
+                        Cập nhật
                     </button>
                 </div>
             </div>
@@ -58,7 +72,7 @@ const Index = () => {
                     <p
                         style={{
                             borderWidth: '2px',
-                            width: `${topic.length * 20}px`,
+                            width: `${topic.name.length * 25}px`,
                             height: '40px',
                             textAlign: 'center',
                             borderRadius: '120px',
@@ -70,7 +84,7 @@ const Index = () => {
                             display: 'inline-flex', // Sử dụng inline-flex thay vì flex
                             alignItems: 'center',
                             justifyContent: 'center' // Căn giữa nội dung ngang
-                        }} key={index} onClick={() => handleSelectTopic(index)}>{topic}</p>
+                        }} key={index} onClick={() => handleSelectTopic(index, topic.name)}>{topic.name}</p>
                 ))}
             </div>
         </div>
