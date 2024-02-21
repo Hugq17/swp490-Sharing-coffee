@@ -6,6 +6,8 @@ import Hobbies from "./components/icons/Hobbies";
 import Users from "./components/icons/Users";
 import Events from "./components/icons/Events";
 import Blogs from "./components/icons/Blogs";
+import Forgotpassword from "./views/auth/Forgotpassword";
+import Blog from "./views/admin/blog";
 
 const routes = [
     {
@@ -13,6 +15,12 @@ const routes = [
         layout: "/auth",
         path: "sign-in",
         component: <SignIn />,
+    },
+    {
+        name: "Forget Password",
+        layout: "/auth",
+        path: "Forget-Password",
+        component: <Forgotpassword />,
     },
     {
         name: "Trang chủ",
@@ -44,6 +52,7 @@ const routes = [
         layout: "/admin",
         icon: <Blogs className="h-6 w-6" />,
         path: "blog",
+        component: <Blog />
     },
 ]
 
