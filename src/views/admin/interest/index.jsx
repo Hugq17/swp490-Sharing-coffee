@@ -4,7 +4,8 @@ const Index = () => {
     const [topics, setTopics] = useState([]);
     const [topicInput, setTopicInput] = useState('');
     const [selectedTopicIndex, setSelectedTopicIndex] = useState(null);
-
+    const [isPopupOpen, setIsPopupOpen] = useState(false); // Thêm state mới để quản lý popup
+    const [selectedTopicId, setSelectedTopicId] = useState(null);
 
     useEffect(() => {
         fetchInterests();
@@ -45,6 +46,7 @@ const Index = () => {
                     const data = await response.json();
                     setTopics([...topics, data]);
                     setTopicInput(''); // Clear input field after adding topic
+                    console.log(topicInput)
                 } else {
                     console.error('Failed to add topic');
                 }
@@ -55,23 +57,54 @@ const Index = () => {
     };
 
 
-    const handleSelectTopic = (index, topicName) => {
+    const handleSelectTopic = (index, topicName, topicId) => {
         setSelectedTopicIndex(index);
         setTopicInput(topicName);
+        setIsPopupOpen(true); // Mở popup khi một topic được chọn
+        setSelectedTopicId(topicId);
     };
+
 
     const handleInputChange = (e) => {
         setTopicInput(e.target.value);
     };
 
-    const handleUpdateTopic = () => {
-        if (selectedTopicIndex !== null) {
-            const updatedTopics = [...topics];
-            updatedTopics[selectedTopicIndex] = topicInput;
-            setTopics(updatedTopics);
-            setSelectedTopicIndex(null);
-            setTopicInput('');
+
+    const handleUpdateTopic = async () => {
+        if (selectedTopicId && topicInput.trim() !== '') {
+            try {
+                const response = await fetch(`https://sharing-coffee-be-capstone-com.onrender.com/api/interest/${selectedTopicId}`, {
+                    method: 'PUT', // Hoặc 'PATCH' tùy vào API của bạn
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ name: topicInput }),
+                });
+
+                if (response.ok) {
+                    let updatedTopic;
+                    try {
+                        updatedTopic = await response.json();
+                    } catch (error) {
+                        // console.error('Error parsing JSON:', error);
+                        // Xử lý trường hợp không có JSON trả về hoặc JSON không hợp lệ
+                        // Có thể bạn chỉ cần cập nhật UI mà không cần dữ liệu trả về
+                        updatedTopic = { interest_id: selectedTopicId, name: topicInput }; // Giả sử cập nhật thành công
+                    }
+                    // Cập nhật state của topics để phản ánh sự thay đổi
+                    setTopics(topics.map(topic => topic.interest_id === selectedTopicId ? updatedTopic : topic));
+                    setIsPopupOpen(false); // Đóng popup sau khi cập nhật thành công
+                    setTopicInput(''); // Xóa nội dung của ô input sau khi cập nhật
+                } else {
+                    console.error('Failed to update topic');
+                }
+            } catch (error) {
+                console.error('Error updating topic:', error);
+            }
         }
+    };
+    const handleClosePopup = () => {
+        setIsPopupOpen(false); // Hàm để đóng popup
     };
     //-------------------------------------------------------------------//
     // Select and delete
@@ -93,9 +126,6 @@ const Index = () => {
                     <button onClick={handleAddTopic} className="bg-[#A4634D] w-[120px] h-[52px] rounded-[60px] mr-5 text-white font-semibold">
                         Thêm
                     </button>
-                    <button onClick={handleUpdateTopic} className="bg-[#5766E5] w-[150px] h-[52px] rounded-[60px] mt-3 text-white font-semibold">
-                        Cập nhật
-                    </button>
                 </div>
             </div>
 
@@ -116,9 +146,24 @@ const Index = () => {
                             display: 'inline-flex', // Sử dụng inline-flex thay vì flex
                             alignItems: 'center',
                             justifyContent: 'center' // Căn giữa nội dung ngang
-                        }} key={index} onClick={() => handleSelectTopic(index, topic.name)}>{topic.name}</p>
+                        }} key={index} onClick={() => handleSelectTopic(index, topic.name, topic.interest_id)}>{topic.name}</p>
                 ))}
             </div>
+            {isPopupOpen && (
+                <div className="popup">
+                    <div className="popup-inner">
+                        <input
+                            value={topicInput}
+                            onChange={handleInputChange}
+                            placeholder='Nhập chủ đề'
+                        />
+                        <button onClick={handleClosePopup}>Đóng</button>
+                        <button onClick={handleUpdateTopic} className="bg-[#5766E5] w-[150px] h-[52px] rounded-[60px] mt-3 text-white font-semibold">
+                            Cập nhật
+                        </button>
+                    </div>
+                </div>
+            )}
         </div>
     );
 }
