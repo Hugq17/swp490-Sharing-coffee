@@ -26,3 +26,104 @@ tfoot td {
     background-color: #A4634D;
     color: white;
 }
+
+/* Container cho tất cả các checkbox */
+.checkbox-group {
+    display: flex;
+    flex-wrap: wrap;
+    /* Cho phép các items bọc sang hàng mới nếu không đủ chỗ */
+    gap: 10px;
+    /* Khoảng cách giữa các checkbox */
+    align-items: center;
+    /* Căn giữa các items theo chiều dọc */
+    margin-bottom: 24px;
+    margin-top: 24px;
+}
+
+/* Style cho từng checkbox và label */
+.checkbox-container {
+    display: flex;
+    align-items: center;
+    /* Căn giữa checkbox và label theo chiều dọc */
+}
+
+/* Ẩn checkbox mặc định và tạo style mới */
+.checkbox-container input[type="checkbox"] {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    background-color: #f0f0f0;
+    border-radius: 4px;
+    cursor: pointer;
+    position: relative;
+}
+
+/* Style cho dấu check khi checkbox được chọn */
+.checkbox-container input[type="checkbox"]:checked::before {
+    content: '';
+    position: absolute;
+    left: 5px;
+    top: 1px;
+    width: 8px;
+    height: 14px;
+    border: solid #fff;
+    border-width: 0 3px 3px 0;
+    transform: rotate(45deg);
+}
+
+/* Thay đổi màu nền khi checkbox được chọn */
+.checkbox-container input[type="checkbox"]:checked {
+    background-color: #2196F3;
+}
+
+/* Style cho label */
+.checkbox-container label {
+    margin-left: 5px;
+}
+
+/****************************************************/
+.pagination-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 20px;
+    background-color: #f0f0f0;
+    border-radius: 10px;
+}
+
+.pagination-button {
+    background-color: #A4634D;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s;
+}
+
+.pagination-button:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+}
+
+.pagination-button:hover:not(:disabled) {
+    background-color: #8d4a32;
+}
+
+.pagination-input {
+    padding: 5px;
+    width: 50px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    text-align: center;
+}
+
+.pagination-select {
+    padding: 5px 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}

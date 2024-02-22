@@ -154,17 +154,22 @@ const Index = () => {
                 ))}
             </div>
             {isPopupOpen && (
-                <div className="popup">
-                    <div className="popup-inner">
-                        <input
-                            value={topicInput}
-                            onChange={handleInputChange}
-                            placeholder='Nhập chủ đề'
-                        />
-                        <button onClick={handleClosePopup}>Đóng</button>
-                        <button onClick={handleUpdateTopic} className="bg-[#5766E5] w-[150px] h-[52px] rounded-[60px] mt-3 text-white font-semibold">
-                            Cập nhật
-                        </button>
+                <div class="popup-background">
+                    <div class="popup-content">
+                        <span onClick={handleClosePopup} class="close-btn">&times;</span>
+                        <h2 className='font-bold text-xl'>Chỉnh Sửa Chủ Đề</h2>
+
+                        <div className="form-container">
+                            <input
+                                value={topicInput}
+                                onChange={handleInputChange}
+                                placeholder='Nhập chủ đề'
+                                className="input-style"
+                            />
+                            <button onClick={handleUpdateTopic} className="button">
+                                Cập nhật
+                            </button>
+                        </div>
                     </div>
                 </div>
             )}

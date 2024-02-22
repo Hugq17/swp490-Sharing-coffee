@@ -36,13 +36,18 @@ function Pagination() {
     return (
         <div className='text-black mt-[40px]'>
             <GlobalFilter filter={globalFilter} setFilter={setGlobalFilter} />
-            <div>
-                <Checkbox {...getToggleHideAllColumnsProps()} /> Toggle All
+            <div className="checkbox-group">
+                <div className="checkbox-container">
+                    <Checkbox {...getToggleHideAllColumnsProps()} /> Toggle All
+                </div>
                 {
                     allColumns.map(column => (
-                        <div key={column.id}>
-                            <label>
-                                <input type='checkbox' {...column.getToggleHiddenProps()} />
+                        <div key={column.id} className="checkbox-container">
+                            <label style={{ marginLeft: "30px" }}>
+                                <input
+                                    type='checkbox' {...column.getToggleHiddenProps()}
+                                    className="mr-3"
+                                />
                                 {column.Header}
                             </label>
                         </div>
@@ -85,7 +90,7 @@ function Pagination() {
                     })}
 
                 </tbody>
-                <tfoot>
+                {/* <tfoot>
                     {
                         footerGroups.map(footerGroup => (
                             <tr {...footerGroup.getFooterGroupProps()}>
@@ -101,9 +106,9 @@ function Pagination() {
                             </tr>
                         ))
                     }
-                </tfoot>
+                </tfoot> */}
             </table>
-            <div>
+            <div className="pagination-container">
                 <span>
                     Page{' '}
                     <strong>
@@ -117,10 +122,10 @@ function Pagination() {
                             const pageNumber = e.target.value ? Number(e.target.value) - 1 : 0
                             gotoPage(pageNumber)
                         }}
-                        style={{ width: '50px' }}
+                        className="pagination-input"
                     />
                 </span>
-                <select value={pageSize} onChange={e => setPageSize(Number(e.target.value))}>
+                <select className="pagination-select" value={pageSize} onChange={e => setPageSize(Number(e.target.value))}>
                     {
                         [10, 25, 50].map(pageSize => (
                             <option key={pageSize} value={pageSize}>
@@ -129,13 +134,13 @@ function Pagination() {
                         ))
                     }
                 </select>
-                <button onClick={() => gotoPage(0)} disabled={!canPreviousPage}>
+                <button className="pagination-button" onClick={() => gotoPage(0)} disabled={!canPreviousPage}>
                     {'<<'}
                 </button>
-                <button className="bg-[#A4634D] w-[120px] h-[52px] rounded-[60px] mr-5 text-white font-semibold" onClick={() => previousPage()} disabled={!canPreviousPage}>Previous</button>
+                <button className="pagination-button" onClick={() => previousPage()} disabled={!canPreviousPage}>Previous</button>
 
-                <button className="bg-[#A4634D] w-[120px] h-[52px] rounded-[60px] mr-5 text-white font-semibold" onClick={() => nextPage()} disabled={!canNextPage}>Next</button>
-                <button onClick={() => gotoPage(pageCount - 1)} disabled={!canNextPage}>
+                <button className="pagination-button" onClick={() => nextPage()} disabled={!canNextPage}>Next</button>
+                <button className="pagination-button" onClick={() => gotoPage(pageCount - 1)} disabled={!canNextPage}>
                     {'>>'}
                 </button>
             </div>
