@@ -3,6 +3,7 @@ import '../../../views/admin/interest/styles.css'
 const Index = () => {
     const [topics, setTopics] = useState([]);
     const [topicInput, setTopicInput] = useState('');
+    const [topicPopup, setTopicPopup] = useState('')
     const [selectedTopicIndex, setSelectedTopicIndex] = useState(null);
     const [isPopupOpen, setIsPopupOpen] = useState(false); // Thêm state mới để quản lý popup
     const [selectedTopicId, setSelectedTopicId] = useState(null);
@@ -24,9 +25,9 @@ const Index = () => {
 
 
     const handleAddTopic = async () => {
-        if (topicInput.trim() !== '') {
+        if (topicPopup.trim() !== '') {
             // Kiểm tra xem topic đã tồn tại chưa
-            const isTopicExists = topics.some(topic => topic.name === topicInput);
+            const isTopicExists = topics.some(topic => topic.name === topicPopup);
 
             if (isTopicExists) {
                 alert('Chủ đề đã tồn tại. Vui lòng nhập một chủ đề khác.');
@@ -39,14 +40,14 @@ const Index = () => {
                     headers: {
                         'Content-Type': 'application/json'
                     },
-                    body: JSON.stringify({ name: topicInput })
+                    body: JSON.stringify({ name: topicPopup })
                 });
 
                 if (response.ok) {
                     const data = await response.json();
                     setTopics([...topics, data]);
-                    setTopicInput(''); // Clear input field after adding topic
-                    console.log(topicInput)
+                    setTopicPopup(''); // Clear input field after adding topic
+                    console.log(topicPopup)
                 } else {
                     console.error('Failed to add topic');
                 }
@@ -67,6 +68,9 @@ const Index = () => {
 
     const handleInputChange = (e) => {
         setTopicInput(e.target.value);
+    };
+    const handleInputChange1 = (e) => {
+        setTopicPopup(e.target.value);
     };
 
 
@@ -115,8 +119,8 @@ const Index = () => {
             <div className='flex flex-col items-center mt-6 justify-center'>
                 <div className='border-[1px] rounded-xl w-[350px] h-[52px] shadow-xl mb-4'>
                     <input
-                        value={topicInput}
-                        onChange={handleInputChange}
+                        value={topicPopup}
+                        onChange={handleInputChange1}
                         className='w-full h-full rounded-xl p-[15px]'
                         placeholder='Nhập chủ đề'
                     />
