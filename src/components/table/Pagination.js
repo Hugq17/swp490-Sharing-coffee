@@ -13,7 +13,6 @@ function Pagination() {
         getTableProps,
         getTableBodyProps,
         headerGroups,
-        footerGroups,
         page,
         nextPage,
         previousPage,
@@ -34,7 +33,7 @@ function Pagination() {
     }, useGlobalFilter, useSortBy, usePagination)
     const { globalFilter, pageIndex, pageSize } = state
     return (
-        <div className='text-black mt-[40px]'>
+        <div className='text-black mt-[40px] w-[1100px]'>
             <GlobalFilter filter={globalFilter} setFilter={setGlobalFilter} />
             <div className="checkbox-group">
                 <div className="checkbox-container">
@@ -88,25 +87,7 @@ function Pagination() {
                             </tr>
                         )
                     })}
-
                 </tbody>
-                {/* <tfoot>
-                    {
-                        footerGroups.map(footerGroup => (
-                            <tr {...footerGroup.getFooterGroupProps()}>
-                                {
-                                    footerGroup.headers.map(column => (
-                                        <td {...column.getFooterProps}>
-                                            {
-                                                column.render('Footer')
-                                            }
-                                        </td>
-                                    ))
-                                }
-                            </tr>
-                        ))
-                    }
-                </tfoot> */}
             </table>
             <div className="pagination-container">
                 <span>

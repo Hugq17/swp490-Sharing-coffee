@@ -1,12 +1,12 @@
 import React from 'react'
 import Pagination from '../../../components/table/Pagination'
 
-function Blog() {
+function ManageEvent() {
     return (
-        <div className='p-2 max-w-5xl mx-auto text-white fill-gray-400'>
+        <div>
             <Pagination />
         </div>
     )
 }
 
-export default Blog
+export default ManageEvent

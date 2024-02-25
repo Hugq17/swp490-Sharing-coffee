@@ -7,6 +7,12 @@ const Index = () => {
     const [selectedTopicIndex, setSelectedTopicIndex] = useState(null);
     const [isPopupOpen, setIsPopupOpen] = useState(false); // Thêm state mới để quản lý popup
     const [selectedTopicId, setSelectedTopicId] = useState(null);
+    const [timeoutId, setTimeoutId] = useState(null); // Thêm state mới để lưu trữ giá trị của setTimeout
+    const [selectedColors, setSelectedColors] = useState({}); // Object to store color state for each topic.interest_id
+    const [selectedTopicIds, setSelectedTopicIds] = useState([]);
+    const reloadPage = () => {
+        window.location.reload();
+    };
 
     useEffect(() => {
         fetchInterests();
@@ -113,7 +119,53 @@ const Index = () => {
     //-------------------------------------------------------------------//
     // Select and delete
 
+    const handleMouseDown = (index, topicName, topicId) => {
+        // Thiết lập timeout khi nhấn giữ
+        const id = setTimeout(() => {
+            handleSelectTopic(index, topicName, topicId);
+        }, 2000); // 2000ms = 2 giây
+        setTimeoutId(id);
+    };
 
+    const handleMouseUp = () => {
+        // Hủy timeout nếu thả chuột trước 2 giây
+        clearTimeout(timeoutId);
+    };
+    const handleColorChange = (interestId) => {
+        setSelectedColors(prevColors => ({
+            ...prevColors,
+            [interestId]: !prevColors[interestId] // Toggle color state for the selected interest_id
+        }));
+    
+        setSelectedTopicIds(prevIds => {
+            if (prevIds.includes(interestId)) {
+                return prevIds.filter(id => id !== interestId); // Remove interestId if already selected
+            } else {
+                return [...prevIds, interestId]; // Add interestId if not selected
+            }
+        });
+    };
+    const handleDeleteSelectedTopics = async () => {
+        try {
+            const response = await fetch('https://sharing-coffee-be-capstone-com.onrender.com/api/interest', {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(selectedTopicIds)
+            });
+    
+            if (response.ok) {
+                // Xử lý khi xóa thành công
+                console.log('Đã xóa các chủ đề thành công');
+                reloadPage(); // Load lại trang sau khi xóa thành công
+            } else {
+                console.error('Lỗi khi xóa chủ đề');
+            }
+        } catch (error) {
+            console.error('Lỗi khi gọi API xóa chủ đề:', error);
+        }
+    };
     return (
         <div className='grid grid-cols-2 mt-4 '>
             <div className='flex flex-col items-center mt-6 justify-center'>
@@ -130,10 +182,11 @@ const Index = () => {
                     <button onClick={handleAddTopic} className="bg-[#A4634D] w-[120px] h-[52px] rounded-[60px] mr-5 text-white font-semibold">
                         Thêm
                     </button>
+                    <button onClick={handleDeleteSelectedTopics}>Xóa các chủ đề đã chọn</button>
                 </div>
             </div>
 
-            <div className='border-[1px] rounded-xl h-auto w-[500px] border-[#A4634D] p-3 '>
+            <div className='h-auto w-[500px]'>
                 {topics.map((topic, index) => (
                     <p
                         style={{
@@ -142,15 +195,21 @@ const Index = () => {
                             height: '40px',
                             textAlign: 'center',
                             borderRadius: '120px',
-                            borderColor: '#A4634D',
+                            borderColor: selectedColors[topic.interest_id] ? '#FFFFFF' : '#A4634D', // Change color based on selection
+                            backgroundColor: selectedColors[topic.interest_id] ? '#A4634D' : '#FFFFFF',
                             marginRight: '8px',
                             fontWeight: 'bold',
-                            color: '#A4634D',
+                            color: selectedColors[topic.interest_id] ? '#FFFFFF' : '#A4634D', // Change text color based on selection
                             marginTop: '10px',
                             display: 'inline-flex', // Sử dụng inline-flex thay vì flex
                             alignItems: 'center',
                             justifyContent: 'center' // Căn giữa nội dung ngang
-                        }} key={index} onClick={() => handleSelectTopic(index, topic.name, topic.interest_id)}>{topic.name}</p>
+                        }} key={index} onMouseDown={() => handleMouseDown(index, topic.name, topic.interest_id)}
+                        onMouseUp={handleMouseUp}
+                        onClick={() => handleColorChange(topic.interest_id)} // Add onClick event to change color for this specific <p>
+                    >
+                        {topic.name}
+                    </p>
                 ))}
             </div>
             {isPopupOpen && (

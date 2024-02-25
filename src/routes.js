@@ -8,6 +8,8 @@ import Events from "./components/icons/Events";
 import Blogs from "./components/icons/Blogs";
 import Forgotpassword from "./views/auth/Forgotpassword";
 import Blog from "./views/admin/blog";
+import ManageEvent from "./views/admin/event";
+import ManageAccount from "./views/admin/account";
 
 const routes = [
     {
@@ -40,12 +42,14 @@ const routes = [
         layout: "/admin",
         icon: <Users className="h-6 w-6" />,
         path: "account",
+        component: <ManageAccount />
     },
     {
         name: "Sự kiện",
         layout: "/admin",
         icon: <Events className="h-6 w-6" />,
         path: "event",
+        component: <ManageEvent />
     },
     {
         name: "Bài viết",

@@ -29,7 +29,10 @@ const DashboardAdmin = () => {
                     }
                     return {
                         icon: icon,
-                        title: `Total ${entity.entity_type}s`,
+                        title: entity.entity_type === 'Blog' ? `Tổng số bài viết` :
+                            entity.entity_type === 'Account' ? `Tổng số tài khoản` :
+                                entity.entity_type === 'Event' ? `Tổng số sự kiện` :
+                                    `Tổng số ${entity.entity_type}s`,
                         amount: entity.entity_count
                     };
                 });

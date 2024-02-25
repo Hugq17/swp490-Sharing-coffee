@@ -3,14 +3,14 @@ import * as Icon from 'react-feather'
 export const profitData = [
     {
         icon: Icon.Users,
-        title: 'Total Users',
+        title: 'Tổng số người dùng',
     },
     {
         icon: Icon.DollarSign,
-        title: 'Total Events',
+        title: 'Tổng số sự kiện',
     },
     {
         icon: Icon.ShoppingCart,
-        title: 'Total Blogs',
+        title: 'Tổng số bài viết',
     },
 ]
