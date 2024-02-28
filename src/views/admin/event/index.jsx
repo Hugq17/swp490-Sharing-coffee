@@ -1,10 +1,10 @@
 import React from 'react'
-import Table from '../../../components/tableV2/Table'
+import TableEvent from '../../../components/table/TableEvent'
 
 function ManageEvent() {
     return (
         <div>
-            <Table />
+            <TableEvent />
         </div>
     )
 }

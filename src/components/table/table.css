@@ -18,14 +18,14 @@ table tr:hover {
     background-color: #ddd;
 }
 
-table th,
+/* table th,
 tfoot td {
     padding-top: 12px;
     padding-bottom: 12px;
     text-align: center;
     background-color: #A4634D;
     color: white;
-}
+} */
 
 /* Container cho tất cả các checkbox */
 .checkbox-group {

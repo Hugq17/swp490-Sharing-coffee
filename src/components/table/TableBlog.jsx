@@ -1,14 +1,49 @@
-import React, { useMemo } from 'react'
+import React, { useMemo, useEffect, useState } from 'react'
 import { useTable, useSortBy, useGlobalFilter, usePagination } from 'react-table'
-import MOCK_DATA from './MOCK_DATA.json'
-import { COLUMNS } from './columns'
+// import { COLUMNS } from './columns'
+import { format } from 'date-fns';
 import './table.css';
 import { GlobalFilter } from './GlobalFilter';
 import { Checkbox } from './checkbox';
 
-function Pagination() {
+// Define a function to create a custom column with blog_id value from API response
+// Updated createCustomColumn function to include columns for blog_id and likes_count
+// Define a function to create a custom column with row number
+function createCustomColumn(Header, accessor) {
+    return {
+        Header: Header, // Keep the header title for all columns
+        accessor: accessor,
+        Cell: ({ row }) => {
+            if (Header === 'Ngày tạo') {
+                return <span>{format(new Date(row.original[accessor]), 'dd MM yyyy')}</span>;
+            } else if (Header === '#') {
+                return <span>{row.index + 1}</span>;
+            } else {
+                return row.original[accessor];
+            }
+        }
+    };
+}
+
+export const COLUMNS = [
+    createCustomColumn('#', '#'), // Use '#' as both Header and accessor for row numbers
+    createCustomColumn('Hình ảnh', 'image'),
+    createCustomColumn('Tên bài viết', 'title'),
+    createCustomColumn('Người tạo', 'user_id'),
+    createCustomColumn('Ngày tạo', 'created_at'),
+    createCustomColumn('Trạng thái', 'is_approve'),
+];
+
+function TableBlog() {
     const columns = useMemo(() => COLUMNS, [])
-    const data = useMemo(() => MOCK_DATA, [])
+    const [data, setData] = useState([]);
+
+    useEffect(() => { // lay data tu bang blog
+        fetch('https://sharing-coffee-be-capstone-com.onrender.com/api/blog')
+            .then(response => response.json())
+            .then(data => setData(data));
+    }, []);
+
     const {
         getTableProps,
         getTableBodyProps,
@@ -33,7 +68,7 @@ function Pagination() {
     }, useGlobalFilter, useSortBy, usePagination)
     const { globalFilter, pageIndex, pageSize } = state
     return (
-        <div className='text-black mt-[40px] w-[1100px]'>
+        <div className='text-black mt-[40px] w-full'>
             <GlobalFilter filter={globalFilter} setFilter={setGlobalFilter} />
             <div className="checkbox-group">
                 <div className="checkbox-container">
@@ -74,18 +109,15 @@ function Pagination() {
                     ))}
                 </thead>
                 <tbody {...getTableBodyProps()}>
-                    {page.map((row) => {
-                        prepareRow(row)
+                    {page.map((row, index) => {
+                        prepareRow(row);
                         return (
                             <tr {...row.getRowProps()}>
-                                {
-                                    row.cells.map(cell => {
-                                        return <td {...cell.getCellProps()}>{cell.render('Cell')}</td>
-
-                                    })
-                                }
+                                {row.cells.map(cell => {
+                                    return <td {...cell.getCellProps()}>{cell.render('Cell')}</td>;
+                                })}
                             </tr>
-                        )
+                        );
                     })}
                 </tbody>
             </table>
@@ -129,4 +161,4 @@ function Pagination() {
     )
 }
 
-export default Pagination
+export default TableBlog
