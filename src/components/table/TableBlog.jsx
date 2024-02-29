@@ -18,6 +18,8 @@ function createCustomColumn(Header, accessor) {
                 return <span>{format(new Date(row.original[accessor]), 'dd MM yyyy')}</span>;
             } else if (Header === '#') {
                 return <span>{row.index + 1}</span>;
+            } else if (Header === 'Hình ảnh') {
+                return <img src={row.original[accessor]} alt="Hình ảnh" style={{ width: '100px' }} />;
             } else {
                 return row.original[accessor];
             }
@@ -150,9 +152,9 @@ function TableBlog() {
                 <button className="pagination-button" onClick={() => gotoPage(0)} disabled={!canPreviousPage}>
                     {'<<'}
                 </button>
-                <button className="pagination-button" onClick={() => previousPage()} disabled={!canPreviousPage}>Previous</button>
+                <button className="pagination-button" onClick={() => previousPage()} disabled={!canPreviousPage}>Trước</button>
 
-                <button className="pagination-button" onClick={() => nextPage()} disabled={!canNextPage}>Next</button>
+                <button className="pagination-button" onClick={() => nextPage()} disabled={!canNextPage}>Sau</button>
                 <button className="pagination-button" onClick={() => gotoPage(pageCount - 1)} disabled={!canNextPage}>
                     {'>>'}
                 </button>

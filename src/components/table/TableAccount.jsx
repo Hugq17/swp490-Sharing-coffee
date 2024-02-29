@@ -29,19 +29,17 @@ function createCustomColumn(Header, accessor) {
 
 export const COLUMNS = [
     createCustomColumn('#', '#'), // Use '#' as both Header and accessor for row numbers
-    createCustomColumn('Hình ảnh', 'background_img'),
-    createCustomColumn('Tên sự kiện', 'title'),
-    createCustomColumn('Người tạo', 'organizer_id'),
-    createCustomColumn('Ngày tạo', 'created_at'),
-    createCustomColumn('Trạng thái', 'is_approve'),
+    createCustomColumn('Hình ảnh', 'profile_avatar'),
+    createCustomColumn('Tên tài khoản', 'user_name'),
+
 ];
 
-function TableEvent() {
+function TableAccount() {
     const columns = useMemo(() => COLUMNS, [])
     const [data, setData] = useState([]);
 
     useEffect(() => { // lay data tu bang blog
-        fetch('https://sharing-coffee-be-capstone-com.onrender.com/api/event')
+        fetch('https://sharing-coffee-be-capstone-com.onrender.com/api/admin/users')
             .then(response => response.json())
             .then(data => setData(data));
     }, []);
@@ -163,4 +161,4 @@ function TableEvent() {
     )
 }
 
-export default TableEvent
+export default TableAccount
