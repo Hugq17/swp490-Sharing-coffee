@@ -9,6 +9,8 @@ import { Checkbox } from './checkbox';
 // Define a function to create a custom column with blog_id value from API response
 // Updated createCustomColumn function to include columns for blog_id and likes_count
 // Define a function to create a custom column with row number
+
+
 function createCustomColumn(Header, accessor) {
     return {
         Header: Header, // Keep the header title for all columns
@@ -20,7 +22,11 @@ function createCustomColumn(Header, accessor) {
                 return <span>{row.index + 1}</span>;
             } else if (Header === 'Hình ảnh') {
                 return <img src={row.original[accessor]} alt="Hình ảnh" style={{ width: '100px' }} />;
-            } else {
+            }
+            // else if (Header === 'Người tạo') {
+            //     return <span>{row.original.user_name}</span>; // Thay đổi từ user_id sang user_name
+            // } 
+            else {
                 return row.original[accessor];
             }
         }
@@ -39,12 +45,29 @@ export const COLUMNS = [
 function TableEvent() {
     const columns = useMemo(() => COLUMNS, [])
     const [data, setData] = useState([]);
+    const [userData, setUserData] = useState({}); // State lưu thông tin user
 
     useEffect(() => { // lay data tu bang blog
         fetch('https://sharing-coffee-be-capstone-com.onrender.com/api/event')
             .then(response => response.json())
             .then(data => setData(data));
     }, []);
+
+    // useEffect(() => { // Lấy thông tin user khi có thay đổi trong data
+    //     if (data.length > 0) {
+    //         const organizerIds = data.map(item => item.user_id);
+    //         Promise.all(organizerIds.map(id => (
+    //             fetch(`https://sharing-coffee-be-capstone-com.onrender.com/api/user/${id}`)
+    //                 .then(response => response.json())
+    //         ))).then(users => {
+    //             const userMap = {};
+    //             users.forEach(user => {
+    //                 userMap[user.user_id] = user.user_name;
+    //             });
+    //             setUserData(userMap);
+    //         });
+    //     }
+    // }, [data]);
 
     const {
         getTableProps,
@@ -127,7 +150,7 @@ function TableEvent() {
                 <span>
                     Trang{' '}
                     <strong>
-                        {pageIndex + 1} trong {pageOptions.length}
+                        {pageIndex + 1} trên {pageOptions.length}
                     </strong>{' '}
                 </span>
                 <span>
@@ -153,7 +176,6 @@ function TableEvent() {
                     {'<<'}
                 </button>
                 <button className="pagination-button" onClick={() => previousPage()} disabled={!canPreviousPage}>Trước</button>
-
                 <button className="pagination-button" onClick={() => nextPage()} disabled={!canNextPage}>Sau</button>
                 <button className="pagination-button" onClick={() => gotoPage(pageCount - 1)} disabled={!canNextPage}>
                     {'>>'}

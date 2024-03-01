@@ -125,7 +125,7 @@ function TableAccount() {
                 <span>
                     Trang{' '}
                     <strong>
-                        {pageIndex + 1} trong {pageOptions.length}
+                        {pageIndex + 1} trên {pageOptions.length}
                     </strong>{' '}
                 </span>
                 <span>

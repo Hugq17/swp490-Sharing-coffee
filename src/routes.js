@@ -31,7 +31,7 @@ const routes = [
         component: <MainDashboardAdmin />
     },
     {
-        name: "Chủ để quan tâm",
+        name: "Chủ đề quan tâm",
         layout: "/admin",
         icon: <Hobbies className="h-6 w-6" />,
         path: "interest",

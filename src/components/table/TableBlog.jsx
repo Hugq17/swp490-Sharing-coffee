@@ -125,13 +125,13 @@ function TableBlog() {
             </table>
             <div className="pagination-container">
                 <span>
-                    Page{' '}
+                    Trang{' '}
                     <strong>
-                        {pageIndex + 1} of {pageOptions.length}
+                        {pageIndex + 1} trên {pageOptions.length}
                     </strong>{' '}
                 </span>
                 <span>
-                    | Go to page: {' '}
+                    | Đi tới tới page: {' '}
                     <input type='number' defaultValue={pageIndex + 1}
                         onChange={e => {
                             const pageNumber = e.target.value ? Number(e.target.value) - 1 : 0
@@ -144,7 +144,7 @@ function TableBlog() {
                     {
                         [10, 25, 50].map(pageSize => (
                             <option key={pageSize} value={pageSize}>
-                                Show {pageSize}
+                                Hiển thị {pageSize}
                             </option>
                         ))
                     }
