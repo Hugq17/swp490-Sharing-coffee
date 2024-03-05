@@ -5,11 +5,15 @@ import Interest from './views/admin/interest'
 import Hobbies from "./components/icons/Hobbies";
 import Users from "./components/icons/Users";
 import Events from "./components/icons/Events";
+import { MdInterests } from "react-icons/md";
 import Blogs from "./components/icons/Blogs";
 import Forgotpassword from "./views/auth/Forgotpassword";
 import Blog from "./views/admin/blog";
 import ManageEvent from "./views/admin/event";
 import ManageAccount from "./views/admin/account";
+import { MdSupervisorAccount } from "react-icons/md";
+import { MdEvent } from "react-icons/md";
+import { BsFileEarmarkPost } from "react-icons/bs";
 
 const routes = [
     {
@@ -33,28 +37,28 @@ const routes = [
     {
         name: "Chủ đề quan tâm",
         layout: "/admin",
-        icon: <Hobbies className="h-6 w-6" />,
+        icon: <MdInterests style={{ width: '50px', height: '50px' }} />,
         path: "interest",
         component: <Interest />
     },
     {
-        name: "Tài khoản",
+        name: "Người dùng",
         layout: "/admin",
-        icon: <Users className="h-6 w-6" />,
+        icon: <MdSupervisorAccount style={{ width: '50px', height: '50px' }} />,
         path: "account",
         component: <ManageAccount />
     },
     {
         name: "Sự kiện",
         layout: "/admin",
-        icon: <Events className="h-6 w-6" />,
+        icon: <MdEvent style={{ width: '50px', height: '50px' }} />,
         path: "event",
         component: <ManageEvent />
     },
     {
         name: "Bài viết",
         layout: "/admin",
-        icon: <Blogs className="h-6 w-6" />,
+        icon: <BsFileEarmarkPost style={{ width: '50px', height: '50px' }} />,
         path: "blog",
         component: <Blog />
     },

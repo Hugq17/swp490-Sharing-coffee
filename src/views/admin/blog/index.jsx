@@ -1,9 +1,10 @@
 import React from 'react'
 import TableBlog from '../../../components/table/TableBlog'
+import Table from '../../../components/table/Table'
 
 function Blog() {
     return (
-        <div className='mt-10 mx-auto text-white fill-gray-400 w-full'>
+        <div className=''>
             <TableBlog />
         </div>
     )

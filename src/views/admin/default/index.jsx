@@ -47,11 +47,11 @@ const DashboardAdmin = () => {
     }, []); // Empty dependency array ensures this effect runs only once after the initial render
 
     return (
-        <div className="grid xl:grid-cols-5 md:grid-cols-3 grid-cols-1 mt-6 gap-6">
+        <div className="grid xl:grid-cols-3 md:grid-cols-3 grid-cols-1 mt-6 gap-6">
             {profitData.map((item, index) => {
                 const Icons = item.icon;
                 return (
-                    <div className="relative overflow-hidden rounded-md shadow dark:shadow-gray-700 bg-white dark:bg-slate-900 w-[300px]" key={index}>
+                    <div className="relative overflow-hidden rounded-md shadow dark:shadow-gray-700 bg-white dark:bg-slate-900" key={index}>
                         <div className="p-5 flex items-center">
                             <span className="flex justify-center items-center rounded-md h-14 w-14 min-w-[56px] bg-indigo-600/5 dark:bg-indigo-600/10 shadow shadow-indigo-600/5 dark:shadow-indigo-600/10 text-indigo-600">
                                 <Icons className="h-5 w-5" />

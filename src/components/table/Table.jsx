@@ -1,73 +1,108 @@
-import React, { useMemo } from 'react'
-import { useTable } from 'react-table'
-import MOCK_DATA from './MOCK_DATA.json'
-import { COLUMNS } from './columns'
-import './table.css';
+import React, { useState, useEffect } from 'react';
+import { Card, Typography } from "@material-tailwind/react";
+
+
+const TABLE_HEAD = ["", "User Name", "Password", "Phone", "Email", "Profile Avatar", "Bio", "Registration", "Role Name"];
 
 function Table() {
-    const columns = useMemo(() => COLUMNS, [])
-    const data = useMemo(() => MOCK_DATA, [])
-    const tableInstance = useTable({
-        columns,
-        data
-    })
-    const {
-        getTableProps,
-        getTableBodyProps,
-        headerGroups,
-        footerGroups,
-        rows,
-        prepareRow
-    } = tableInstance
+    const [userData, setUserData] = useState([]);
+    const [userDetails, setUserDetails] = useState({});
+    const [query, setQuery] = useState("")
+
+    // Handle search keyword change
+  
+    useEffect(() => {
+        fetch('https://sharing-coffee-be-capstone-com.onrender.com/api/admin/users')
+            .then(response => response.json())
+            .then(data => setUserData(data));
+    }, []);
+
+    useEffect(() => {
+        fetch('https://sharing-coffee-be-capstone-com.onrender.com/api/admin/user/6150886b-5920-4884-8e43-d4efb62f89d3')
+            .then(response => response.json())
+            .then(data => setUserDetails(data));
+    }, []);
+
     return (
-        <div className='text-black'>
-            <table {...getTableProps()}>
-                <thead>
-                    {headerGroups.map((headerGroup) => (
-                        <tr {...headerGroup.getHeaderGroupProps()}>
-                            {
-                                headerGroup.headers.map((column) => (
-                                    <th {...column.getHeaderProps()}>{column.render('Header')}</th>
-                                ))}
+        <div className='mt-[50px] scroll-mt-64 overflow-hidden rounded-xl border border-blue-gray-50 bg-[#f8fafc] '>
+            <input 
+                type='text'
+                placeholder='Search...'
+                className=''
+                onChange={(e) => setQuery(e.target.value)}
+            />
+            <Card className="h-full w-full overflow-scroll">
+                <table className="w-full min-w-max table-auto text-left">
+                    <thead>
+                        <tr>
+                            {TABLE_HEAD.map((head) => (
+                                <th key={head} className="border-b border-blue-gray-100 bg-blue-gray-50 p-4">
+                                    <Typography
+                                        variant="small"
+                                        color="blue-gray"
+                                        className="font-normal leading-none opacity-70"
+                                    >
+                                        {head}
+                                    </Typography>
+                                </th>
+                            ))}
                         </tr>
-                    ))}
-                </thead>
-                <tbody {...getTableBodyProps()}>
-                    {rows.map((row) => {
-                        prepareRow(row)
-                        return (
-                            <tr {...row.getRowProps()}>
-                                {
-                                    row.cells.map(cell => {
-                                        return <td {...cell.getCellProps()}>{cell.render('Cell')}</td>
-
-                                    })
-                                }
+                    </thead>
+                    <tbody>
+                        {userData.filter((user) =>user.user_name.includes(query)).map((user, index) => (
+                            <tr key={user.user_id} className="even:bg-blue-gray-50/50">
+                                <td className="p-4">
+                                    <Typography variant="small" color="blue-gray" className="font-normal">
+                                        {index + 1}
+                                    </Typography>
+                                </td>
+                                <td className="p-4">
+                                    <Typography variant="small" color="blue-gray" className="font-normal">
+                                        {user.user_id === userDetails.user_id ? userDetails.user_name : user.user_name}
+                                    </Typography>
+                                </td>
+                                <td className="p-4">
+                                    <Typography variant="small" color="blue-gray" className="font-normal">
+                                        {user.password}
+                                    </Typography>
+                                </td>
+                                <td className="p-4">
+                                    <Typography variant="small" color="blue-gray" className="font-normal">
+                                        {user.phone}
+                                    </Typography>
+                                </td>
+                                <td className="p-4">
+                                    <Typography variant="small" color="blue-gray" className="font-normal">
+                                        {user.email}
+                                    </Typography>
+                                </td>
+                                <td className="p-4">
+                                    <Typography variant="small" color="blue-gray" className="font-normal">
+                                        {user.profile_avatar}
+                                    </Typography>
+                                </td>
+                                <td className="p-4">
+                                    <Typography variant="small" color="blue-gray" className="font-normal">
+                                        {user.Bio}
+                                    </Typography>
+                                </td>
+                                <td className="p-4">
+                                    <Typography variant="small" color="blue-gray" className="font-normal">
+                                        {user.registration}
+                                    </Typography>
+                                </td>
+                                <td className="p-4">
+                                    <Typography variant="small" color="blue-gray" className="font-normal">
+                                        {user.role_name}
+                                    </Typography>
+                                </td>
                             </tr>
-                        )
-                    })}
-
-                </tbody>
-                <tfoot>
-                    {
-                        footerGroups.map(footerGroup => (
-                            <tr {...footerGroup.getFooterGroupProps()}>
-                                {
-                                    footerGroup.headers.map(column => (
-                                        <td {...column.getFooterProps}>
-                                            {
-                                                column.render('Footer')
-                                            }
-                                        </td>
-                                    ))
-                                }
-                            </tr>
-                        ))
-                    }
-                </tfoot>
-            </table>
+                        ))}
+                    </tbody>
+                </table>
+            </Card>
         </div>
-    )
+    );
 }
 
-export default Table
+export default Table;
