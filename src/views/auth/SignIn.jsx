@@ -27,7 +27,8 @@ export default function SignIn() {
                     const token = res.data.token;
                     const userData = res.data;
                     const userId = `${values.email}:${token}`;
-                    sessionStorage.setItem('token', userId);
+                    // sessionStorage.setItem('token', userId);
+                    localStorage.setItem('token', res.data.accessToken)
                     if (userData && userData.UserRole && userData.UserRole.role_name === "ADMIN") {
                         // Đăng nhập thành công và role là ADMIN, chuyển đến trang khác
                         navigate('/admin/default'); // Thay đổi '/dashboard' thành đường dẫn bạn muốn chuyển đến

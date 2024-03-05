@@ -1,8 +1,15 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import routes from '../../routes.js'
 import Links from './components/Links.jsx'
+import { useNavigate } from 'react-router-dom'
 
 const Sidebar = ({ open, onClose }) => {
+    const navigate = useNavigate();
+    useEffect(() => {
+        if (!localStorage.getItem('token')) {
+            navigate('/auth/sign-in')
+        }
+    }, [])
     return (
         <div
             className={`sm:none duration-175 linear fixed !z-50 flex min-h-full flex-col bg-[#B68271] pb-10 shadow-2xl shadow-white/5 transition-all dark:!bg-navy-800 dark:text-white md:!z-50 lg:!z-50 xl:!z-0 ${open ? "translate-x-0" : "-translate-x-96"
@@ -12,7 +19,7 @@ const Sidebar = ({ open, onClose }) => {
                 className="absolute top-4 right-4 block cursor-pointer xl:hidden"
                 onClick={onClose}
             >
-                {/* <HiX /> */}
+                {/* <HiX /> */} <button>Close</button>
             </span>
 
             <div className={`mx-[56px] mt-[50px] flex items-center`}>
@@ -33,6 +40,12 @@ const Sidebar = ({ open, onClose }) => {
             </div> */}
 
             {/* Nav item end */}
+            <span className="flex justify-center cursor-pointer border-2">
+                <button onClick={() => {
+                    localStorage.removeItem('token');
+                    window.location.reload();
+                }}>Logout</button>
+            </span>
         </div>
     )
 }
