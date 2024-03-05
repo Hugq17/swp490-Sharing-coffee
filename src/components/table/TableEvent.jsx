@@ -23,9 +23,6 @@ function createCustomColumn(Header, accessor) {
             } else if (Header === 'Hình ảnh') {
                 return <img src={row.original[accessor]} alt="Hình ảnh" style={{ width: '100px' }} />;
             }
-            // else if (Header === 'Người tạo') {
-            //     return <span>{row.original.user_name}</span>; // Thay đổi từ user_id sang user_name
-            // } 
             else {
                 return row.original[accessor];
             }
@@ -52,22 +49,6 @@ function TableEvent() {
             .then(response => response.json())
             .then(data => setData(data));
     }, []);
-
-    // useEffect(() => { // Lấy thông tin user khi có thay đổi trong data
-    //     if (data.length > 0) {
-    //         const organizerIds = data.map(item => item.user_id);
-    //         Promise.all(organizerIds.map(id => (
-    //             fetch(`https://sharing-coffee-be-capstone-com.onrender.com/api/user/${id}`)
-    //                 .then(response => response.json())
-    //         ))).then(users => {
-    //             const userMap = {};
-    //             users.forEach(user => {
-    //                 userMap[user.user_id] = user.user_name;
-    //             });
-    //             setUserData(userMap);
-    //         });
-    //     }
-    // }, [data]);
 
     const {
         getTableProps,
