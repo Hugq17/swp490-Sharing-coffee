@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Card, Typography } from "@material-tailwind/react";
+import Form from 'react-bootstrap/Form';
+import InputGroup from 'react-bootstrap/InputGroup'
 
 
 const TABLE_HEAD = ["", "User Name", "Password", "Phone", "Email", "Profile Avatar", "Bio", "Registration", "Role Name"];
@@ -7,10 +9,10 @@ const TABLE_HEAD = ["", "User Name", "Password", "Phone", "Email", "Profile Avat
 function Table() {
     const [userData, setUserData] = useState([]);
     const [userDetails, setUserDetails] = useState({});
-    const [query, setQuery] = useState("")
+    const [search, setSearch] = useState("")
 
     // Handle search keyword change
-  
+
     useEffect(() => {
         fetch('https://sharing-coffee-be-capstone-com.onrender.com/api/admin/users')
             .then(response => response.json())
@@ -25,12 +27,14 @@ function Table() {
 
     return (
         <div className='mt-[50px] scroll-mt-64 overflow-hidden rounded-xl border border-blue-gray-50 bg-[#f8fafc] '>
-            <input 
-                type='text'
-                placeholder='Search...'
-                className=''
-                onChange={(e) => setQuery(e.target.value)}
-            />
+            <Form>
+                <InputGroup className='my-3'>
+                    <Form.Control
+                        placeholder='Search...'
+                        onChange={(e) => setSearch(e.target.value)}
+                    />
+                </InputGroup>
+            </Form>
             <Card className="h-full w-full overflow-scroll">
                 <table className="w-full min-w-max table-auto text-left">
                     <thead>
@@ -49,7 +53,9 @@ function Table() {
                         </tr>
                     </thead>
                     <tbody>
-                        {userData.filter((user) =>user.user_name.includes(query)).map((user, index) => (
+                        {userData.filter((user) => {
+                            return search.toLowerCase() === '' ? user : user.user_name.toLowerCase().includes(search)
+                        }).map((user, index) => (
                             <tr key={user.user_id} className="even:bg-blue-gray-50/50">
                                 <td className="p-4">
                                     <Typography variant="small" color="blue-gray" className="font-normal">
