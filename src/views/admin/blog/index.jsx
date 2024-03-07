@@ -1,6 +1,4 @@
 import React, { useState, useEffect } from 'react'
-import TableBlog from '../../../components/table/TableBlog'
-import Table from '../../../components/table/Table'
 import BlogTable from '../../../components/tableTest/BlogTable'
 import axios from 'axios';
 

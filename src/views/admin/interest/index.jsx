@@ -136,7 +136,7 @@ const Index = () => {
             ...prevColors,
             [interestId]: !prevColors[interestId] // Toggle color state for the selected interest_id
         }));
-    
+
         setSelectedTopicIds(prevIds => {
             if (prevIds.includes(interestId)) {
                 return prevIds.filter(id => id !== interestId); // Remove interestId if already selected
@@ -154,7 +154,7 @@ const Index = () => {
                 },
                 body: JSON.stringify(selectedTopicIds)
             });
-    
+
             if (response.ok) {
                 // Xử lý khi xóa thành công
                 console.log('Đã xóa các chủ đề thành công');
@@ -179,10 +179,10 @@ const Index = () => {
                 </div>
 
                 <div>
-                    <button onClick={handleAddTopic} className="bg-[#A4634D] w-[120px] h-[52px] rounded-[60px] mr-5 text-white font-semibold">
+                    <button onClick={handleAddTopic} className="bg-[#8ACF62] w-[120px] h-[52px] rounded-[60px] mr-5 text-white font-semibold">
                         Thêm
                     </button>
-                    <button onClick={handleDeleteSelectedTopics}>Xóa các chủ đề đã chọn</button>
+                    <button onClick={handleDeleteSelectedTopics} className="bg-[#DB3236] w-[120px] h-[52px] rounded-[60px] mr-5 text-white font-semibold">Xóa</button>
                 </div>
             </div>
 

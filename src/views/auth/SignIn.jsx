@@ -32,7 +32,8 @@ export default function SignIn() {
                     if (userData && userData.UserRole && userData.UserRole.role_name === "ADMIN") {
                         // Đăng nhập thành công và role là ADMIN, chuyển đến trang khác
                         navigate('/admin/default'); // Thay đổi '/dashboard' thành đường dẫn bạn muốn chuyển đến
-                    } else {
+                    }
+                    else {
                         console.error('Tài khoản không có quyền truy cập.');
                     }
                 }
