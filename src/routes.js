@@ -15,6 +15,8 @@ import { MdSupervisorAccount } from "react-icons/md";
 import { MdEvent } from "react-icons/md";
 import { BsFileEarmarkPost } from "react-icons/bs";
 import SignInMod from "./views/auth/SignInMod";
+import Matching from "./views/admin/matching";
+import { TbHeartSearch } from "react-icons/tb";
 
 const routes = [
     {
@@ -68,6 +70,13 @@ const routes = [
         icon: <BsFileEarmarkPost style={{ width: '50px', height: '50px' }} />,
         path: "blog",
         component: <Blog />
+    },
+    {
+        name: "Matching",
+        layout: "/admin",
+        icon: <TbHeartSearch style={{ width: '50px', height: '50px' }} />,
+        path: "matching",
+        component: <Matching />
     },
 ]
 
