@@ -14,6 +14,7 @@ import ManageAccount from "./views/admin/account";
 import { MdSupervisorAccount } from "react-icons/md";
 import { MdEvent } from "react-icons/md";
 import { BsFileEarmarkPost } from "react-icons/bs";
+import SignInMod from "./views/auth/SignInMod";
 
 const routes = [
     {
@@ -27,6 +28,12 @@ const routes = [
         layout: "/auth",
         path: "Forget-Password",
         component: <Forgotpassword />,
+    },
+    {
+        name: "Sign In with Mod",
+        layout: "/auth",
+        path: "sign-in-with-mod",
+        component: <SignInMod />,
     },
     {
         name: "Trang chủ",
