@@ -22,7 +22,7 @@ export default function Auth() {
                     <div className="relative flex">
                         <div className="mx-auto flex justify-center items-center  min-h-full w-full flex-col  pt-12 md:max-w-[75%] lg:h-screen lg:max-w-[1013px] lg:px-8 lg:pt-0 xl:h-[100vh] xl:max-w-[1383px] xl:px-0 xl:pl-[70px]">
                             <div className="mb-auto flex flex-col pl-5 pr-5 md:pr-0 md:pl-12 lg:max-w-[25%] lg:pl-0 xl:max-w-full">
-                                <div className="h-[100px]">
+                                <div className="h-[100px] ml-[190px]">
                                     <Player
                                         src='https://lottie.host/39aafee5-fbbb-4f97-8a30-0f02808e558a/h6pcKjMDMI.json'
                                         className="player"

@@ -4,7 +4,7 @@ import { useState } from 'react'
 import axios from 'axios';
 import { useNavigate, Link } from 'react-router-dom';
 
-export default function SignIn() {
+export default function SignInMod() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const navigate = useNavigate();
@@ -13,7 +13,7 @@ export default function SignIn() {
         password: ''
     })
     const [status, setStatus] = useState(false)
-    const url = 'https://sharing-coffee-be-capstone-com.onrender.com/api/admin';
+    const url = 'https://sharing-coffee-be-capstone-com.onrender.com/api/moderator';
 
     const handleSignIn = (event) => {
         event.preventDefault();
@@ -29,9 +29,10 @@ export default function SignIn() {
                     const userId = `${values.email}:${token}`;
                     // sessionStorage.setItem('token', userId);
                     localStorage.setItem('token', res.data.accessToken)
-                    if (userData && userData.UserRole && userData.UserRole.role_name === "ADMIN") {
+                    if (userData && userData.UserRole && userData.UserRole.role_name === "MODERATOR") {
                         // Đăng nhập thành công và role là ADMIN, chuyển đến trang khác
-                        navigate('/admin/default'); // Thay đổi '/dashboard' thành đường dẫn bạn muốn chuyển đến
+                        // navigate('/admin/default'); // Thay đổi '/dashboard' thành đường dẫn bạn muốn chuyển đến
+                        console.log('Thanh cong voi mod')
                     } else {
                         console.error('Tài khoản không có quyền truy cập.');
                     }
@@ -54,7 +55,7 @@ export default function SignIn() {
                 Đăng nhập
             </h4>
             <p className="mb-9 ml-1 text-base text-gray-600 mt-6">
-                Chào mừng quản lý trở lại vui lòng đăng nhập để vào hệ thống
+                Chào mừng kiểm duyệt trở lại vui lòng đăng nhập để vào hệ thống
             </p>
             <div className="mb-6 flex h-[50px] w-full items-center justify-center gap-2 rounded-xl bg-lightPrimary hover:cursor-pointer dark:bg-navy-800">
                 <div className="rounded-full text-xl">
@@ -112,9 +113,9 @@ export default function SignIn() {
                 </div>
                 <Link
                     className=" text-sm font-medium text-brand-500 hover:text-brand-600 dark:text-white"
-                    to={"/auth/sign-in-with-mod"}
+                    to={"/auth/sign-in"}
                 >
-                    Đăng nhập tài khoản kiểm duyệt
+                    Đăng nhập tài khoản Quản lý
                 </Link>
             </div>
         </div>

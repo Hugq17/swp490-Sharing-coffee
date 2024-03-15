@@ -1,0 +1,49 @@
+/* Container cho checkbox */
+.checkbox-container {
+    display: inline-block;
+    position: relative;
+    padding-left: 35px;
+    cursor: pointer;
+    user-select: none;
+}
+
+/* Ẩn checkbox mặc định */
+.checkbox-container input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+}
+
+/* Tạo hình vuông cho checkbox mới */
+.checkbox-custom {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 25px;
+    width: 25px;
+    background-color: #eee;
+    border-radius: 4px;
+    /* Bạn có thể điều chỉnh để tạo hình vuông hoặc tròn */
+    transition: background-color 0.2s;
+}
+
+/* Khi checkbox được check */
+.checkbox-container input:checked~.checkbox-custom {
+    background-color: #2196F3;
+}
+
+/* Tạo dấu check (tick) khi checkbox được chọn */
+.checkbox-container input:checked~.checkbox-custom:after {
+    content: "";
+    position: absolute;
+    display: block;
+    left: 9px;
+    top: 5px;
+    width: 8px;
+    height: 15px;
+    border: solid white;
+    border-width: 0 3px 3px 0;
+    transform: rotate(45deg);
+}

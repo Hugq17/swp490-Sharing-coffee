@@ -11,6 +11,10 @@ export default function Admin(props) {
     const [open, setOpen] = useState(true);
     const [currentRoute, setCurrentRoute] = React.useState("Main Dashboard");
 
+    const handleCloseSidebar = () => {
+        setOpen(!open); // Đặt trạng thái của sidebar thành false (đóng)
+    };
+
     useEffect(() => {
         window.addEventListener("resize", () =>
             window.innerWidth < 1200 ? setOpen(false) : setOpen(true)
@@ -56,26 +60,28 @@ export default function Admin(props) {
         });
     };
 
-    document.documentElement.dir = "ltr";
+    // document.documentElement.dir = "ltr";
     return (
-        <div className="flex h-full w-full">
+        <div className="flex h-full w-full bg-zinc-950">
             <Sidebar open={open} onClose={() => setOpen(false)} />
             {/* Navbar & Main Content */}
-            <div className="h-full w-full bg-lightPrimary dark:!bg-navy-900">
+            <div className="h-full w-full bg-white">
                 {/* Main Content */}
+
                 <main
                     className={`mx-[12px] h-full flex-none transition-all md:pr-2 xl:ml-[313px]`}
                 >
+                    {/*<button onClick={handleCloseSidebar}>Ẩn Sidebar</button>*/}
+
                     {/* Routes */}
                     <div className="h-full">
                         <Navbar
                             onOpenSidenav={() => setOpen(true)}
-                            logoText={"Horizon UI Tailwind React"}
                             brandText={currentRoute}
                             secondary={getActiveNavbar(routes)}
                             {...rest}
                         />
-                        <div className="pt-5s mx-auto mb-auto h-full min-h-[84vh] p-2 md:pr-2">
+                        <div className="pt-5s mx-auto mb-auto w-full h-full  p-2 md:pr-2">
                             <Routes>
                                 {getRoutes(routes)}
 

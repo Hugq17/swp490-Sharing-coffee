@@ -1,0 +1,38 @@
+.search-container {
+    display: flex;
+    align-items: center;
+    /* Căn giữa các items theo chiều dọc */
+    border: 1px solid #ccc;
+    /* Thêm viền cho container */
+    border-radius: 20px;
+    /* Làm tròn góc */
+    width: 350px;
+    /* Đặt chiều rộng cố định cho container */
+    height: 52px;
+    /* Đặt chiều cao cố định cho container */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    /* Thêm bóng đổ nhẹ */
+    padding: 0 15px;
+    /* Thêm padding vào hai bên */
+}
+
+.search-input {
+    flex-grow: 1;
+    /* Cho phép input mở rộng để chiếm phần còn lại của container */
+    border: none;
+    /* Loại bỏ viền mặc định */
+    height: 100%;
+    /* Đặt chiều cao input bằng với container */
+    border-radius: 20px;
+    /* Làm tròn góc */
+    margin-left: 20px;
+    /* Thêm khoảng cách giữa label và input */
+    outline: none;
+    /* Loại bỏ đường viền khi focus */
+}
+
+/* Tùy chỉnh thêm cho label nếu cần */
+.search-label {
+    white-space: nowrap;
+    /* Ngăn chặn label từ việc bị wrap */
+}
