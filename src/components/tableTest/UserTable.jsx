@@ -17,7 +17,7 @@ const UserTable = ({ users }) => {
             },
             {
                 Header: 'Hình ảnh',
-                accessor: 'background_img',
+                accessor: 'profile_avatar',
                 Cell: ({ cell: { value } }) => <img src={value} alt="Hình ảnh" className="mx-auto" style={{ maxWidth: '100px', maxHeight: '100px' }} />,
             },
             {
