@@ -17,6 +17,10 @@ import { BsFileEarmarkPost } from "react-icons/bs";
 import SignInMod from "./views/auth/SignInMod";
 import Matching from "./views/admin/matching";
 import { TbHeartSearch } from "react-icons/tb";
+import { IoMdNotificationsOutline } from "react-icons/io";
+import NotificationForUser from "./views/admin/notification";
+
+
 
 const routes = [
     {
@@ -77,6 +81,13 @@ const routes = [
         icon: <TbHeartSearch style={{ width: '50px', height: '50px' }} />,
         path: "matching",
         component: <Matching />
+    },
+    {
+        name: "Thông báo",
+        layout: "/admin",
+        icon: <IoMdNotificationsOutline style={{ width: '50px', height: '50px' }} />,
+        path: "notifications",
+        component: <NotificationForUser />
     },
 ]
 
