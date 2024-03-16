@@ -57,12 +57,6 @@ function Weather() {
             {loading && <p>Loading...</p>}
             {error && <p>{error}</p>}
             {weatherData && (
-                // <div>
-                //     <h2>{weatherData.name}, {weatherData.sys.country}</h2>
-                //     <p>Temperature: {(weatherData.main.temp - 273.15).toFixed(2)} °C</p>
-                //     <p>Description: {weatherData.weather[0].description}</p>
-                //     <p>Humidity: {weatherData.main.humidity}%</p>
-                // </div>
                 <div className='mt-[100px]'>
                     <div class="relative flex flex-col mt-1 text-gray-700 bg-white shadow-md bg-clip-border rounded-xl w-[600px]">
                         <div

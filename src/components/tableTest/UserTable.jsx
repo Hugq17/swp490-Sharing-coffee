@@ -16,9 +16,13 @@ const UserTable = ({ users }) => {
                 Cell: ({ value }) => <span>{value}</span>,
             },
             {
+                Header: 'ID người dùng',
+                accessor: 'user_id',
+            },
+            {
                 Header: 'Hình ảnh',
                 accessor: 'profile_avatar',
-                Cell: ({ cell: { value } }) => <img src={value} alt="Hình ảnh" className="mx-auto" style={{ maxWidth: '100px', maxHeight: '100px' }} />,
+                Cell: ({ cell: { value } }) => <img src={value} alt="Hình ảnh" className="mx-auto" style={{ maxWidth: '50px', maxHeight: '50px' }} />,
             },
             {
                 Header: 'Người dùng',
@@ -31,6 +35,10 @@ const UserTable = ({ users }) => {
             {
                 Header: 'Số điện thoại',
                 accessor: 'phone',
+            },
+            {
+                Header: 'Sở thích',
+                accessor: '',
             },
         ],
         []
