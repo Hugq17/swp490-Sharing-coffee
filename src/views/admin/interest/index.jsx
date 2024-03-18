@@ -130,7 +130,7 @@ const Index = () => {
         // Thiết lập timeout khi nhấn giữ
         const id = setTimeout(() => {
             handleSelectTopic(index, topicName, topicId);
-        }, 1000); // 2000ms = 2 giây
+        }, 500); // 2000ms = 2 giây
         setTimeoutId(id);
     };
 
