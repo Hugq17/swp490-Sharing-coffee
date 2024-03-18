@@ -15,10 +15,10 @@ const UserTable = ({ users }) => {
                 accessor: (row, index) => index + 1,
                 Cell: ({ value }) => <span>{value}</span>,
             },
-            {
-                Header: 'ID người dùng',
-                accessor: 'user_id',
-            },
+            // {
+            //     Header: 'ID người dùng',
+            //     accessor: 'user_id',
+            // },
             {
                 Header: 'Hình ảnh',
                 accessor: 'profile_avatar',
@@ -38,7 +38,7 @@ const UserTable = ({ users }) => {
             },
             {
                 Header: 'Sở thích',
-                accessor: '',
+                accessor: (row) => row.interest_list.map(interest => interest.interest_name).join(', '), // Lặp qua mảng interest_list và nối các sở thích lại với nhau
             },
         ],
         []

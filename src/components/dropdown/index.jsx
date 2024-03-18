@@ -1,44 +1,34 @@
-import React from "react";
+import React, { useState } from 'react'
 
-function useOutsideAlerter(ref, setX) {
-  React.useEffect(() => {
-    /**
-     * Alert if clicked on outside of element
-     */
-    function handleClickOutside(event) {
-      if (ref.current && !ref.current.contains(event.target)) {
-        setX(false);
-      }
-    }
-    // Bind the event listener
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      // Unbind the event listener on clean up
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [ref, setX]);
-}
+const Dropdown = ({ options, onSelect }) => {
+  const [selectedOption, setSelectedOption] = useState(null);
+  const [isOpen, setIsOpen] = useState(false);
 
-const Dropdown = (props) => {
-  const { button, children, classNames, animation } = props;
-  const wrapperRef = React.useRef(null);
-  const [openWrapper, setOpenWrapper] = React.useState(false);
-  useOutsideAlerter(wrapperRef, setOpenWrapper);
+  const handleOptionClick = (option) => {
+    setSelectedOption(option);
+    setIsOpen(false);
+    onSelect(option);
+  };
 
   return (
-    <div ref={wrapperRef} className="relative flex">
-      <div className="flex" onMouseDown={() => setOpenWrapper(!openWrapper)}>
-        {button}
+    <div className="dropdown-container">
+      <div className="dropdown-header" onClick={() => setIsOpen(!isOpen)}>
+        {selectedOption ? selectedOption.label : 'Chọn một tùy chọn'}
+        <i className={`arrow ${isOpen ? 'up' : 'down'}`}></i>
       </div>
-      <div
-        className={`${classNames} absolute z-10 ${
-          animation
-            ? animation
-            : "origin-top-right transition-all duration-300 ease-in-out"
-        } ${openWrapper ? "scale-100" : "scale-0"}`}
-      >
-        {children}
-      </div>
+      {isOpen && (
+        <div className="dropdown-options">
+          {options.map((option) => (
+            <div
+              key={option.value}
+              className="dropdown-option"
+              onClick={() => handleOptionClick(option)}
+            >
+              {option.label}
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 };

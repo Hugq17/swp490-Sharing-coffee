@@ -42,6 +42,16 @@ const EventTable = ({ events }) => {
                 Cell: ({ cell: { value } }) => <span>{format(new Date(value), 'dd-MM-yyyy')}</span>, // Format the date
             },
             {
+                Header: 'Ngày bắt đầu',
+                accessor: 'time_of_event',
+                Cell: ({ cell: { value } }) => <span>{format(new Date(value), 'dd-MM-yyyy')}</span>, // Format the date
+            },
+            {
+                Header: 'Ngày kết thúc',
+                accessor: 'end_of_event',
+                Cell: ({ cell: { value } }) => <span>{format(new Date(value), 'dd-MM-yyyy')}</span>, // Format the date
+            },
+            {
                 Header: 'Trạng thái',
                 Cell: ({ row }) => (
                     <div className="flex justify-center">
