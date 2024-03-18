@@ -49,7 +49,7 @@ const Navbar = (props) => {
 
 
         {/* Profile & Dropdown */}
-        <Dropdown
+        {/* <Dropdown
           button={
             <img
               className="h-10 w-10 rounded-full"
@@ -91,7 +91,7 @@ const Navbar = (props) => {
             </div>
           }
           classNames={"py-2 top-8 -left-[180px] w-max"}
-        />
+        /> */}
       </div>
     </nav>
   );

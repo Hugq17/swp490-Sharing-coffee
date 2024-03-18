@@ -26,6 +26,7 @@
     "react-scripts": "5.0.1",
     "react-scroll": "^1.9.0",
     "react-table": "^7.8.0",
+    "react-toastify": "^10.0.5",
     "simplebar-react": "^3.2.4",
     "web-vitals": "^2.1.4"
   },

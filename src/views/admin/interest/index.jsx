@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import '../../../views/admin/interest/styles.css'
 import Dropdown from '../../../components/dropdown';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Index = () => {
     const [topics, setTopics] = useState([]);
@@ -12,6 +14,11 @@ const Index = () => {
     const [timeoutId, setTimeoutId] = useState(null); // Thêm state mới để lưu trữ giá trị của setTimeout
     const [selectedColors, setSelectedColors] = useState({}); // Object to store color state for each topic.interest_id
     const [selectedTopicIds, setSelectedTopicIds] = useState([]);
+    const notifySuccess = () => toast("Thêm chủ đề thành công");
+    const notifyFail = () => toast("Thêm chủ đề thất bại");
+    const notifyDuplicate = () => toast("Chủ đề đã tồn tại");
+    const notifyDelete = () => toast("Chủ đề đã được xóa, vui lòng load lại trang");
+    const notiUpdate = () => toast("Chủ đề đã được cập nhật thành công");
     const options = [
         { value: 'option1', label: 'Tùy chọn 1' },
         { value: 'option2', label: 'Tùy chọn 2' },
@@ -43,7 +50,7 @@ const Index = () => {
             const isTopicExists = topics.some(topic => topic.name === topicPopup);
 
             if (isTopicExists) {
-                alert('Chủ đề đã tồn tại. Vui lòng nhập một chủ đề khác.');
+                notifyDuplicate()
                 return; // Không thêm chủ đề nếu đã tồn tại
             }
 
@@ -61,8 +68,10 @@ const Index = () => {
                     setTopics([...topics, data]);
                     setTopicPopup(''); // Clear input field after adding topic
                     console.log(topicPopup)
+                    notifySuccess()
                 } else {
                     console.error('Failed to add topic');
+                    notifyFail()
                 }
             } catch (error) {
                 console.error('Error adding topic:', error);
@@ -112,6 +121,7 @@ const Index = () => {
                     setTopics(topics.map(topic => topic.interest_id === selectedTopicId ? updatedTopic : topic));
                     setIsPopupOpen(false); // Đóng popup sau khi cập nhật thành công
                     setTopicInput(''); // Xóa nội dung của ô input sau khi cập nhật
+                    notiUpdate()
                 } else {
                     console.error('Failed to update topic');
                 }
@@ -164,8 +174,8 @@ const Index = () => {
 
             if (response.ok) {
                 // Xử lý khi xóa thành công
-                console.log('Đã xóa các chủ đề thành công');
-                reloadPage(); // Load lại trang sau khi xóa thành công
+                notifyDelete()
+                // reloadPage(); // Load lại trang sau khi xóa thành công
             } else {
                 console.error('Lỗi khi xóa chủ đề');
             }
@@ -198,6 +208,7 @@ const Index = () => {
                         Thêm
                     </button>
                     <button onClick={handleDeleteSelectedTopics} className="bg-[#DB3236] w-[120px] h-[52px] rounded-[60px] mr-5 text-white font-semibold">Xóa</button>
+                    <ToastContainer />
                 </div>
             </div>
 
