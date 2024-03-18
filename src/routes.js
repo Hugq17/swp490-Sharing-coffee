@@ -2,11 +2,7 @@ import React from "react";
 import SignIn from "./views/auth/SignIn";
 import MainDashboardAdmin from './views/admin/default'
 import Interest from './views/admin/interest'
-import Hobbies from "./components/icons/Hobbies";
-import Users from "./components/icons/Users";
-import Events from "./components/icons/Events";
 import { MdInterests } from "react-icons/md";
-import Blogs from "./components/icons/Blogs";
 import Forgotpassword from "./views/auth/Forgotpassword";
 import Blog from "./views/admin/blog";
 import ManageEvent from "./views/admin/event";
@@ -14,11 +10,12 @@ import ManageAccount from "./views/admin/account";
 import { MdSupervisorAccount } from "react-icons/md";
 import { MdEvent } from "react-icons/md";
 import { BsFileEarmarkPost } from "react-icons/bs";
-import SignInMod from "./views/auth/SignInMod";
 import Matching from "./views/admin/matching";
 import { TbHeartSearch } from "react-icons/tb";
 import { IoMdNotificationsOutline } from "react-icons/io";
 import NotificationForUser from "./views/admin/notification";
+import Profile from "./views/admin/profile";
+import { CgProfile } from "react-icons/cg";
 
 
 
@@ -34,12 +31,6 @@ const routes = [
         layout: "/auth",
         path: "Forget-Password",
         component: <Forgotpassword />,
-    },
-    {
-        name: "Sign In with Mod",
-        layout: "/auth",
-        path: "sign-in-with-mod",
-        component: <SignInMod />,
     },
     {
         name: "Trang chủ",
@@ -88,6 +79,13 @@ const routes = [
         icon: <IoMdNotificationsOutline style={{ width: '50px', height: '50px' }} />,
         path: "notifications",
         component: <NotificationForUser />
+    },
+    {
+        name: "Admin",
+        layout: "/admin",
+        icon: <CgProfile style={{ width: '50px', height: '50px' }} />,
+        path: "profile",
+        component: <Profile />
     },
 ]
 

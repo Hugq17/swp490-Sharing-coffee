@@ -15,10 +15,14 @@ const UserTable = ({ users }) => {
                 accessor: (row, index) => index + 1,
                 Cell: ({ value }) => <span>{value}</span>,
             },
+            // {
+            //     Header: 'ID người dùng',
+            //     accessor: 'user_id',
+            // },
             {
                 Header: 'Hình ảnh',
                 accessor: 'profile_avatar',
-                Cell: ({ cell: { value } }) => <img src={value} alt="Hình ảnh" className="mx-auto" style={{ maxWidth: '100px', maxHeight: '100px' }} />,
+                Cell: ({ cell: { value } }) => <img src={value} alt="Hình ảnh" className="mx-auto" style={{ maxWidth: '50px', maxHeight: '50px' }} />,
             },
             {
                 Header: 'Người dùng',
@@ -31,6 +35,10 @@ const UserTable = ({ users }) => {
             {
                 Header: 'Số điện thoại',
                 accessor: 'phone',
+            },
+            {
+                Header: 'Sở thích',
+                accessor: (row) => row.interest_list.map(interest => interest.interest_name).join(', '), // Lặp qua mảng interest_list và nối các sở thích lại với nhau
             },
         ],
         []

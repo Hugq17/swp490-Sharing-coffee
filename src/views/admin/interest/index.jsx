@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import '../../../views/admin/interest/styles.css'
+import Dropdown from '../../../components/dropdown';
+
 const Index = () => {
     const [topics, setTopics] = useState([]);
     const [topicInput, setTopicInput] = useState('');
@@ -10,6 +12,11 @@ const Index = () => {
     const [timeoutId, setTimeoutId] = useState(null); // Thêm state mới để lưu trữ giá trị của setTimeout
     const [selectedColors, setSelectedColors] = useState({}); // Object to store color state for each topic.interest_id
     const [selectedTopicIds, setSelectedTopicIds] = useState([]);
+    const options = [
+        { value: 'option1', label: 'Tùy chọn 1' },
+        { value: 'option2', label: 'Tùy chọn 2' },
+        { value: 'option3', label: 'Tùy chọn 3' },
+    ];
     const reloadPage = () => {
         window.location.reload();
     };
@@ -123,7 +130,7 @@ const Index = () => {
         // Thiết lập timeout khi nhấn giữ
         const id = setTimeout(() => {
             handleSelectTopic(index, topicName, topicId);
-        }, 2000); // 2000ms = 2 giây
+        }, 1000); // 2000ms = 2 giây
         setTimeoutId(id);
     };
 
@@ -166,9 +173,17 @@ const Index = () => {
             console.error('Lỗi khi gọi API xóa chủ đề:', error);
         }
     };
+    const [selectedOption, setSelectedOption] = useState(null);
+
+    const handleSelect = (option) => {
+        setSelectedOption(option);
+    };
     return (
         <div className='grid grid-cols-2 mt-4 '>
             <div className='flex flex-col items-center mt-6 justify-center'>
+                <h1>Dropdown Example</h1>
+                <Dropdown options={options} onSelect={handleSelect} />
+                {/* <p>Selected Option: {selectedOption ? selectedOption.label : 'None'}</p> */}
                 <div className='border-[1px] rounded-xl w-[350px] h-[52px] shadow-xl mb-4'>
                     <input
                         value={topicPopup}
