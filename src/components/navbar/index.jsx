@@ -24,7 +24,7 @@ const Navbar = (props) => {
             className="text-3xl font-normal text-navy-700 hover:underline dark:text-white dark:hover:text-white"
             href=" "
           >
-            Pages
+            Trang
             <span className="mx-1 text-3xl text-navy-700 hover:text-navy-700 dark:text-white">
               {" "}
               /{" "}

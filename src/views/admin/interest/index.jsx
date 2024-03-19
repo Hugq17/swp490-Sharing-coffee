@@ -3,7 +3,7 @@ import '../../../views/admin/interest/styles.css'
 import Dropdown from '../../../components/dropdown';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
+import axios from 'axios';
 const Index = () => {
     const [topics, setTopics] = useState([]);
     const [topicInput, setTopicInput] = useState('');
@@ -24,10 +24,28 @@ const Index = () => {
         { value: 'option2', label: 'Tùy chọn 2' },
         { value: 'option3', label: 'Tùy chọn 3' },
     ];
+    const [interests, setInterests] = useState([]);
+    const [selectedOption, setSelectedOption] = useState("");
     const reloadPage = () => {
         window.location.reload();
     };
+    useEffect(() => {
+        // Hàm để lấy dữ liệu từ API
+        const fetchInterests = async () => {
+            try {
+                const response = await fetch('https://sharing-coffee-be-capstone-com.onrender.com/api/interests/parent');
+                const data = await response.json();
+                // Trích xuất tên quan tâm từ dữ liệu và đặt vào state
+                const interestNames = data.map(interest => interest.name);
+                setInterests(interestNames);
+            } catch (error) {
+                console.error('Error fetching interests:', error);
+            }
+        };
 
+        // Gọi hàm fetchInterests khi component được mount
+        fetchInterests();
+    }, []);
     useEffect(() => {
         fetchInterests();
     }, []);
@@ -183,17 +201,22 @@ const Index = () => {
             console.error('Lỗi khi gọi API xóa chủ đề:', error);
         }
     };
-    const [selectedOption, setSelectedOption] = useState(null);
 
     const handleSelect = (option) => {
         setSelectedOption(option);
     };
     return (
         <div className='grid grid-cols-2 mt-4 '>
+            {console.log(interests)}
             <div className='flex flex-col items-center mt-6 justify-center'>
                 <h1>Dropdown Example</h1>
-                <Dropdown options={options} onSelect={handleSelect} />
-                {/* <p>Selected Option: {selectedOption ? selectedOption.label : 'None'}</p> */}
+                <Dropdown options={interests} onChange={handleSelect} value={selectedOption} placeholder="Select an interest" />
+                <p>Selected Option: {selectedOption ? selectedOption.label : 'None'}</p>
+                {/* <ul>
+                    {interests.map(interest => (
+                        <li key={interest.interest_id}>{interest.name}</li>
+                    ))}
+                </ul> */}
                 <div className='border-[1px] rounded-xl w-[350px] h-[52px] shadow-xl mb-4'>
                     <input
                         value={topicPopup}
