@@ -29,12 +29,16 @@ function App() {
             });
 
             // Xử lý response nếu cần
-            console.log(response.data);
+            console.log('New data:', response.data);
+
+            // Cập nhật state data bằng cách thêm dữ liệu mới vào mảng data hiện tại
+            setData(prevData => [...prevData, response.data]);
         } catch (error) {
             // Xử lý lỗi nếu có
             console.error('Error:', error);
         }
     };
+
 
     const handleNameChange = (event) => {
         setNameParent(event.target.value);
