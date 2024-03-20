@@ -9,6 +9,9 @@ function App() {
     const [image, setImage] = useState("") //xử lý hình ảnh
     const [loading, setLoading] = useState(false) //xử lý hình ảnh
     const [nameParent, setNameParent] = useState('');
+    const [showInput, setShowInput] = useState({}); // Trạng thái hiển thị input
+    const [childName, setChildName] = useState('');
+
 
     //--------------------------------------------Thêm một parent interest-----------------------------------//
     const handleSubmit = async () => {
@@ -86,6 +89,31 @@ function App() {
         }));
     };
 
+
+    const addChildInterest = async (childName, parentId) => {
+        try {
+            const response = await axios.post(
+                'https://sharing-coffee-be-capstone-com.onrender.com/api/interest',
+                {
+                    name: childName,
+                    parent_interest_id: parentId
+                }
+            );
+            console.log('Child interest added:', response.data);
+
+            // Cập nhật danh sách dữ liệu với phần tử mới
+            const newItem = response.data;
+            setData(prevData => [...prevData, newItem]);
+
+            // Cập nhật state để hiển thị phần tử mới
+            setItemsWithNullParentId(prevItems => [...prevItems, newItem]);
+
+        } catch (error) {
+            console.error('Error adding child interest:', error);
+        }
+    };
+
+
     return (
         <div>
 
@@ -137,23 +165,35 @@ function App() {
                             <strong className='text-2xl' onClick={() => toggleItem(item.interest_id)}>{item.name}</strong>
                             <br />
                             {expandedItems[item.interest_id] && (
-                                <ul>
-                                    {itemsWithNonNullParentId
-                                        .filter(childItem => childItem.parent_interest_id === item.interest_id)
-                                        .map((childItem, childIndex) => (
-                                            <li key={childIndex}>
-                                                <span className="bullet">&#8226;  </span>
-                                                <strong>{childItem.name}</strong>
-                                                <br />
-                                            </li>
-                                        ))}
-                                </ul>
+                                <div>
+                                    {showInput[item.interest_id] && (
+                                        <div className="flex items-center mb-2">
+                                            <input type="text" placeholder="Enter child name" onChange={(e) => setChildName(e.target.value)} />
+                                            <button onClick={() => addChildInterest(childName, item.interest_id)} className="ml-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Add</button>
+                                        </div>
+                                    )}
+                                    <button onClick={() => setShowInput(prevState => ({ ...prevState, [item.interest_id]: !prevState[item.interest_id] }))}>
+                                        {showInput[item.interest_id] ? 'Hide Input' : 'Show Input'}
+                                    </button>
+                                    <ul>
+                                        {itemsWithNonNullParentId
+                                            .filter(childItem => childItem.parent_interest_id === item.interest_id)
+                                            .map((childItem, childIndex) => (
+                                                <li key={childIndex}>
+                                                    <span className="bullet">&#8226;  </span>
+                                                    <strong>{childItem.name}</strong>
+                                                    <br />
+                                                </li>
+                                            ))}
+                                    </ul>
+                                </div>
                             )}
                         </div>
                     ))}
                 </ul>
-            </div>
-        </div>
+
+            </div >
+        </div >
     );
 }
 
