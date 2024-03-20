@@ -1,27 +1,40 @@
-import React, { useState, useEffect, useRef } from 'react'
-import { Container, FormGroup, Input, Button } from 'reactstrap'
+import React, { useState, useEffect } from 'react'
 import axios from 'axios'
+
 function Interestv2() {
     const [interests, setInterests] = useState([]);
     const [nameParent, setNameParent] = useState('');
     const [image, setImage] = useState("") //xử lý hình ảnh
     const [loading, setLoading] = useState(false) //xử lý hình ảnh
     useEffect(() => {
-        // Fetch interests from API
-        fetch('https://sharing-coffee-be-capstone-com.onrender.com/api/interests/parent')
-            .then(response => response.json())
-            .then(data => setInterests(data))
-            .catch(error => console.error('Error fetching interests:', error));
+        const fetchInterests = async () => {
+            try {
+                const response = await fetch('https://sharing-coffee-be-capstone-com.onrender.com/api/interest');
+                if (!response.ok) {
+                    throw new Error('Failed to fetch data');
+                }
+                const data = await response.json();
+                // Lọc các mục quan tâm có parent_interest_id là null
+                const filteredInterests = data.filter(interest => interest.parent_interest_id === null);
+                setInterests(filteredInterests);
+            } catch (error) {
+                console.error('Error fetching data:', error);
+            }
+        };
+
+        fetchInterests();
     }, []);
+
     const handleNameChange = (event) => {
         setNameParent(event.target.value);
     };
+
     const handleSubmit = async () => {
         // Tạo một FormData object để gửi dữ liệu
         const formData = new FormData();
         formData.append('name', nameParent);
         formData.append('image', image);
-        console.log(image)
+
         try {
             // Gửi POST request đến API
             const response = await axios.post('https://sharing-coffee-be-capstone-com.onrender.com/api/interest', formData, {
@@ -37,6 +50,7 @@ function Interestv2() {
             console.error('Error:', error);
         }
     };
+
     const uploadImage = async e => {
         const files = e.target.files
         const data = new FormData()
@@ -54,7 +68,10 @@ function Interestv2() {
         setImage(file.secure_url)
         setLoading(false)
     }
-    const containerRef = useRef(null)
+
+    const handleInterestClick = (interest) => {
+        console.log('interest_parent_id:', interest);
+    };
 
     return (
         <div>
@@ -96,20 +113,22 @@ function Interestv2() {
                     </div>
                 </div>
             </div>
-
+            {console.log(interests)}
             <ul className="flex flex-wrap">
                 {interests.map((interest, index) => (
                     <li key={index} className="w-1/5 h-[200px] p-4">
-                        <div className="border border-gray-300 p-4 rounded-xl flex flex-col items-center justify-center">
+                        <div
+                            className="border border-gray-300 p-4 rounded-xl flex flex-col items-center justify-center"
+                            onClick={() => handleInterestClick(interest.interest_id)}
+                        >
                             <img src={interest.image} alt="" className="w-fit h-fit mb-2" />
                             <h1 className="text-lg font-bold">{interest.name}</h1>
                         </div>
                     </li>
                 ))}
             </ul>
-
-
         </div>
     );
 }
-export default Interestv2
+
+export default Interestv2;

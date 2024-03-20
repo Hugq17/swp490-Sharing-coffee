@@ -19,6 +19,7 @@ import { CgProfile } from "react-icons/cg";
 import Interestv2 from "./views/admin/interest/indexv2";
 import Upload from "./views/admin/interest/UploadImg";
 import CloudinaryUpload from "./views/admin/interest/UploadImg";
+import IndexV3 from "./views/admin/interest/indexv3";
 
 
 
@@ -46,7 +47,7 @@ const routes = [
         layout: "/admin",
         icon: <MdInterests style={{ width: '50px', height: '50px' }} />,
         path: "interest",
-        component: <Interestv2 />
+        component: <IndexV3 />
     },
     {
         name: "Người dùng",
