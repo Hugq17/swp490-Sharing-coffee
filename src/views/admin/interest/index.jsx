@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react'
 import '../../../views/admin/interest/styles.css'
 import Dropdown from '../../../components/dropdown';
-
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import axios from 'axios';
 const Index = () => {
     const [topics, setTopics] = useState([]);
     const [topicInput, setTopicInput] = useState('');
@@ -12,15 +14,38 @@ const Index = () => {
     const [timeoutId, setTimeoutId] = useState(null); // Thêm state mới để lưu trữ giá trị của setTimeout
     const [selectedColors, setSelectedColors] = useState({}); // Object to store color state for each topic.interest_id
     const [selectedTopicIds, setSelectedTopicIds] = useState([]);
+    const notifySuccess = () => toast("Thêm chủ đề thành công");
+    const notifyFail = () => toast("Thêm chủ đề thất bại");
+    const notifyDuplicate = () => toast("Chủ đề đã tồn tại");
+    const notifyDelete = () => toast("Chủ đề đã được xóa, vui lòng load lại trang");
+    const notiUpdate = () => toast("Chủ đề đã được cập nhật thành công");
     const options = [
         { value: 'option1', label: 'Tùy chọn 1' },
         { value: 'option2', label: 'Tùy chọn 2' },
         { value: 'option3', label: 'Tùy chọn 3' },
     ];
+    const [interests, setInterests] = useState([]);
+    const [selectedOption, setSelectedOption] = useState("");
     const reloadPage = () => {
         window.location.reload();
     };
+    useEffect(() => {
+        // Hàm để lấy dữ liệu từ API
+        const fetchInterests = async () => {
+            try {
+                const response = await fetch('https://sharing-coffee-be-capstone-com.onrender.com/api/interests/parent');
+                const data = await response.json();
+                // Trích xuất tên quan tâm từ dữ liệu và đặt vào state
+                const interestNames = data.map(interest => interest.name);
+                setInterests(interestNames);
+            } catch (error) {
+                console.error('Error fetching interests:', error);
+            }
+        };
 
+        // Gọi hàm fetchInterests khi component được mount
+        fetchInterests();
+    }, []);
     useEffect(() => {
         fetchInterests();
     }, []);
@@ -43,7 +68,7 @@ const Index = () => {
             const isTopicExists = topics.some(topic => topic.name === topicPopup);
 
             if (isTopicExists) {
-                alert('Chủ đề đã tồn tại. Vui lòng nhập một chủ đề khác.');
+                notifyDuplicate()
                 return; // Không thêm chủ đề nếu đã tồn tại
             }
 
@@ -61,8 +86,10 @@ const Index = () => {
                     setTopics([...topics, data]);
                     setTopicPopup(''); // Clear input field after adding topic
                     console.log(topicPopup)
+                    notifySuccess()
                 } else {
                     console.error('Failed to add topic');
+                    notifyFail()
                 }
             } catch (error) {
                 console.error('Error adding topic:', error);
@@ -112,6 +139,7 @@ const Index = () => {
                     setTopics(topics.map(topic => topic.interest_id === selectedTopicId ? updatedTopic : topic));
                     setIsPopupOpen(false); // Đóng popup sau khi cập nhật thành công
                     setTopicInput(''); // Xóa nội dung của ô input sau khi cập nhật
+                    notiUpdate()
                 } else {
                     console.error('Failed to update topic');
                 }
@@ -164,8 +192,8 @@ const Index = () => {
 
             if (response.ok) {
                 // Xử lý khi xóa thành công
-                console.log('Đã xóa các chủ đề thành công');
-                reloadPage(); // Load lại trang sau khi xóa thành công
+                notifyDelete()
+                // reloadPage(); // Load lại trang sau khi xóa thành công
             } else {
                 console.error('Lỗi khi xóa chủ đề');
             }
@@ -173,17 +201,22 @@ const Index = () => {
             console.error('Lỗi khi gọi API xóa chủ đề:', error);
         }
     };
-    const [selectedOption, setSelectedOption] = useState(null);
 
     const handleSelect = (option) => {
         setSelectedOption(option);
     };
     return (
         <div className='grid grid-cols-2 mt-4 '>
+            {console.log(interests)}
             <div className='flex flex-col items-center mt-6 justify-center'>
                 <h1>Dropdown Example</h1>
-                <Dropdown options={options} onSelect={handleSelect} />
-                {/* <p>Selected Option: {selectedOption ? selectedOption.label : 'None'}</p> */}
+                <Dropdown options={interests} onChange={handleSelect} value={selectedOption} placeholder="Select an interest" />
+                <p>Selected Option: {selectedOption ? selectedOption.label : 'None'}</p>
+                {/* <ul>
+                    {interests.map(interest => (
+                        <li key={interest.interest_id}>{interest.name}</li>
+                    ))}
+                </ul> */}
                 <div className='border-[1px] rounded-xl w-[350px] h-[52px] shadow-xl mb-4'>
                     <input
                         value={topicPopup}
@@ -198,6 +231,7 @@ const Index = () => {
                         Thêm
                     </button>
                     <button onClick={handleDeleteSelectedTopics} className="bg-[#DB3236] w-[120px] h-[52px] rounded-[60px] mr-5 text-white font-semibold">Xóa</button>
+                    <ToastContainer />
                 </div>
             </div>
 

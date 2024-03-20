@@ -2,10 +2,11 @@ import React, { useState, useEffect } from 'react';
 import * as Icon from 'react-feather';
 import CountUp from 'react-countup';
 import axios from 'axios';
+import { useNavigate, Link } from 'react-router-dom';
 
 const DashboardAdmin = () => {
     const [profitData, setProfitData] = useState([]);
-
+    const navigate = useNavigate();
     useEffect(() => {
         async function fetchData() {
             try {
@@ -39,7 +40,8 @@ const DashboardAdmin = () => {
 
                 setProfitData(newData);
             } catch (error) {
-                console.error('Error fetching data:', error);
+                console.error("");
+                // navigate()
             }
         }
 

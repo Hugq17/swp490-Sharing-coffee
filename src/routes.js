@@ -16,6 +16,10 @@ import { IoMdNotificationsOutline } from "react-icons/io";
 import NotificationForUser from "./views/admin/notification";
 import Profile from "./views/admin/profile";
 import { CgProfile } from "react-icons/cg";
+import Interestv2 from "./views/admin/interest/indexv2";
+import Upload from "./views/admin/interest/UploadImg";
+import CloudinaryUpload from "./views/admin/interest/UploadImg";
+import IndexV3 from "./views/admin/interest/indexv3";
 
 
 
@@ -43,7 +47,7 @@ const routes = [
         layout: "/admin",
         icon: <MdInterests style={{ width: '50px', height: '50px' }} />,
         path: "interest",
-        component: <Interest />
+        component: <IndexV3 />
     },
     {
         name: "Người dùng",

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 
 function Profile() {
     const [userData, setUserData] = useState(null);
-    const userId = '6150886b-5920-4884-8e43-d4efb62f89d3'; // ID của người dùng bạn muốn lấy thông tin
+    const userId = 'b43cc80d-9c56-40c0-b170-4950b8cb702e'; // ID của người dùng bạn muốn lấy thông tin
 
     useEffect(() => {
         const fetchData = async () => {
@@ -40,9 +40,9 @@ function Profile() {
                     <p className="text-gray-700 text-base">
                         <span className="font-semibold">Phone:</span> {userData.phone}
                     </p>
-                    <p className="text-gray-700 text-base">
+                    {/* <p className="text-gray-700 text-base">
                         <span className="font-semibold">Bio:</span> {userData.Bio || 'N/A'}
-                    </p>
+                    </p> */}
                     <p className="text-gray-700 text-base">
                         <span className="font-semibold">Registration:</span> {userData.registration || 'N/A'}
                     </p>
@@ -54,6 +54,7 @@ function Profile() {
                     </p>
                 </div>
             </div>
+            {console.log(userData)}
         </div>
     );
 

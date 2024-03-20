@@ -24,7 +24,7 @@ const Navbar = (props) => {
             className="text-3xl font-normal text-navy-700 hover:underline dark:text-white dark:hover:text-white"
             href=" "
           >
-            Pages
+            Trang
             <span className="mx-1 text-3xl text-navy-700 hover:text-navy-700 dark:text-white">
               {" "}
               /{" "}
@@ -49,7 +49,7 @@ const Navbar = (props) => {
 
 
         {/* Profile & Dropdown */}
-        <Dropdown
+        {/* <Dropdown
           button={
             <img
               className="h-10 w-10 rounded-full"
@@ -91,7 +91,7 @@ const Navbar = (props) => {
             </div>
           }
           classNames={"py-2 top-8 -left-[180px] w-max"}
-        />
+        /> */}
       </div>
     </nav>
   );

@@ -1,7 +1,7 @@
 import React, { useMemo, useState } from 'react';
-import { useTable, usePagination } from 'react-table';
+import { useTable, usePagination, useGlobalFilter } from 'react-table';
 import { Card, Typography } from "@material-tailwind/react";
-
+import { GlobalFilter } from '../table/GlobalFilter';
 const UserTable = ({ users }) => {
     const [selectedUser, setSelectedUser] = useState(null);
     // const [modalIsOpen, setModalIsOpen] = useState(false);
@@ -15,10 +15,6 @@ const UserTable = ({ users }) => {
                 accessor: (row, index) => index + 1,
                 Cell: ({ value }) => <span>{value}</span>,
             },
-            // {
-            //     Header: 'ID người dùng',
-            //     accessor: 'user_id',
-            // },
             {
                 Header: 'Hình ảnh',
                 accessor: 'profile_avatar',
@@ -56,7 +52,7 @@ const UserTable = ({ users }) => {
         canNextPage,
         canPreviousPage,
         pageCount,
-
+        setGlobalFilter,
         gotoPage,
         pageOptions,
         state,
@@ -67,13 +63,16 @@ const UserTable = ({ users }) => {
             data,
             initialState: { pageIndex: 0 }, // Start at page 0
         },
+        useGlobalFilter,
         usePagination
     );
-    const { pageSize, pageIndex } = state
+    const { globalFilter, pageSize, pageIndex } = state
 
     return (
         <>
             <div className='mt-[40px] p-1'>
+                <GlobalFilter filter={globalFilter} setFilter={setGlobalFilter} />
+
                 <Card className="h-full w-full overflow-scroll">
                     <table {...getTableProps()} className="w-full min-w-max table-auto text-left">
                         <thead >
