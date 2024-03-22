@@ -4,7 +4,7 @@ import AdminLayout from "./layouts/admin"
 import { useState } from 'react';
 import PrivateRoute from './utils/PrivateRoute';
 import SignIn from './views/auth/SignIn';
-
+import ManageInterestTable from './views/admin/interest/ManageInterestTable'
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(true);
 
@@ -15,11 +15,6 @@ function App() {
         <Route path='auth/*' element={<AuthLayout />} />
         <Route path='admin/*' element={isLoggedIn ? <AdminLayout /> : <Navigate to="/auth/sign-in" />} />
         <Route path="/" element={<Navigate to="/auth/sign-in" replace />} />
-        {/* <Route element={<PrivateRoute />}>
-          <Route element={<AuthLayout />} path='auth/' />
-          <Route element={<AdminLayout />} path='admin/' />
-        </Route>
-        <Route element={<SignIn />} path='/auth/sign-in' /> */}
       </Routes>
     </BrowserRouter>
   );

@@ -33,7 +33,7 @@ export function SidebarLinks(props) {
                                         {route.icon ? route.icon : <AiOutlineHome style={{ width: '50px', height: '50px' }} />}{" "}
                                     </span>
                                     <p
-                                        className={`leading-1 ml-4 flex ${activeRoute(route.path) === true
+                                        className={`leading-1 ml-4 flex text-2xl ${activeRoute(route.path) === true
                                             ? "font-bold text-white dark:text-white"
                                             : "font-medium text-gray-600"
                                             }`}

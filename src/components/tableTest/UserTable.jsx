@@ -1,40 +1,38 @@
 import React, { useMemo, useState } from 'react';
-import { useTable, usePagination, useGlobalFilter } from 'react-table';
+import { useTable, usePagination, useGlobalFilter, useSortBy } from 'react-table';
 import { Card, Typography } from "@material-tailwind/react";
 import { GlobalFilter } from '../table/GlobalFilter';
+
 const UserTable = ({ users }) => {
     const [selectedUser, setSelectedUser] = useState(null);
-    // const [modalIsOpen, setModalIsOpen] = useState(false);
 
     const data = useMemo(() => users, [users]);
 
     const columns = useMemo(
         () => [
             {
-                Header: ' ',
+                Header: 'Số thứ tự',
                 accessor: (row, index) => index + 1,
-                Cell: ({ value }) => <span>{value}</span>,
+                Cell: ({ value }) => <span className='text-xl'>{value}</span>
             },
             {
                 Header: 'Hình ảnh',
                 accessor: 'profile_avatar',
-                Cell: ({ cell: { value } }) => <img src={value} alt="Hình ảnh" className="mx-auto" style={{ maxWidth: '50px', maxHeight: '50px' }} />,
+                Cell: ({ cell: { value } }) => <img src={value} alt="Hình ảnh" style={{ maxWidth: '50px', maxHeight: '50px' }} />,
             },
             {
                 Header: 'Người dùng',
                 accessor: 'user_name',
-            },
-            {
-                Header: 'Email',
-                accessor: 'email',
+                Cell: ({ value }) => <span className='text-xl'>{value}</span>
             },
             {
                 Header: 'Số điện thoại',
                 accessor: 'phone',
+                Cell: ({ value }) => <span className='text-xl'>{value}</span>
             },
             {
-                Header: 'Sở thích',
-                accessor: (row) => row.interest_list.map(interest => interest.interest_name).join(', '), // Lặp qua mảng interest_list và nối các sở thích lại với nhau
+                Header: 'Trạng thái',
+                accessor: 'is_available',
             },
         ],
         []
@@ -61,12 +59,13 @@ const UserTable = ({ users }) => {
         {
             columns,
             data,
-            initialState: { pageIndex: 0 }, // Start at page 0
+            initialState: { pageIndex: 0 },
         },
         useGlobalFilter,
+        useSortBy, // Place useSortBy before usePagination
         usePagination
     );
-    const { globalFilter, pageSize, pageIndex } = state
+    const { globalFilter, pageSize, pageIndex } = state;
 
     return (
         <>
@@ -80,16 +79,22 @@ const UserTable = ({ users }) => {
                                 <tr {...headerGroup.getHeaderGroupProps()}>
                                     {headerGroup.headers.map(column => (
                                         <th
-                                            {...column.getHeaderProps()}
+                                            {...column.getHeaderProps(column.getSortByToggleProps())} // Thêm vào đây
                                             className="border-b border-blue-gray-100 bg-blue-gray-50 p-4"
                                         >
                                             <Typography
                                                 variant="small"
                                                 color="blue-gray"
-                                                className="leading-none opacity-70 font-bold text-xl"
+                                                className="leading-none opacity-70 font-bold text-3xl"
                                             >{column.render('Header')}
                                             </Typography>
-
+                                            <span>
+                                                {column.isSorted
+                                                    ? column.isSortedDesc
+                                                        ? ' 🔽'
+                                                        : ' 🔼'
+                                                    : ''}
+                                            </span>
                                         </th>
                                     ))}
                                 </tr>
@@ -102,13 +107,11 @@ const UserTable = ({ users }) => {
                                     <tr {...row.getRowProps()} className="even:bg-blue-gray-50/50">
                                         {row.cells.map(cell => {
                                             return (
-
                                                 <td
                                                     {...cell.getCellProps()}
                                                     className="p-4"
                                                 >
                                                     <Typography variant="small" color="blue-gray" className="font-normal"> {cell.render('Cell')}</Typography>
-
                                                 </td>
                                             );
                                         })}
@@ -125,19 +128,6 @@ const UserTable = ({ users }) => {
                             {pageIndex + 1} trên {pageOptions.length}
                         </strong>{' '}
                     </span>
-
-                    {/* <span className="flex items-center">
-                        Đi tới trang:{' '}
-                        <input
-                            type='number'
-                            value={pageIndex + 1}
-                            onChange={e => {
-                                const pageNumber = e.target.value ? Number(e.target.value) - 1 : 0;
-                                gotoPage(pageNumber);
-                            }}
-                            className="w-[100px] p-2 ml-3 text-center border border-gray-300 rounded-md focus:outline-none focus:border-indigo-500"
-                        />
-                    </span> */}
                     <select
                         className=" p-2 text-sm text-gray-700 bg-white border border-gray-300 rounded-md appearance-none focus:outline-none focus:border-indigo-500"
                         value={pageSize}
@@ -151,21 +141,6 @@ const UserTable = ({ users }) => {
                             ))
                         }
                     </select>
-
-                    <button
-                        className=" p-2 text-sm text-white bg-blue-500 rounded-md focus:outline-none focus:bg-blue-600"
-                        onClick={() => gotoPage(0)}
-                        disabled={!canPreviousPage}
-                    >
-                        {'<<'}
-                    </button>
-                    <button
-                        className="p-2 text-sm text-white bg-blue-500 rounded-md focus:outline-none focus:bg-blue-600"
-                        onClick={() => previousPage()}
-                        disabled={!canPreviousPage}
-                    >
-                        {"<"}
-                    </button>
                     {pageOptions.slice(0, Math.min(pageIndex + 5, pageOptions.length)).map((page, index) => (
                         <button
                             key={index}

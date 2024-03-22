@@ -20,6 +20,7 @@ import Interestv2 from "./views/admin/interest/indexv2";
 import Upload from "./views/admin/interest/UploadImg";
 import CloudinaryUpload from "./views/admin/interest/UploadImg";
 import IndexV3 from "./views/admin/interest/indexv3";
+import ManageInterestTable from "./views/admin/interest/ManageInterestTable";
 
 
 
@@ -47,7 +48,7 @@ const routes = [
         layout: "/admin",
         icon: <MdInterests style={{ width: '50px', height: '50px' }} />,
         path: "interest",
-        component: <IndexV3 />
+        component: <IndexV3 />,
     },
     {
         name: "Người dùng",

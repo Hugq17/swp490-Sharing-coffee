@@ -1,11 +1,12 @@
 import React, { useMemo, useState } from 'react';
-import { useTable, usePagination } from 'react-table';
+import { useTable, usePagination, useGlobalFilter, useSortBy } from 'react-table';
 import Modal from 'react-modal';
 import { Card, Typography } from "@material-tailwind/react";
 import { format } from 'date-fns';
 import { BsCalendarDay } from "react-icons/bs";
 import { MdAccountBox } from "react-icons/md";
 import { MdClose } from "react-icons/md";
+import { GlobalFilter } from '../table/GlobalFilter';
 
 const BlogTable = ({ blogs }) => {
     const [selectedBlog, setSelectedBlog] = useState(null);
@@ -24,7 +25,7 @@ const BlogTable = ({ blogs }) => {
             {
                 Header: 'Hình ảnh',
                 accessor: 'image',
-                Cell: ({ cell: { value } }) => <img src={value} alt="Hình ảnh" className="mx-auto" style={{ maxWidth: '100px', maxHeight: '100px' }} />,
+                Cell: ({ cell: { value } }) => <img src={value} alt="Hình ảnh" style={{ maxWidth: '100px', maxHeight: '100px' }} />,
             },
             {
                 Header: 'Bài viết',
@@ -67,12 +68,12 @@ const BlogTable = ({ blogs }) => {
         rows,
         prepareRow,
         page,
+        setGlobalFilter,
         nextPage,
         previousPage,
         canNextPage,
         canPreviousPage,
         pageCount,
-
         gotoPage,
         pageOptions,
         state,
@@ -83,13 +84,16 @@ const BlogTable = ({ blogs }) => {
             data,
             initialState: { pageIndex: 0 }, // Start at page 0
         },
+        useGlobalFilter,
+        useSortBy,
         usePagination
     );
-    const { pageSize, pageIndex } = state
+    const { globalFilter, pageSize, pageIndex } = state
 
     return (
         <>
             <div className='mt-[40px] p-1'>
+                <GlobalFilter filter={globalFilter} setFilter={setGlobalFilter} />
                 <Card className="h-full w-full overflow-scroll">
                     <table {...getTableProps()} className="w-full min-w-max table-auto text-left">
                         <thead >
@@ -97,16 +101,22 @@ const BlogTable = ({ blogs }) => {
                                 <tr {...headerGroup.getHeaderGroupProps()}>
                                     {headerGroup.headers.map(column => (
                                         <th
-                                            {...column.getHeaderProps()}
+                                            {...column.getHeaderProps(column.getSortByToggleProps())}
                                             className="border-b border-blue-gray-100 bg-blue-gray-50 p-4"
                                         >
                                             <Typography
                                                 variant="small"
                                                 color="blue-gray"
-                                                className="leading-none opacity-70 font-bold text-xl"
+                                                className="leading-none opacity-70 font-bold text-3xl"
                                             >{column.render('Header')}
                                             </Typography>
-
+                                            <span>
+                                                {column.isSorted
+                                                    ? column.isSortedDesc
+                                                        ? ' 🔽'
+                                                        : ' 🔼'
+                                                    : ''}
+                                            </span>
                                         </th>
                                     ))}
                                 </tr>

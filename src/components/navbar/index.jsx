@@ -17,7 +17,7 @@ const Navbar = (props) => {
   const [darkmode, setDarkmode] = React.useState(false);
 
   return (
-    <nav className="sticky top-4 z-40 flex flex-row flex-wrap items-center justify-between rounded-xl bg-white/10 p-2 backdrop-blur-xl dark:bg-[#0b14374d]">
+    <nav className="sticky top-4 z-40 flex flex-row flex-wrap items-center justify-between rounded-xl bg-white/10 p-2 backdrop-blur-xl dark:bg-[#0b14374d] ml-3">
       <div className="ml-[6px]">
         <div className="h-6 w-full pt-1">
           <a
@@ -40,16 +40,16 @@ const Navbar = (props) => {
 
       </div>
 
-      <div className="relative mt-[3px] flex h-[61px] w-[355px] flex-grow items-center justify-around gap-2 rounded-full bg-white px-2 py-2 shadow-xl shadow-shadow-500 dark:!bg-navy-800 dark:shadow-none md:w-[365px] md:flex-grow-0 md:gap-1 xl:w-[365px] xl:gap-2">
+      {/* <div className="relative mt-[3px] flex h-[61px] w-[355px] flex-grow items-center justify-around gap-2 rounded-full bg-white px-2 py-2 shadow-xl shadow-shadow-500 dark:!bg-navy-800 dark:shadow-none md:w-[365px] md:flex-grow-0 md:gap-1 xl:w-[365px] xl:gap-2"> */}
 
 
-        {/* start Notification */}
+      {/* start Notification */}
 
-        {/* start Horizon PRO */}
+      {/* start Horizon PRO */}
 
 
-        {/* Profile & Dropdown */}
-        {/* <Dropdown
+      {/* Profile & Dropdown */}
+      {/* <Dropdown
           button={
             <img
               className="h-10 w-10 rounded-full"
@@ -92,7 +92,7 @@ const Navbar = (props) => {
           }
           classNames={"py-2 top-8 -left-[180px] w-max"}
         /> */}
-      </div>
+      {/* </div> */}
     </nav>
   );
 };
