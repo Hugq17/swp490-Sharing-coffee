@@ -3,10 +3,10 @@ import { useTable, usePagination, useGlobalFilter, useSortBy } from 'react-table
 import Modal from 'react-modal';
 import { Card, Typography } from "@material-tailwind/react";
 import { format } from 'date-fns';
-import { BsCalendarDay } from "react-icons/bs";
-import { MdAccountBox } from "react-icons/md";
 import { MdClose } from "react-icons/md";
 import { GlobalFilter } from '../table/GlobalFilter';
+import { FaArrowDown, FaArrowUp } from "react-icons/fa";
+import { Checkbox } from '../table/checkbox';
 
 const BlogTable = ({ blogs }) => {
     const [selectedBlog, setSelectedBlog] = useState(null);
@@ -18,7 +18,7 @@ const BlogTable = ({ blogs }) => {
     const columns = useMemo(
         () => [
             {
-                Header: ' ',
+                Header: 'STT',
                 accessor: (row, index) => index + 1,
                 Cell: ({ value }) => <span>{value}</span>,
             },
@@ -76,6 +76,8 @@ const BlogTable = ({ blogs }) => {
         pageCount,
         gotoPage,
         pageOptions,
+        allColumns,
+        getToggleHideAllColumnsProps,
         state,
         setPageSize
     } = useTable(
@@ -94,6 +96,24 @@ const BlogTable = ({ blogs }) => {
         <>
             <div className='mt-[40px] p-1'>
                 <GlobalFilter filter={globalFilter} setFilter={setGlobalFilter} />
+                <div className="checkbox-group flex  justify-center">
+                    <div className="checkbox-container">
+                        <Checkbox {...getToggleHideAllColumnsProps()} /><p className='text-xl font-sans'>Tất cả</p>
+                    </div>
+                    {
+                        allColumns.map(column => (
+                            <div key={column.id} className="checkbox-container">
+                                <label style={{ marginLeft: "30px" }}>
+                                    <input
+                                        type='checkbox' {...column.getToggleHiddenProps()}
+                                        className="mr-3"
+                                    />
+                                    <p className='text-xl font-sans'>{column.Header}</p>
+                                </label>
+                            </div>
+                        ))
+                    }
+                </div>
                 <Card className="h-full w-full overflow-scroll">
                     <table {...getTableProps()} className="w-full min-w-max table-auto text-left">
                         <thead >
@@ -104,19 +124,21 @@ const BlogTable = ({ blogs }) => {
                                             {...column.getHeaderProps(column.getSortByToggleProps())}
                                             className="border-b border-blue-gray-100 bg-blue-gray-50 p-4"
                                         >
-                                            <Typography
-                                                variant="small"
-                                                color="blue-gray"
-                                                className="leading-none opacity-70 font-bold text-3xl"
-                                            >{column.render('Header')}
-                                            </Typography>
-                                            <span>
-                                                {column.isSorted
-                                                    ? column.isSortedDesc
-                                                        ? ' 🔽'
-                                                        : ' 🔼'
-                                                    : ''}
-                                            </span>
+                                            <div className='flex items-center'>
+                                                <Typography
+                                                    variant="small"
+                                                    color="blue-gray"
+                                                    className="leading-none opacity-70 font-bold text-2xl"
+                                                >{column.render('Header')}
+                                                </Typography>
+                                                <span className='ml-5'>
+                                                    {column.isSorted
+                                                        ? column.isSortedDesc
+                                                            ? <FaArrowDown />
+                                                            : <FaArrowUp />
+                                                        : ''}
+                                                </span>
+                                            </div>
                                         </th>
                                     ))}
                                 </tr>
@@ -220,11 +242,15 @@ const BlogTable = ({ blogs }) => {
                 </div>
 
                 <Modal isOpen={modalIsOpen} onRequestClose={() => setModalIsOpen(false)} className="modal">
-                    <div className="w-4/5 bg-white rounded-lg p-12 absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 shadow-lg border border-gray-300">
+                    <div className="w-4/5 h-fit  bg-white rounded-lg p-12 absolute overflow-y-auto left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 shadow-lg border border-gray-300">
                         {selectedBlog && (
-                            <div>
-
+                            <div className='flex flex-col items-center'>
+                                <h1 className='text-5xl font-bold font-sans'>{selectedBlog.title}</h1>
+                                <h3 className='text-xl mt-5 font-sans'>Tác giả: {selectedBlog.user_name}</h3>
+                                <h3 className='text-xl mt-5 font-sans'>Ngày viết: {format(new Date(selectedBlog.created_at), 'dd-MM-yyyy HH:mm')}</h3>
+                                <p>{selectedBlog.content}</p>
                             </div>
+
                         )}
                         <button onClick={() => setModalIsOpen(false)} className="absolute top-0 right-0 mt-2 mr-2  hover:bg-red-600 text-gray-800 font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
                             <MdClose />

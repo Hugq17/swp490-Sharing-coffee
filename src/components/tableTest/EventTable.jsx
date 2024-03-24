@@ -9,6 +9,8 @@ import { MdClose } from "react-icons/md";
 import { CiLocationOn } from "react-icons/ci";
 import { AiOutlineUsergroupAdd } from "react-icons/ai";
 import { GlobalFilter } from '../table/GlobalFilter';
+import { FaArrowDown, FaArrowUp } from "react-icons/fa";
+import { Checkbox } from '../table/checkbox';
 
 
 const EventTable = ({ events }) => {
@@ -21,7 +23,7 @@ const EventTable = ({ events }) => {
     const columns = useMemo(
         () => [
             {
-                Header: ' ',
+                Header: 'STT',
                 accessor: (row, index) => index + 1,
                 Cell: ({ value }) => <span>{value}</span>,
             },
@@ -87,6 +89,8 @@ const EventTable = ({ events }) => {
         canPreviousPage,
         pageCount,
         setGlobalFilter,
+        allColumns,
+        getToggleHideAllColumnsProps,
         gotoPage,
         pageOptions,
         state,
@@ -107,6 +111,24 @@ const EventTable = ({ events }) => {
         <>
             <div className='mt-[40px] p-1'>
                 <GlobalFilter filter={globalFilter} setFilter={setGlobalFilter} />
+                <div className="checkbox-group flex  justify-center">
+                    <div className="checkbox-container">
+                        <Checkbox {...getToggleHideAllColumnsProps()} /><p className='text-xl font-sans'>Tất cả</p>
+                    </div>
+                    {
+                        allColumns.map(column => (
+                            <div key={column.id} className="checkbox-container">
+                                <label style={{ marginLeft: "30px" }}>
+                                    <input
+                                        type='checkbox' {...column.getToggleHiddenProps()}
+                                        className="mr-3"
+                                    />
+                                    <p className='text-xl font-sans'>{column.Header}</p>
+                                </label>
+                            </div>
+                        ))
+                    }
+                </div>
                 <Card className="h-full w-full overflow-scroll">
                     <table {...getTableProps()} className="w-full min-w-max table-auto text-left">
                         <thead >
@@ -117,19 +139,21 @@ const EventTable = ({ events }) => {
                                             {...column.getHeaderProps(column.getSortByToggleProps())}
                                             className="border-b border-blue-gray-100 bg-blue-gray-50 p-4"
                                         >
-                                            <Typography
-                                                variant="small"
-                                                color="blue-gray"
-                                                className="leading-none opacity-70 font-bold text-3xl"
-                                            >{column.render('Header')}
-                                            </Typography>
-                                            <span>
-                                                {column.isSorted
-                                                    ? column.isSortedDesc
-                                                        ? ' 🔽'
-                                                        : ' 🔼'
-                                                    : ''}
-                                            </span>
+                                            <div className='flex items-center'>
+                                                <Typography
+                                                    variant="small"
+                                                    color="blue-gray"
+                                                    className="leading-none opacity-70 font-bold text-2xl"
+                                                >{column.render('Header')}
+                                                </Typography>
+                                                <span className='ml-5'>
+                                                    {column.isSorted
+                                                        ? column.isSortedDesc
+                                                            ? <FaArrowDown />
+                                                            : <FaArrowUp />
+                                                        : ''}
+                                                </span>
+                                            </div>
                                         </th>
                                     ))}
                                 </tr>
