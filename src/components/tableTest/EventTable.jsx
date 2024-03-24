@@ -1,5 +1,5 @@
 import React, { useMemo, useState } from 'react';
-import { useTable, usePagination } from 'react-table';
+import { useTable, usePagination, useGlobalFilter, useSortBy } from 'react-table';
 import Modal from 'react-modal';
 import { Card, Typography } from "@material-tailwind/react";
 import { format } from 'date-fns';
@@ -8,6 +8,8 @@ import { MdAccountBox } from "react-icons/md";
 import { MdClose } from "react-icons/md";
 import { CiLocationOn } from "react-icons/ci";
 import { AiOutlineUsergroupAdd } from "react-icons/ai";
+import { GlobalFilter } from '../table/GlobalFilter';
+
 
 const EventTable = ({ events }) => {
     const [selectedEvent, setSelectedEvent] = useState(null);
@@ -26,7 +28,7 @@ const EventTable = ({ events }) => {
             {
                 Header: 'Hình ảnh',
                 accessor: 'background_img',
-                Cell: ({ cell: { value } }) => <img src={value} alt="Hình ảnh" className="mx-auto" style={{ maxWidth: '100px', maxHeight: '100px' }} />,
+                Cell: ({ cell: { value } }) => <img src={value} alt="Hình ảnh" style={{ maxWidth: '100px', maxHeight: '100px' }} />,
             },
             {
                 Header: 'Sự kiện',
@@ -39,20 +41,20 @@ const EventTable = ({ events }) => {
             {
                 Header: 'Ngày tạo',
                 accessor: 'created_at',
-                Cell: ({ cell: { value } }) => <span>{format(new Date(value), 'dd-MM-yyyy')}</span>, // Format the date
+                Cell: ({ cell: { value } }) => <span>{format(new Date(value), 'dd-MM-yyyy HH:mm')}</span>, // Format the date
             },
             {
                 Header: 'Ngày bắt đầu',
                 accessor: 'time_of_event',
-                Cell: ({ cell: { value } }) => <span>{format(new Date(value), 'dd-MM-yyyy')}</span>, // Format the date
+                Cell: ({ cell: { value } }) => <span>{format(new Date(value), 'dd-MM-yyyy HH:mm')}</span>, // Format the date
             },
             {
                 Header: 'Ngày kết thúc',
                 accessor: 'end_of_event',
-                Cell: ({ cell: { value } }) => <span>{format(new Date(value), 'dd-MM-yyyy')}</span>, // Format the date
+                Cell: ({ cell: { value } }) => <span>{format(new Date(value), 'dd-MM-yyyy HH:mm')}</span>, // Format the date
             },
             {
-                Header: 'Trạng thái',
+                Header: 'Thông tin',
                 Cell: ({ row }) => (
                     <div className="flex justify-center">
                         <button
@@ -61,7 +63,7 @@ const EventTable = ({ events }) => {
                                 setModalIsOpen(true);
                             }}
                             type="button"
-                            className="text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
+                            className="text-xl text-[#2579f2]"
                         >
                             Chi tiết
                         </button>
@@ -84,7 +86,7 @@ const EventTable = ({ events }) => {
         canNextPage,
         canPreviousPage,
         pageCount,
-
+        setGlobalFilter,
         gotoPage,
         pageOptions,
         state,
@@ -95,13 +97,16 @@ const EventTable = ({ events }) => {
             data,
             initialState: { pageIndex: 0 }, // Start at page 0
         },
+        useGlobalFilter,
+        useSortBy,
         usePagination
     );
-    const { pageSize, pageIndex } = state
+    const { globalFilter, pageSize, pageIndex } = state
 
     return (
         <>
             <div className='mt-[40px] p-1'>
+                <GlobalFilter filter={globalFilter} setFilter={setGlobalFilter} />
                 <Card className="h-full w-full overflow-scroll">
                     <table {...getTableProps()} className="w-full min-w-max table-auto text-left">
                         <thead >
@@ -109,16 +114,22 @@ const EventTable = ({ events }) => {
                                 <tr {...headerGroup.getHeaderGroupProps()}>
                                     {headerGroup.headers.map(column => (
                                         <th
-                                            {...column.getHeaderProps()}
+                                            {...column.getHeaderProps(column.getSortByToggleProps())}
                                             className="border-b border-blue-gray-100 bg-blue-gray-50 p-4"
                                         >
                                             <Typography
                                                 variant="small"
                                                 color="blue-gray"
-                                                className="leading-none opacity-70 font-bold text-xl"
+                                                className="leading-none opacity-70 font-bold text-3xl"
                                             >{column.render('Header')}
                                             </Typography>
-
+                                            <span>
+                                                {column.isSorted
+                                                    ? column.isSortedDesc
+                                                        ? ' 🔽'
+                                                        : ' 🔼'
+                                                    : ''}
+                                            </span>
                                         </th>
                                     ))}
                                 </tr>
@@ -136,7 +147,7 @@ const EventTable = ({ events }) => {
                                                     {...cell.getCellProps()}
                                                     className="p-4"
                                                 >
-                                                    <Typography variant="small" color="blue-gray" className="font-normal"> {cell.render('Cell')}</Typography>
+                                                    <Typography variant="small" className="font-sans text-black text-xl"> {cell.render('Cell')}</Typography>
 
                                                 </td>
                                             );

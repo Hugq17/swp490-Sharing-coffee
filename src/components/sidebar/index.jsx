@@ -40,7 +40,7 @@ const Sidebar = ({ open, onClose }) => {
             </div> */}
 
             {/* Nav item end */}
-            <span className="flex justify-center ml-[100px] cursor-pointer border-2 w-fit  rounded-xl">
+            <span className="flex justify-center ml-[100px] cursor-pointer border-2 w-fit  rounded-xl ">
                 <button className="hover:bg-red-600 text-gray-800 font-bold w-max p-3 rounded-xl focus:outline-none focus:shadow-outline" onClick={() => {
                     localStorage.removeItem('token');
                     window.location.reload();
