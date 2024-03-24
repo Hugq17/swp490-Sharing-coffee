@@ -31,8 +31,13 @@ const UserTable = ({ users }) => {
                 Cell: ({ value }) => <span className='text-xl'>{value}</span>
             },
             {
-                Header: 'Trạng thái',
+                Header: 'Thông tin',
                 accessor: 'is_available',
+                Cell: () => (
+                    <span className="text-xl text-[#2579f2]">
+                        Chi tiết
+                    </span>
+                ),
             },
         ],
         []
@@ -111,7 +116,7 @@ const UserTable = ({ users }) => {
                                                     {...cell.getCellProps()}
                                                     className="p-4"
                                                 >
-                                                    <Typography variant="small" color="blue-gray" className="font-normal"> {cell.render('Cell')}</Typography>
+                                                    <Typography variant="small" className="font-sans"> {cell.render('Cell')}</Typography>
                                                 </td>
                                             );
                                         })}

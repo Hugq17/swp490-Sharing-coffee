@@ -41,20 +41,20 @@ const EventTable = ({ events }) => {
             {
                 Header: 'Ngày tạo',
                 accessor: 'created_at',
-                Cell: ({ cell: { value } }) => <span>{format(new Date(value), 'dd-MM-yyyy')}</span>, // Format the date
+                Cell: ({ cell: { value } }) => <span>{format(new Date(value), 'dd-MM-yyyy HH:mm')}</span>, // Format the date
             },
             {
                 Header: 'Ngày bắt đầu',
                 accessor: 'time_of_event',
-                Cell: ({ cell: { value } }) => <span>{format(new Date(value), 'dd-MM-yyyy')}</span>, // Format the date
+                Cell: ({ cell: { value } }) => <span>{format(new Date(value), 'dd-MM-yyyy HH:mm')}</span>, // Format the date
             },
             {
                 Header: 'Ngày kết thúc',
                 accessor: 'end_of_event',
-                Cell: ({ cell: { value } }) => <span>{format(new Date(value), 'dd-MM-yyyy')}</span>, // Format the date
+                Cell: ({ cell: { value } }) => <span>{format(new Date(value), 'dd-MM-yyyy HH:mm')}</span>, // Format the date
             },
             {
-                Header: 'Trạng thái',
+                Header: 'Thông tin',
                 Cell: ({ row }) => (
                     <div className="flex justify-center">
                         <button
@@ -63,7 +63,7 @@ const EventTable = ({ events }) => {
                                 setModalIsOpen(true);
                             }}
                             type="button"
-                            className="text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
+                            className="text-xl text-[#2579f2]"
                         >
                             Chi tiết
                         </button>
@@ -147,7 +147,7 @@ const EventTable = ({ events }) => {
                                                     {...cell.getCellProps()}
                                                     className="p-4"
                                                 >
-                                                    <Typography variant="small" color="blue-gray" className="font-normal"> {cell.render('Cell')}</Typography>
+                                                    <Typography variant="small" className="font-sans text-black text-xl"> {cell.render('Cell')}</Typography>
 
                                                 </td>
                                             );
