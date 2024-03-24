@@ -28,7 +28,7 @@ export default function Auth() {
                                         className="player"
                                         loop
                                         autoplay
-                                        style={{ width: '200px', height: '250px' }}
+                                        style={{ width: '200px', height: '250px', marginTop: '100px' }}
                                     />
                                 </div>
                                 <Routes>
