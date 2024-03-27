@@ -177,7 +177,7 @@ function App() {
                 {/* Hiển thị component mới nếu showCurrentCode là false */}
                 {!showCurrentCode && <InterestV4 />}
                 {showCurrentCode && (
-                    <div>
+                    <div className='flex flex-col items-center justify-center'>
                         <div className="container mx-auto px-4 py-8">
                             <div className="max-w-lg mx-auto bg-white shadow-md rounded px-8 py-6 flex">
                                 <div className="mb-4">
@@ -217,13 +217,13 @@ function App() {
                             </div>
                         </div>
                         {/* <h2 className="text-xl font-bold mb-2">Items with null parent_interest_id:</h2> */}
-                        <div className="flex flex-wrap gap-5">
+                        <div className="flex flex-wrap gap-5 justify-center">
                             {itemsWithNullParentId.map((item, index) => (
                                 <div key={index} className="relative flex flex-col justify-center items-center mt-8 text-gray-700 bg-white shadow-md bg-clip-border rounded-xl w-96">
                                     {item.image ? (
-                                        <div className='relative flex items-center justify-center h-56 mx-4 -mt-6 overflow-hidden text-white shadow-lg bg-clip-border rounded-xl bg-blue-gray-500 shadow-blue-gray-500/40'>
-                                            <img className='rounded-2xl w-2/3 object-cover' src={item.image} onClick={() => handleUpdateImg(item.interest_id)} />
-                                        </div>
+                                        // <div className='relative flex items-center justify-center h-56 mx-4 -mt-6 overflow-hidden text-white shadow-lg bg-clip-border rounded-xl bg-blue-gray-500 shadow-blue-gray-500/40'>
+                                        <img className='rounded-2xl w-2/3 object-cover' src={item.image} onClick={() => handleUpdateImg(item.interest_id)} />
+                                        // </div>
                                     ) : (
                                         <button onClick={() => handleUploadButton(item.interest_id)}>Upload ảnh</button>
                                     )}

@@ -127,7 +127,7 @@ const UserTable = ({ users }) => {
                 </div>
                 <Card className="h-full w-full overflow-scroll">
                     <table {...getTableProps()} className="w-full min-w-max table-auto text-left">
-                        <thead >
+                        <thead>
                             {headerGroups.map(headerGroup => (
                                 <tr {...headerGroup.getHeaderGroupProps()}>
                                     {headerGroup.headers.map(column => (

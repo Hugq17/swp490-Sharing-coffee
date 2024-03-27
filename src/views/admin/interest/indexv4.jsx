@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import ManageInterestTable from './ManageInterestTable';
+import { Card, Typography } from "@material-tailwind/react";
 
 function InterestV4() {
     const [data, setData] = useState([]);
@@ -144,76 +145,42 @@ function InterestV4() {
 
     return (
         <div>
-            <div>
-                <button onClick={toggleCodeVisibility}>
-                    {showCurrentCode ? 'Ẩn' : 'Hiện'} Mã Hiện Tại
-                </button>
-                {!showCurrentCode && <ManageInterestTable />}
-                {showCurrentCode && (
-                    <div>
-                        <div>
-                            <div>
-                                <label htmlFor="fileInput">Tải ảnh</label>
-                                <input
-                                    type='file'
-                                    name='file'
-                                    id='fileInput'
-                                    onChange={uploadImage}
-                                />
-                            </div>
-                            <div>
-                                <label htmlFor="nameInput">Nhập chủ đề</label>
-                                <input
-                                    type='text'
-                                    name='name'
-                                    id='nameInput'
-                                    placeholder='Nhập chủ đề'
-                                    value={nameParent}
-                                    onChange={handleNameChange}
-                                />
-                            </div>
-                            <button onClick={handleSubmit}>Submit</button>
-                        </div>
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>Image</th>
-                                    <th>Name</th>
-                                    <th>Parent/Child</th>
-                                    <th>Action</th>
+            {!showCurrentCode && <ManageInterestTable />}
+            {showCurrentCode && (
+                <Card className="h-full w-full overflow-scroll">
+                    <table className="w-full min-w-max table-auto text-left">
+                        <thead>
+                            <tr>
+                                <th className="border-b border-blue-gray-100 bg-blue-gray-50 p-4">Image</th>
+                                <th className="border-b border-blue-gray-100 bg-blue-gray-50 p-4">Name</th>
+                                <th className="border-b border-blue-gray-100 bg-blue-gray-50 p-4">Parent/Child</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {itemsWithNullParentId.map((item, index) => (
+                                <tr key={index} className="even:bg-blue-gray-50/50">
+                                    <td className="p-4">{item.image ? <img src={item.image} alt={item.name} className='w-[150px] h-[150px]' /> : 'No Image'}</td>
+                                    <td className="p-4">{item.name}</td>
+                                    <td className="p-4">
+                                        {itemsWithNonNullParentId
+                                            .filter(childItem => childItem.parent_interest_id === item.interest_id)
+                                            .map((childItem, childIndex) => (
+                                                <tr key={childIndex}>
+                                                    <td>
+                                                        <span className="bullet">  </span>
+                                                        <strong>{childItem.name}</strong>
+                                                        <br />
+                                                    </td>
+                                                </tr>
+                                            ))}
+                                    </td>
                                 </tr>
-                            </thead>
-                            <tbody>
-                                {itemsWithNullParentId.map((item, index) => (
-                                    <tr key={index}>
-                                        <td>{item.image ? <img src={item.image} alt={item.name} className='w-[150px] h-[150px]' /> : 'No Image'}</td>
-                                        <td>{item.name}</td>
-                                        <td>
-                                            {itemsWithNonNullParentId
-                                                .filter(childItem => childItem.parent_interest_id === item.interest_id)
-                                                .map((childItem, childIndex) => (
-                                                    <tr key={childIndex}>
-                                                        <td></td>
-                                                        <td></td>
-                                                        <td>
-                                                            <span className="bullet">  </span>
-                                                            <strong>{childItem.name}</strong>
-                                                            <br />
-                                                        </td>
-                                                        <td></td>
-                                                    </tr>
-                                                ))}
-                                        </td>
-                                        <td><button onClick={() => handleUploadButton(item.interest_id)}>Upload Image</button></td>
-                                    </tr>
-                                ))}
-                            </tbody>
-
-                        </table>
-                    </div>
-                )}
-            </div >
-        </div >
+                            ))}
+                        </tbody>
+                    </table>
+                </Card>
+            )}
+        </div>
     );
 }
 
