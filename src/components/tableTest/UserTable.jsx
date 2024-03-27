@@ -37,6 +37,15 @@ const UserTable = ({ users }) => {
                 Cell: ({ value }) => <span className='text-xl'>{value}</span>
             },
             {
+                Header: 'So thich',
+                accessor: 'interest_list',
+                Cell: ({ value }) => (
+                    <span className='text-xl'>
+                        {value.map(interest => interest.interest_name).join(', ')}
+                    </span>
+                )
+            },
+            {
                 Header: 'Trạng thái',
                 accessor: 'is_available',
                 Cell: ({ value }) => <span className='text-xl'>{value}</span>
@@ -61,6 +70,7 @@ const UserTable = ({ users }) => {
         ],
         []
     );
+
 
     const {
         getTableProps,

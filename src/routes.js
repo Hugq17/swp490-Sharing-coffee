@@ -21,6 +21,7 @@ import Upload from "./views/admin/interest/UploadImg";
 import CloudinaryUpload from "./views/admin/interest/UploadImg";
 import IndexV3 from "./views/admin/interest/indexv3";
 import ManageInterestTable from "./views/admin/interest/ManageInterestTable";
+import InterestV4 from "./views/admin/interest/indexv4";
 
 
 
