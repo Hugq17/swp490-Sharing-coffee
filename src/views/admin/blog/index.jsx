@@ -19,7 +19,6 @@ function Blog() {
     }, []);
     return (
         <div className=''>
-            {/* <TableBlog /> */}
             <BlogTable blogs={blogs} />
         </div>
     )

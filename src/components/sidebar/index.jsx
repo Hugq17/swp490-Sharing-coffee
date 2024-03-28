@@ -19,7 +19,7 @@ const Sidebar = ({ open, onClose }) => {
                 className="absolute top-4 right-4 block cursor-pointer xl:hidden"
                 onClick={onClose}
             >
-                {/* <HiX /> */} <button>Close</button>
+                <button>Close</button>
             </span>
 
             <div className={`mx-[56px] mt-[50px] flex items-center`}>

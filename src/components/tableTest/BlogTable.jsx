@@ -41,6 +41,16 @@ const BlogTable = ({ blogs }) => {
                 Cell: ({ cell: { value } }) => <span>{format(new Date(value), 'dd-MM-yyyy HH:mm')}</span>, // Format the date
             },
             {
+                Header: 'Trạng thái',
+                accessor: 'is_approve',
+                Cell: ({ cell: { value } }) => <span>{value ? 'Đang hoạt động' : 'Bị từ chối'}</span>,
+            },
+            {
+                Header: 'Tình trạng',
+                accessor: 'is_visible',
+                Cell: ({ cell: { value } }) => <span>{value ? 'Hiển thị' : 'Bị xóa bởi người dùng'}</span>,
+            },
+            {
                 Header: 'Thông tin',
                 Cell: ({ row }) => (
                     <div className="flex justify-center">
@@ -60,6 +70,7 @@ const BlogTable = ({ blogs }) => {
         ],
         []
     );
+
 
     const {
         getTableProps,
@@ -174,19 +185,6 @@ const BlogTable = ({ blogs }) => {
                             {pageIndex + 1} trên {pageOptions.length}
                         </strong>{' '}
                     </span>
-
-                    {/* <span className="flex items-center">
-                        Đi tới trang:{' '}
-                        <input
-                            type='number'
-                            value={pageIndex + 1}
-                            onChange={e => {
-                                const pageNumber = e.target.value ? Number(e.target.value) - 1 : 0;
-                                gotoPage(pageNumber);
-                            }}
-                            className="w-[100px] p-2 ml-3 text-center border border-gray-300 rounded-md focus:outline-none focus:border-indigo-500"
-                        />
-                    </span> */}
                     <select
                         className=" p-2 text-sm text-gray-700 bg-white border border-gray-300 rounded-md appearance-none focus:outline-none focus:border-indigo-500"
                         value={pageSize}
@@ -242,23 +240,23 @@ const BlogTable = ({ blogs }) => {
                 </div>
 
                 <Modal isOpen={modalIsOpen} onRequestClose={() => setModalIsOpen(false)} className="modal">
-                    <div className="w-4/5 h-fit  bg-white rounded-lg p-12 absolute overflow-y-auto left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 shadow-lg border border-gray-300">
+                    <div className=" w-4/5 bg-white rounded-lg p-12 absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 shadow-lg border border-gray-300">
                         {selectedBlog && (
-                            <div className='flex flex-col items-center'>
-                                <h1 className='text-5xl font-bold font-sans'>{selectedBlog.title}</h1>
+                            <div className='flex flex-col items-center overflow-y-scroll h-[700px]'>
+                                <div className='flex'>
+                                    <h1 className='text-5xl font-bold font-sans'>{selectedBlog.title}</h1>
+                                    {/* <img src={selectedBlog.}></img> */}
+                                </div>
                                 <h3 className='text-xl mt-5 font-sans'>Tác giả: {selectedBlog.user_name}</h3>
                                 <h3 className='text-xl mt-5 font-sans'>Ngày viết: {format(new Date(selectedBlog.created_at), 'dd-MM-yyyy HH:mm')}</h3>
-                                <p>{selectedBlog.content}</p>
+                                <div className='font-sans mt-2 w-full text-lg '>{selectedBlog.content}</div>
                             </div>
-
                         )}
-                        <button onClick={() => setModalIsOpen(false)} className="absolute top-0 right-0 mt-2 mr-2  hover:bg-red-600 text-gray-800 font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+                        <button onClick={() => setModalIsOpen(false)} className="absolute top-0 right-0 mt-2 mr-2 hover:bg-red-600 text-gray-800 font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
                             <MdClose />
                         </button>
                     </div>
                 </Modal>
-
-
             </div>
         </>
     );
