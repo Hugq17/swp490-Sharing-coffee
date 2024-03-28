@@ -245,10 +245,14 @@ const BlogTable = ({ blogs }) => {
                             <div className='flex flex-col items-center overflow-y-scroll h-[700px]'>
                                 <div className='flex'>
                                     <h1 className='text-5xl font-bold font-sans'>{selectedBlog.title}</h1>
-                                    {/* <img src={selectedBlog.}></img> */}
                                 </div>
-                                <h3 className='text-xl mt-5 font-sans'>Tác giả: {selectedBlog.user_name}</h3>
-                                <h3 className='text-xl mt-5 font-sans'>Ngày viết: {format(new Date(selectedBlog.created_at), 'dd-MM-yyyy HH:mm')}</h3>
+                                <div class="flex items-center gap-4 mt-4">
+                                    <img class="w-14 h-14 p-1 rounded-full ring-2 ring-gray-300 dark:ring-gray-500" src={selectedBlog.profile_avatar} />
+                                    <div class="font-medium dark:text-white text-[30px]">
+                                        <div>{selectedBlog.user_name}</div>
+                                        <div class="text-sm text-[16px] text-gray-500 dark:text-gray-400"> {format(new Date(selectedBlog.created_at), 'dd-MM-yyyy HH:mm')}</div>
+                                    </div>
+                                </div>
                                 <div className='font-sans mt-2 w-full text-lg '>{selectedBlog.content}</div>
                             </div>
                         )}

@@ -22,8 +22,8 @@ import CloudinaryUpload from "./views/admin/interest/UploadImg";
 import IndexV3 from "./views/admin/interest/indexv3";
 import ManageInterestTable from "./views/admin/interest/ManageInterestTable";
 import InterestV4 from "./views/admin/interest/indexv4";
-
-
+import Report from "./views/admin/report";
+import { VscReport } from "react-icons/vsc";
 
 const routes = [
     {
@@ -72,12 +72,19 @@ const routes = [
         path: "blog",
         component: <Blog />
     },
+    // {
+    //     name: "Matching",
+    //     layout: "/admin",
+    //     icon: <TbHeartSearch style={{ width: '50px', height: '50px' }} />,
+    //     path: "matching",
+    //     component: <Matching />
+    // },
     {
-        name: "Matching",
+        name: "Báo cáo",
         layout: "/admin",
-        icon: <TbHeartSearch style={{ width: '50px', height: '50px' }} />,
-        path: "matching",
-        component: <Matching />
+        icon: <VscReport style={{ width: '50px', height: '50px' }} />,
+        path: "report",
+        component: <Report />
     },
     {
         name: "Thông báo",

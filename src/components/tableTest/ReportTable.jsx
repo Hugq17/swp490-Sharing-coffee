@@ -6,13 +6,13 @@ import { FaArrowDown, FaArrowUp } from "react-icons/fa";
 import { Checkbox } from '../table/checkbox';
 import { MdClose } from "react-icons/md";
 import Modal from 'react-modal';
+import { format } from 'date-fns';
 
-
-const UserTable = ({ users }) => {
-    const [selectedUser, setSelectedUser] = useState(null);
+const ReportTable = ({ reports }) => {
+    const [selectedReport, setselectedReport] = useState(null);
     const [modalIsOpen, setModalIsOpen] = useState(false);
 
-    const data = useMemo(() => users, [users]);
+    const data = useMemo(() => reports, [reports]);
 
     const columns = useMemo(
         () => [
@@ -23,32 +23,21 @@ const UserTable = ({ users }) => {
             },
             {
                 Header: 'Hình ảnh',
-                accessor: 'profile_avatar',
+                accessor: 'image',
                 Cell: ({ cell: { value } }) => <img src={value} alt="Hình ảnh" style={{ maxWidth: '50px', maxHeight: '50px' }} />,
             },
             {
-                Header: 'Người dùng',
-                accessor: 'user_name',
+                Header: 'Bài viết',
+                accessor: 'title',
                 Cell: ({ value }) => <span className='text-xl'>{value}</span>
             },
-            {
-                Header: 'Số điện thoại',
-                accessor: 'phone',
-                Cell: ({ value }) => <span className='text-xl'>{value}</span>
-            },
-            {
-                Header: 'Trạng thái',
-                accessor: 'is_available',
-                Cell: ({ value }) => <span className='text-xl'>{value}</span>
-            },
-
             {
                 Header: 'Thông tin',
                 Cell: ({ row }) => (
                     <div className="flex justify-center">
                         <button
                             onClick={() => {
-                                setSelectedUser(row.original);
+                                setselectedReport(row.original);
                                 setModalIsOpen(true);
                             }}
                             type="button"
@@ -62,6 +51,7 @@ const UserTable = ({ users }) => {
         ],
         []
     );
+
 
     const {
         getTableProps,
@@ -213,65 +203,33 @@ const UserTable = ({ users }) => {
                     </button>
                 </div>
                 <Modal isOpen={modalIsOpen} onRequestClose={() => setModalIsOpen(false)} className="modal">
-                    <div className="w-4/5 h-fit  bg-white rounded-lg p-12 absolute overflow-y-auto left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 shadow-lg border border-gray-300">
-                        {selectedUser && (
-                            <div className='flex flex-row items-center'>
-                                <img src={selectedUser.profile_avatar} className='w-fit h-[350px] mr-8 rounded-lg' />
-                                <div class="flex-1 bg-white rounded-lg shadow-xl p-8">
-                                    <h4 class="text-xl text-gray-900 font-bold">Thông tin cá nhân</h4>
-                                    <ul class="mt-2 text-gray-700">
-                                        <li class="flex border-y py-2">
-                                            <span class="font-bold w-24">Họ tên:</span>
-                                            <span class="text-gray-700">{selectedUser.user_name}</span>
-                                        </li>
-                                        <li class="flex border-b py-2">
-                                            <span class="font-bold w-24">Độ tuổi:</span>
-                                            <span class="text-gray-700">{selectedUser.age}</span>
-                                        </li>
-                                        <li class="flex border-b py-2">
-                                            <span class="font-bold w-24">Giới tính:</span>
-                                            <span class="text-gray-700">{selectedUser.gender}</span>
-                                        </li>
-                                        <li class="flex border-b py-2">
-                                            <span class="font-bold w-24">Ngày tham gia:</span>
-                                            <span class="text-gray-700">{selectedUser.registration}</span>
-                                        </li>
-                                        <li class="flex border-b py-2">
-                                            <span class="font-bold w-24">Số điện thoại:</span>
-                                            <span class="text-gray-700">{selectedUser.phone}</span>
-                                        </li>
-                                        <li class="flex border-b py-2">
-                                            <span class="font-bold w-24">Email:</span>
-                                            <span class="text-gray-700">{selectedUser.email}</span>
-                                        </li>
-                                        <li class="flex border-b py-2">
-                                            <span class="font-bold w-24">Địa chỉ:</span>
-                                            <span class="text-gray-700">{selectedUser.address}</span>
-                                        </li>
-                                        <li class="flex border-b py-2">
-                                            <span class="font-bold w-24">Ghép thành công:</span>
-                                            <span class="text-gray-700">{selectedUser.matched_successed}</span>
-                                        </li>
-                                        <li class="flex border-b py-2">
-                                            <span class="font-bold w-24">Ghép thất bại:</span>
-                                            <span class="text-gray-700">{selectedUser.matched_failed}</span>
-                                        </li>
-                                        <li class="flex border-b py-2">
-                                            <span class="font-bold w-24">Sở thích:</span>
-                                            <span class="text-gray-700">
-                                                {selectedUser.interest_list.map((interest, index) => (
-                                                    <React.Fragment key={interest.interest_id}>
-                                                        {interest.interest_name}
-                                                        {index !== selectedUser.interest_list.length - 1 && ', '}
-                                                    </React.Fragment>
-                                                ))}</span>
-                                        </li>
-                                    </ul>
-                                </div>
+                    <div className="w-4/5 h-fit bg-white rounded-lg p-12 absolute overflow-y-auto left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 shadow-lg border border-gray-300">
+                        {selectedReport && (
+                            <div>
+                                <h2 className="text-2xl font-semibold mb-4">{selectedReport.title}</h2>
+                                <table className="w-full border-collapse">
+                                    <thead>
+                                        <tr className="bg-gray-100">
+                                            <th></th>
+                                            <th className="border border-gray-300 px-4 py-2">Người báo cáo</th>
+                                            <th className="border border-gray-300 px-4 py-2">Ngày báo cáo</th>
+                                            <th className="border border-gray-300 px-4 py-2">Trạng thái báo cáo</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {selectedReport.user_report.map((report, index) => (
+                                            <tr key={index} className={index % 2 === 0 ? "bg-gray-50" : ""}>
+                                                <td>{index}</td>
+                                                <td className="border border-gray-300 px-4 py-2">{report.reporter}</td>
+                                                <td className="border border-gray-300 px-4 py-2">{format(new Date(report.created_at), 'dd-MM-yyyy HH:mm')}</td>
+                                                <td className="border border-gray-300 px-4 py-2">{report.report_status}</td>
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </table>
                             </div>
-
                         )}
-                        <button onClick={() => setModalIsOpen(false)} className="absolute top-0 right-0 mt-2 mr-2  hover:bg-red-600 text-gray-800 font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+                        <button onClick={() => setModalIsOpen(false)} className="absolute top-0 right-0 mt-2 mr-2 hover:bg-red-600 text-gray-800 font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
                             <MdClose />
                         </button>
                     </div>
@@ -281,4 +239,4 @@ const UserTable = ({ users }) => {
     );
 };
 
-export default UserTable;
+export default ReportTable;
