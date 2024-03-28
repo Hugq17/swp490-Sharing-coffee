@@ -3,10 +3,10 @@ import { useTable, usePagination, useGlobalFilter, useSortBy } from 'react-table
 import Modal from 'react-modal';
 import { Card, Typography } from "@material-tailwind/react";
 import { format } from 'date-fns';
-import { BsCalendarDay } from "react-icons/bs";
-import { MdAccountBox } from "react-icons/md";
 import { MdClose } from "react-icons/md";
 import { GlobalFilter } from '../table/GlobalFilter';
+import { FaArrowDown, FaArrowUp } from "react-icons/fa";
+import { Checkbox } from '../table/checkbox';
 
 const BlogTable = ({ blogs }) => {
     const [selectedBlog, setSelectedBlog] = useState(null);
@@ -18,7 +18,7 @@ const BlogTable = ({ blogs }) => {
     const columns = useMemo(
         () => [
             {
-                Header: ' ',
+                Header: 'STT',
                 accessor: (row, index) => index + 1,
                 Cell: ({ value }) => <span>{value}</span>,
             },
@@ -41,6 +41,16 @@ const BlogTable = ({ blogs }) => {
                 Cell: ({ cell: { value } }) => <span>{format(new Date(value), 'dd-MM-yyyy HH:mm')}</span>, // Format the date
             },
             {
+                Header: 'Trạng thái',
+                accessor: 'is_approve',
+                Cell: ({ cell: { value } }) => <span>{value ? 'Đang hoạt động' : 'Bị từ chối'}</span>,
+            },
+            {
+                Header: 'Tình trạng',
+                accessor: 'is_visible',
+                Cell: ({ cell: { value } }) => <span>{value ? 'Hiển thị' : 'Bị xóa bởi người dùng'}</span>,
+            },
+            {
                 Header: 'Thông tin',
                 Cell: ({ row }) => (
                     <div className="flex justify-center">
@@ -61,6 +71,7 @@ const BlogTable = ({ blogs }) => {
         []
     );
 
+
     const {
         getTableProps,
         getTableBodyProps,
@@ -76,6 +87,8 @@ const BlogTable = ({ blogs }) => {
         pageCount,
         gotoPage,
         pageOptions,
+        allColumns,
+        getToggleHideAllColumnsProps,
         state,
         setPageSize
     } = useTable(
@@ -94,6 +107,24 @@ const BlogTable = ({ blogs }) => {
         <>
             <div className='mt-[40px] p-1'>
                 <GlobalFilter filter={globalFilter} setFilter={setGlobalFilter} />
+                <div className="checkbox-group flex  justify-center">
+                    <div className="checkbox-container">
+                        <Checkbox {...getToggleHideAllColumnsProps()} /><p className='text-xl font-sans'>Tất cả</p>
+                    </div>
+                    {
+                        allColumns.map(column => (
+                            <div key={column.id} className="checkbox-container">
+                                <label style={{ marginLeft: "30px" }}>
+                                    <input
+                                        type='checkbox' {...column.getToggleHiddenProps()}
+                                        className="mr-3"
+                                    />
+                                    <p className='text-xl font-sans'>{column.Header}</p>
+                                </label>
+                            </div>
+                        ))
+                    }
+                </div>
                 <Card className="h-full w-full overflow-scroll">
                     <table {...getTableProps()} className="w-full min-w-max table-auto text-left">
                         <thead >
@@ -104,19 +135,21 @@ const BlogTable = ({ blogs }) => {
                                             {...column.getHeaderProps(column.getSortByToggleProps())}
                                             className="border-b border-blue-gray-100 bg-blue-gray-50 p-4"
                                         >
-                                            <Typography
-                                                variant="small"
-                                                color="blue-gray"
-                                                className="leading-none opacity-70 font-bold text-3xl"
-                                            >{column.render('Header')}
-                                            </Typography>
-                                            <span>
-                                                {column.isSorted
-                                                    ? column.isSortedDesc
-                                                        ? ' 🔽'
-                                                        : ' 🔼'
-                                                    : ''}
-                                            </span>
+                                            <div className='flex items-center'>
+                                                <Typography
+                                                    variant="small"
+                                                    color="blue-gray"
+                                                    className="leading-none opacity-70 font-bold text-2xl"
+                                                >{column.render('Header')}
+                                                </Typography>
+                                                <span className='ml-5'>
+                                                    {column.isSorted
+                                                        ? column.isSortedDesc
+                                                            ? <FaArrowDown />
+                                                            : <FaArrowUp />
+                                                        : ''}
+                                                </span>
+                                            </div>
                                         </th>
                                     ))}
                                 </tr>
@@ -152,19 +185,6 @@ const BlogTable = ({ blogs }) => {
                             {pageIndex + 1} trên {pageOptions.length}
                         </strong>{' '}
                     </span>
-
-                    {/* <span className="flex items-center">
-                        Đi tới trang:{' '}
-                        <input
-                            type='number'
-                            value={pageIndex + 1}
-                            onChange={e => {
-                                const pageNumber = e.target.value ? Number(e.target.value) - 1 : 0;
-                                gotoPage(pageNumber);
-                            }}
-                            className="w-[100px] p-2 ml-3 text-center border border-gray-300 rounded-md focus:outline-none focus:border-indigo-500"
-                        />
-                    </span> */}
                     <select
                         className=" p-2 text-sm text-gray-700 bg-white border border-gray-300 rounded-md appearance-none focus:outline-none focus:border-indigo-500"
                         value={pageSize}
@@ -220,19 +240,27 @@ const BlogTable = ({ blogs }) => {
                 </div>
 
                 <Modal isOpen={modalIsOpen} onRequestClose={() => setModalIsOpen(false)} className="modal">
-                    <div className="w-4/5 bg-white rounded-lg p-12 absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 shadow-lg border border-gray-300">
+                    <div className=" w-4/5 bg-white rounded-lg p-12 absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 shadow-lg border border-gray-300">
                         {selectedBlog && (
-                            <div>
-
+                            <div className='flex flex-col items-center overflow-y-scroll h-[700px]'>
+                                <div className='flex'>
+                                    <h1 className='text-5xl font-bold font-sans'>{selectedBlog.title}</h1>
+                                </div>
+                                <div class="flex items-center gap-4 mt-4">
+                                    <img class="w-14 h-14 p-1 rounded-full ring-2 ring-gray-300 dark:ring-gray-500" src={selectedBlog.profile_avatar} />
+                                    <div class="font-medium dark:text-white text-[30px]">
+                                        <div>{selectedBlog.user_name}</div>
+                                        <div class="text-sm text-[16px] text-gray-500 dark:text-gray-400"> {format(new Date(selectedBlog.created_at), 'dd-MM-yyyy HH:mm')}</div>
+                                    </div>
+                                </div>
+                                <div className='font-sans mt-2 w-full text-lg '>{selectedBlog.content}</div>
                             </div>
                         )}
-                        <button onClick={() => setModalIsOpen(false)} className="absolute top-0 right-0 mt-2 mr-2  hover:bg-red-600 text-gray-800 font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+                        <button onClick={() => setModalIsOpen(false)} className="absolute top-0 right-0 mt-2 mr-2 hover:bg-red-600 text-gray-800 font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
                             <MdClose />
                         </button>
                     </div>
                 </Modal>
-
-
             </div>
         </>
     );

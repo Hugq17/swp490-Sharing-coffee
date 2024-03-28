@@ -1,59 +1,35 @@
 import React, { useMemo, useState } from 'react';
 import { useTable, usePagination, useGlobalFilter, useSortBy } from 'react-table';
-import Modal from 'react-modal';
 import { Card, Typography } from "@material-tailwind/react";
-import { format } from 'date-fns';
-import { BsCalendarDay } from "react-icons/bs";
-import { MdAccountBox } from "react-icons/md";
-import { MdClose } from "react-icons/md";
-import { CiLocationOn } from "react-icons/ci";
-import { AiOutlineUsergroupAdd } from "react-icons/ai";
 import { GlobalFilter } from '../table/GlobalFilter';
 import { FaArrowDown, FaArrowUp } from "react-icons/fa";
 import { Checkbox } from '../table/checkbox';
+import { MdClose } from "react-icons/md";
+import Modal from 'react-modal';
+import { format } from 'date-fns';
 
-
-const EventTable = ({ events }) => {
-    const [selectedEvent, setSelectedEvent] = useState(null);
+const ReportTable = ({ reports }) => {
+    const [selectedReport, setselectedReport] = useState(null);
     const [modalIsOpen, setModalIsOpen] = useState(false);
 
-
-    const data = useMemo(() => events, [events]);
+    const data = useMemo(() => reports, [reports]);
 
     const columns = useMemo(
         () => [
             {
                 Header: 'STT',
                 accessor: (row, index) => index + 1,
-                Cell: ({ value }) => <span>{value}</span>,
+                Cell: ({ value }) => <span className='text-xl'>{value}</span>
             },
             {
                 Header: 'Hình ảnh',
-                accessor: 'background_img',
-                Cell: ({ cell: { value } }) => <img src={value} alt="Hình ảnh" style={{ maxWidth: '100px', maxHeight: '100px' }} />,
+                accessor: 'image',
+                Cell: ({ cell: { value } }) => <img src={value} alt="Hình ảnh" style={{ maxWidth: '50px', maxHeight: '50px' }} />,
             },
             {
-                Header: 'Sự kiện',
+                Header: 'Bài viết',
                 accessor: 'title',
-            },
-            {
-                Header: 'Người tạo',
-                accessor: 'user_name',
-            },
-            {
-                Header: 'Ngày tạo',
-                accessor: 'created_at',
-                Cell: ({ cell: { value } }) => <span>{format(new Date(value), 'dd-MM-yyyy HH:mm')}</span>, // Format the date
-            },
-            {
-                Header: 'Ngày bắt đầu',
-                accessor: 'time_of_event',
-                Cell: ({ cell: { value } }) => <span>{format(new Date(value), 'dd-MM-yyyy HH:mm')}</span>, // Format the date
-            },
-            {
-                Header: 'Ngày kết thúc',
-                accessor: 'end_of_event',
-                Cell: ({ cell: { value } }) => <span>{format(new Date(value), 'dd-MM-yyyy HH:mm')}</span>, // Format the date
+                Cell: ({ value }) => <span className='text-xl'>{value}</span>
             },
             {
                 Header: 'Thông tin',
@@ -61,7 +37,7 @@ const EventTable = ({ events }) => {
                     <div className="flex justify-center">
                         <button
                             onClick={() => {
-                                setSelectedEvent(row.original);
+                                setselectedReport(row.original);
                                 setModalIsOpen(true);
                             }}
                             type="button"
@@ -75,6 +51,7 @@ const EventTable = ({ events }) => {
         ],
         []
     );
+
 
     const {
         getTableProps,
@@ -99,13 +76,13 @@ const EventTable = ({ events }) => {
         {
             columns,
             data,
-            initialState: { pageIndex: 0 }, // Start at page 0
+            initialState: { pageIndex: 0 },
         },
         useGlobalFilter,
-        useSortBy,
+        useSortBy, // Place useSortBy before usePagination
         usePagination
     );
-    const { globalFilter, pageSize, pageIndex } = state
+    const { globalFilter, pageSize, pageIndex } = state;
 
     return (
         <>
@@ -131,12 +108,12 @@ const EventTable = ({ events }) => {
                 </div>
                 <Card className="h-full w-full overflow-scroll">
                     <table {...getTableProps()} className="w-full min-w-max table-auto text-left">
-                        <thead >
+                        <thead>
                             {headerGroups.map(headerGroup => (
                                 <tr {...headerGroup.getHeaderGroupProps()}>
                                     {headerGroup.headers.map(column => (
                                         <th
-                                            {...column.getHeaderProps(column.getSortByToggleProps())}
+                                            {...column.getHeaderProps(column.getSortByToggleProps())} // Thêm vào đây
                                             className="border-b border-blue-gray-100 bg-blue-gray-50 p-4"
                                         >
                                             <div className='flex items-center'>
@@ -166,13 +143,11 @@ const EventTable = ({ events }) => {
                                     <tr {...row.getRowProps()} className="even:bg-blue-gray-50/50">
                                         {row.cells.map(cell => {
                                             return (
-
                                                 <td
                                                     {...cell.getCellProps()}
                                                     className="p-4"
                                                 >
-                                                    <Typography variant="small" className="font-sans text-black text-xl"> {cell.render('Cell')}</Typography>
-
+                                                    <Typography variant="small" className="font-sans"> {cell.render('Cell')}</Typography>
                                                 </td>
                                             );
                                         })}
@@ -189,19 +164,6 @@ const EventTable = ({ events }) => {
                             {pageIndex + 1} trên {pageOptions.length}
                         </strong>{' '}
                     </span>
-
-                    {/* <span className="flex items-center">
-                        Đi tới trang:{' '}
-                        <input
-                            type='number'
-                            value={pageIndex + 1}
-                            onChange={e => {
-                                const pageNumber = e.target.value ? Number(e.target.value) - 1 : 0;
-                                gotoPage(pageNumber);
-                            }}
-                            className="w-[100px] p-2 ml-3 text-center border border-gray-300 rounded-md focus:outline-none focus:border-indigo-500"
-                        />
-                    </span> */}
                     <select
                         className=" p-2 text-sm text-gray-700 bg-white border border-gray-300 rounded-md appearance-none focus:outline-none focus:border-indigo-500"
                         value={pageSize}
@@ -215,21 +177,6 @@ const EventTable = ({ events }) => {
                             ))
                         }
                     </select>
-
-                    <button
-                        className=" p-2 text-sm text-white bg-blue-500 rounded-md focus:outline-none focus:bg-blue-600"
-                        onClick={() => gotoPage(0)}
-                        disabled={!canPreviousPage}
-                    >
-                        {'<<'}
-                    </button>
-                    <button
-                        className="p-2 text-sm text-white bg-blue-500 rounded-md focus:outline-none focus:bg-blue-600"
-                        onClick={() => previousPage()}
-                        disabled={!canPreviousPage}
-                    >
-                        {"<"}
-                    </button>
                     {pageOptions.slice(0, Math.min(pageIndex + 5, pageOptions.length)).map((page, index) => (
                         <button
                             key={index}
@@ -255,80 +202,41 @@ const EventTable = ({ events }) => {
                         {'>>'}
                     </button>
                 </div>
-
                 <Modal isOpen={modalIsOpen} onRequestClose={() => setModalIsOpen(false)} className="modal">
-                    <div className="bg-white rounded-lg p-12 absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 shadow-lg border border-gray-300">
-                        {selectedEvent && (
-                            <div className="mb-4 flex font-sans">
-                                <div className=''>
-                                    <img src={selectedEvent.background_img} alt="Event Image" className="w-24 h-24 object-cover rounded-md mr-2" />
-                                    <div className='border-[1px] p-1 ml-1 mt-3 mr-2 flex justify-center rounded-xl bg-[#40A2E3]'>
-                                        <p className='text-white'>
-                                            {selectedEvent.name ? selectedEvent.name : 'Chưa có chủ đề'}
-                                        </p>
-                                    </div>
-                                </div>
-                                <div className='border-[1px] p-3 '>
-                                    <h2 className='text-2xl font-bold  text-blue-500'>{selectedEvent.title}</h2>
-                                    <div className='flex items-center mt-3'>
-                                        <div className='flex items-center'>
-                                            <BsCalendarDay />
-                                            <p className="ml-3">{format(new Date(selectedEvent.created_at), 'dd-MM-yyyy')}</p>
-                                        </div>
-                                        <div className='flex items-center ml-8'>
-                                            <CiLocationOn />
-                                            <p className="ml-1">{selectedEvent.location}</p>
-                                        </div>
-                                    </div>
-                                    <div className='flex items-center mt-3'>
-                                        <div className='flex items-center'>
-                                            <MdAccountBox />
-                                            <p className="ml-4">{selectedEvent.user_name}</p>
-                                        </div>
-                                        <div className='flex items-center ml-12'>
-                                            <AiOutlineUsergroupAdd />
-                                            <p className="ml-1">{selectedEvent.participants_count}</p>
-                                        </div>
-                                    </div>
-
-                                    {/* <div className='flex items-center mt-3'>
-                                        <AiOutlineLike />
-                                        <p className="ml-4">{selectedBlog.likes_count}</p>
-                                    </div>
-                                    <div className='flex items-center mt-3'>
-                                        <FaRegComments />
-                                        <p className="ml-4">{selectedBlog.comments_count}</p>
-                                    </div> */}
-                                    <div className='mt-3 w-[500px]'>
-                                        <p className='text-xl font-semibold'>Mô tả:</p>
-                                        <p>{selectedEvent.description}</p>
-                                    </div>
-
-                                    <div className='mt-5 flex'>
-                                        <div className={`border-[1px] w-[90px] rounded-xl flex justify-center items-center h-[40px] ${selectedEvent.is_approve ? 'bg-[#11AC83]' : 'bg-gray-300'}`}>
-                                            <p className={selectedEvent.is_approve ? 'text-white' : 'text-black'}>
-                                                {selectedEvent.is_approve ? 'Đã duyệt' : 'Chưa duyệt'}
-                                            </p>
-                                        </div>
-                                        {selectedEvent.is_approve ? null : (
-                                            <div className="border-[1px] w-[90px] rounded-xl flex justify-center ml-5 items-center h-[40px] bg-[#245BCA]">
-                                                <p>Đoạn văn bản bạn muốn hiển thị khi is_approve là false</p>
-                                            </div>
-                                        )}
-                                    </div>
-                                </div>
+                    <div className="w-4/5 h-fit bg-white rounded-lg p-12 absolute overflow-y-auto left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 shadow-lg border border-gray-300">
+                        {selectedReport && (
+                            <div>
+                                <h2 className="text-2xl font-semibold mb-4">{selectedReport.title}</h2>
+                                <table className="w-full border-collapse">
+                                    <thead>
+                                        <tr className="bg-gray-100">
+                                            <th></th>
+                                            <th className="border border-gray-300 px-4 py-2">Người báo cáo</th>
+                                            <th className="border border-gray-300 px-4 py-2">Ngày báo cáo</th>
+                                            <th className="border border-gray-300 px-4 py-2">Trạng thái báo cáo</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {selectedReport.user_report.map((report, index) => (
+                                            <tr key={index} className={index % 2 === 0 ? "bg-gray-50" : ""}>
+                                                <td>{index}</td>
+                                                <td className="border border-gray-300 px-4 py-2">{report.reporter}</td>
+                                                <td className="border border-gray-300 px-4 py-2">{format(new Date(report.created_at), 'dd-MM-yyyy HH:mm')}</td>
+                                                <td className="border border-gray-300 px-4 py-2">{report.report_status}</td>
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </table>
                             </div>
                         )}
-                        <button onClick={() => setModalIsOpen(false)} className="absolute top-0 right-0 mt-2 mr-2  hover:bg-red-600 text-gray-800 font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+                        <button onClick={() => setModalIsOpen(false)} className="absolute top-0 right-0 mt-2 mr-2 hover:bg-red-600 text-gray-800 font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
                             <MdClose />
                         </button>
                     </div>
-                </Modal >
-
-
+                </Modal>
             </div >
         </>
     );
 };
 
-export default EventTable;
+export default ReportTable;

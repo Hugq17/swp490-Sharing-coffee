@@ -63,7 +63,7 @@ export default function Admin(props) {
     // document.documentElement.dir = "ltr";
     return (
         <div className="flex h-full w-full bg-zinc-950">
-            <Sidebar open={open} onClose={() => setOpen(false)} />
+            <Sidebar open={open} onClose={() => setOpen(true)} />
             {/* Navbar & Main Content */}
             <div className="h-full w-full bg-white">
                 {/* Main Content */}
@@ -71,9 +71,6 @@ export default function Admin(props) {
                 <main
                     className={`mx-[12px] h-full flex-none transition-all md:pr-2 xl:ml-[313px]`}
                 >
-                    {/*<button onClick={handleCloseSidebar}>Ẩn Sidebar</button>*/}
-
-                    {/* Routes */}
                     <div className="h-full">
                         <Navbar
                             onOpenSidenav={() => setOpen(true)}
@@ -90,10 +87,8 @@ export default function Admin(props) {
                                     element={<Navigate to="/admin/default" replace />}
                                 />
                             </Routes>
+
                         </div>
-                        {/* <div className="p-3">
-                            <Footer />
-                        </div> */}
                     </div>
                 </main>
             </div>

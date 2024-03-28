@@ -12,14 +12,14 @@ const Sidebar = ({ open, onClose }) => {
     }, [])
     return (
         <div
-            className={`sm:none duration-175 linear fixed !z-50 flex min-h-full flex-col bg-[#B68271] pb-10 shadow-2xl shadow-white/5 transition-all dark:!bg-navy-800 dark:text-white md:!z-50 lg:!z-50 xl:!z-0 ${open ? "translate-x-0" : "-translate-x-96"
+            className={`sm:none duration-175 linear fixed !z-50 flex min-h-full flex-col bg-gradient-to-b from-[#BE9A88] to-[#E6CCAF]pb-10 shadow-2xl shadow-white/5 transition-all dark:!bg-navy-800 dark:text-white md:!z-50 lg:!z-50 xl:!z-0 ${open ? "translate-x-0" : "-translate-x-96"
                 }`}
         >
             <span
                 className="absolute top-4 right-4 block cursor-pointer xl:hidden"
                 onClick={onClose}
             >
-                {/* <HiX /> */} <button>Close</button>
+                <button>Close</button>
             </span>
 
             <div className={`mx-[56px] mt-[50px] flex items-center`}>
