@@ -1,7 +1,7 @@
 import React, { useMemo, useState } from 'react';
 import { useTable, usePagination, useGlobalFilter, useSortBy } from 'react-table';
 import Modal from 'react-modal';
-import { Card, Typography } from "@material-tailwind/react";
+import { Card, Typography, select } from "@material-tailwind/react";
 import { format } from 'date-fns';
 import { MdClose } from "react-icons/md";
 import { GlobalFilter } from '../table/GlobalFilter';
@@ -11,7 +11,6 @@ import { Checkbox } from '../table/checkbox';
 const BlogTable = ({ blogs }) => {
     const [selectedBlog, setSelectedBlog] = useState(null);
     const [modalIsOpen, setModalIsOpen] = useState(false);
-
 
     const data = useMemo(() => blogs, [blogs]);
 
@@ -70,8 +69,6 @@ const BlogTable = ({ blogs }) => {
         ],
         []
     );
-
-
     const {
         getTableProps,
         getTableBodyProps,
@@ -102,7 +99,6 @@ const BlogTable = ({ blogs }) => {
         usePagination
     );
     const { globalFilter, pageSize, pageIndex } = state
-
     return (
         <>
             <div className='mt-[40px] p-1'>
@@ -238,23 +234,40 @@ const BlogTable = ({ blogs }) => {
                         {'>>'}
                     </button>
                 </div>
-
                 <Modal isOpen={modalIsOpen} onRequestClose={() => setModalIsOpen(false)} className="modal">
                     <div className=" w-4/5 bg-white rounded-lg p-12 absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 shadow-lg border border-gray-300">
                         {selectedBlog && (
-                            <div className='flex flex-col items-center overflow-y-scroll h-[700px]'>
-                                <div className='flex'>
-                                    <h1 className='text-5xl font-bold font-sans'>{selectedBlog.title}</h1>
+                            <main class="mt-10 overflow-y-scroll h-[700px] w-full">
+                                <div class="mb-4 md:mb-0 w-full mx-auto relative">
+                                    <div class="px-4 lg:px-0">
+                                        <h2 class="text-4xl font-semibold text-gray-800 leading-tight mb-4">
+                                            {selectedBlog.title}
+                                        </h2>
+                                    </div>
+                                    <img src={selectedBlog.image} class="w-full object-cover lg:rounded" />
                                 </div>
-                                <div class="flex items-center gap-4 mt-4">
-                                    <img class="w-14 h-14 p-1 rounded-full ring-2 ring-gray-300 dark:ring-gray-500" src={selectedBlog.profile_avatar} />
-                                    <div class="font-medium dark:text-white text-[30px]">
-                                        <div>{selectedBlog.user_name}</div>
-                                        <div class="text-sm text-[16px] text-gray-500 dark:text-gray-400"> {format(new Date(selectedBlog.created_at), 'dd-MM-yyyy HH:mm')}</div>
+                                <div class="flex flex-col lg:flex-row lg:space-x-12">
+
+                                    <div class="px-4 lg:px-0 mt-12 text-gray-700 text-xl leading-relaxed w-full lg:w-3/4">
+                                        <p>{selectedBlog.content}</p>
+                                    </div>
+                                    <div class="w-full lg:w-1/4 m-auto mt-12 max-w-screen-sm">
+                                        <div class="p-4 border-t border-b md:border md:rounded">
+                                            <div class="flex py-2">
+                                                <img src={selectedBlog.profile_avatar}
+                                                    class="h-10 w-10 rounded-full mr-2 object-cover" />
+                                                <div>
+                                                    <p class="font-semibold text-gray-700 text-sm"> {selectedBlog.user_name}</p>
+                                                </div>
+                                            </div>
+                                            {/* <p class="text-gray-700 py-3">
+                                                Mike writes about technology
+                                                Yourself required no at thoughts delicate landlord it be. Branched dashwood do is whatever it.
+                                            </p> */}
+                                        </div>
                                     </div>
                                 </div>
-                                <div className='font-sans mt-2 w-full text-lg '>{selectedBlog.content}</div>
-                            </div>
+                            </main>
                         )}
                         <button onClick={() => setModalIsOpen(false)} className="absolute top-0 right-0 mt-2 mr-2 hover:bg-red-600 text-gray-800 font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
                             <MdClose />

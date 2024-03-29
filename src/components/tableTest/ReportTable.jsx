@@ -203,7 +203,7 @@ const ReportTable = ({ reports }) => {
                     </button>
                 </div>
                 <Modal isOpen={modalIsOpen} onRequestClose={() => setModalIsOpen(false)} className="modal">
-                    <div className="w-4/5 h-fit bg-white rounded-lg p-12 absolute overflow-y-auto left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 shadow-lg border border-gray-300">
+                    <div className="w-4/5 h-2/3 bg-white rounded-lg p-12 absolute overflow-y-auto left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 shadow-lg border border-gray-300">
                         {selectedReport && (
                             <div>
                                 <h2 className="text-2xl font-semibold mb-4">{selectedReport.title}</h2>

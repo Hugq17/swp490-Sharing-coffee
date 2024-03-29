@@ -39,9 +39,12 @@ const UserTable = ({ users }) => {
             {
                 Header: 'Trạng thái',
                 accessor: 'is_available',
-                Cell: ({ value }) => <span className='text-xl'>{value}</span>
+                Cell: ({ value }) => (
+                    <span className={`text-xl ${value ? 'text-green-500' : 'text-red-500'}`}>
+                        {value ? 'Đang hoạt động' : 'Vô hiệu hóa'}
+                    </span>
+                )
             },
-
             {
                 Header: 'Thông tin',
                 Cell: ({ row }) => (
