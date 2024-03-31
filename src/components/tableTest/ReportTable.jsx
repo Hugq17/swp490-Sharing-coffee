@@ -41,10 +41,10 @@ const ReportTable = ({ reports }) => {
                                 type="checkbox"
                                 className="sr-only"
                                 checked={value}
-                                onChange={() => handleStatusChange(!value)}
+                            // onChange={() => handleStatusChange(!value)}
                             />
-                            <div className="toggle__line w-10 h-4 bg-gray-400 rounded-full shadow-inner"></div>
-                            <div className={`toggle__dot absolute w-6 h-6 bg-white rounded-full shadow top-0 left-0 transition-transform transform ${value ? 'translate-x-6' : 'translate-x-0'}`}></div>
+                            {/* <div className="toggle__line w-10 h-4 bg-gray-400 rounded-full shadow-inner"></div> */}
+                            {/* <div className={`toggle__dot absolute w-6 h-6 bg-white rounded-full shadow top-0 left-0 transition-transform transform ${value ? 'translate-x-6' : 'translate-x-0'}`}></div> */}
                         </div>
                         <div className="ml-3 text-gray-700 font-medium">Toggle</div>
                     </label>
