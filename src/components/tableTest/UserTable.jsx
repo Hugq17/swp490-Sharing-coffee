@@ -6,7 +6,7 @@ import { FaArrowDown, FaArrowUp } from "react-icons/fa";
 import { Checkbox } from '../table/checkbox';
 import { MdClose } from "react-icons/md";
 import Modal from 'react-modal';
-
+import coffeAvatar from '../../assets/img/coffe-avatar.jpg'
 
 const UserTable = ({ users }) => {
     const [selectedUser, setSelectedUser] = useState(null);
@@ -24,7 +24,12 @@ const UserTable = ({ users }) => {
             {
                 Header: 'Hình ảnh',
                 accessor: 'profile_avatar',
-                Cell: ({ cell: { value } }) => <img src={value} alt="Hình ảnh" style={{ maxWidth: '50px', maxHeight: '50px' }} />,
+                Cell: ({ cell: { value } }) => {
+                    if (!value || value === '' || value === null) {
+                        return <img src={coffeAvatar} style={{ maxWidth: '50px', maxHeight: '50px' }} />;
+                    }
+                    return <img src={value} alt="Hình ảnh" style={{ maxWidth: '50px', maxHeight: '50px' }} />;
+                }
             },
             {
                 Header: 'Người dùng',

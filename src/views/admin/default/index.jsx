@@ -4,7 +4,7 @@ import CountUp from 'react-countup';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { format } from 'date-fns';
-
+import { MdOutlineLocalCafe } from "react-icons/md";
 const DashboardAdmin = () => {
     const [profitData, setProfitData] = useState([]);
     const [events, setEvents] = useState([]);
@@ -30,6 +30,9 @@ const DashboardAdmin = () => {
                         case 'Blog':
                             icon = <Icon.Bold />;
                             break;
+                        case 'Total Matched':
+                            icon = <MdOutlineLocalCafe />;
+                            break;
                         default:
                             break;
                     }
@@ -38,7 +41,8 @@ const DashboardAdmin = () => {
                         title: entity.entity_type === 'Blog' ? `Tổng số bài viết` :
                             entity.entity_type === 'Account' ? `Tổng số tài khoản` :
                                 entity.entity_type === 'Event' ? `Tổng số sự kiện` :
-                                    `Tổng số ${entity.entity_type}s`,
+                                    entity.entity_type === 'Total Matched' ? `Tổng số lượt ghép thành công` :
+                                        `Tổng số ${entity.entity_type}s`,
                         amount: entity.entity_count
                     };
                 });

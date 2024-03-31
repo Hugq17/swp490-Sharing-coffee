@@ -244,7 +244,7 @@ const BlogTable = ({ blogs }) => {
                                             {selectedBlog.title}
                                         </h2>
                                     </div>
-                                    <img src={selectedBlog.image} class="w-full object-cover lg:rounded" />
+                                    <img src={selectedBlog.image} class="w-fit h-fit object-cover lg:rounded" />
                                 </div>
                                 <div class="flex flex-col lg:flex-row lg:space-x-12">
 
@@ -260,10 +260,6 @@ const BlogTable = ({ blogs }) => {
                                                     <p class="font-semibold text-gray-700 text-sm"> {selectedBlog.user_name}</p>
                                                 </div>
                                             </div>
-                                            {/* <p class="text-gray-700 py-3">
-                                                Mike writes about technology
-                                                Yourself required no at thoughts delicate landlord it be. Branched dashwood do is whatever it.
-                                            </p> */}
                                         </div>
                                     </div>
                                 </div>
