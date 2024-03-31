@@ -33,13 +33,6 @@ const Sidebar = ({ open, onClose }) => {
             <ul className="mb-auto pt-1">
                 <Links routes={routes} />
             </ul>
-
-            {/* Free Horizon Card */}
-            {/* <div className="flex justify-center">
-                <SidebarCard />
-            </div> */}
-
-            {/* Nav item end */}
             <span className="flex justify-center ml-[100px] cursor-pointer border-2 w-fit  rounded-xl ">
                 <button className="hover:bg-red-600 text-gray-800 font-bold w-max p-3 rounded-xl focus:outline-none focus:shadow-outline" onClick={() => {
                     localStorage.removeItem('token');

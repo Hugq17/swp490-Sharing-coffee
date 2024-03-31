@@ -7,6 +7,7 @@ import { MdClose } from "react-icons/md";
 import { GlobalFilter } from '../table/GlobalFilter';
 import { FaArrowDown, FaArrowUp } from "react-icons/fa";
 import { Checkbox } from '../table/checkbox';
+import { LiaUserTagSolid } from "react-icons/lia";
 
 const BlogTable = ({ blogs }) => {
     const [selectedBlog, setSelectedBlog] = useState(null);
@@ -237,30 +238,22 @@ const BlogTable = ({ blogs }) => {
                 <Modal isOpen={modalIsOpen} onRequestClose={() => setModalIsOpen(false)} className="modal">
                     <div className=" w-4/5 bg-white rounded-lg p-12 absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 shadow-lg border border-gray-300">
                         {selectedBlog && (
-                            <main class="mt-10 overflow-y-scroll h-[700px] w-full">
-                                <div class="mb-4 md:mb-0 w-full mx-auto relative">
-                                    <div class="px-4 lg:px-0">
-                                        <h2 class="text-4xl font-semibold text-gray-800 leading-tight mb-4">
+                            <main className="mt-10 overflow-y-scroll h-[700px] w-full">
+                                <div className="mb-4 md:mb-0 w-full mx-auto relative">
+                                    <div className="px-4 lg:px-0">
+                                        <h2 className="text-4xl font-semibold text-gray-800 leading-tight mb-4">
                                             {selectedBlog.title}
                                         </h2>
+                                        <div className='flex items-center'>
+                                            <LiaUserTagSolid />
+                                            <p className="font-semibold text-gray-700 text-[20px] ml-3"> {selectedBlog.user_name}</p>
+                                        </div>
                                     </div>
-                                    <img src={selectedBlog.image} class="w-fit h-fit object-cover lg:rounded" />
+                                    <img src={selectedBlog.image} className="w-fit h-fit object-cover lg:rounded mt-5" />
                                 </div>
                                 <div class="flex flex-col lg:flex-row lg:space-x-12">
-
-                                    <div class="px-4 lg:px-0 mt-12 text-gray-700 text-xl leading-relaxed w-full lg:w-3/4">
+                                    <div className="px-4 lg:px-0 mt-12 text-gray-700 text-xl leading-relaxed w-full lg:w-3/4">
                                         <p>{selectedBlog.content}</p>
-                                    </div>
-                                    <div class="w-full lg:w-1/4 m-auto mt-12 max-w-screen-sm">
-                                        <div class="p-4 border-t border-b md:border md:rounded">
-                                            <div class="flex py-2">
-                                                <img src={selectedBlog.profile_avatar}
-                                                    class="h-10 w-10 rounded-full mr-2 object-cover" />
-                                                <div>
-                                                    <p class="font-semibold text-gray-700 text-sm"> {selectedBlog.user_name}</p>
-                                                </div>
-                                            </div>
-                                        </div>
                                     </div>
                                 </div>
                             </main>
