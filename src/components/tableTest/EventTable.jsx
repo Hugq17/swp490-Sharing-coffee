@@ -260,63 +260,7 @@ const EventTable = ({ events }) => {
                     <div className="bg-white rounded-lg p-12 absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 shadow-lg border border-gray-300">
                         {selectedEvent && (
                             <div className="mb-4 flex font-sans">
-                                <div className=''>
-                                    <img src={selectedEvent.background_img} alt="Event Image" className="w-24 h-24 object-cover rounded-md mr-2" />
-                                    <div className='border-[1px] p-1 ml-1 mt-3 mr-2 flex justify-center rounded-xl bg-[#40A2E3]'>
-                                        <p className='text-white'>
-                                            {selectedEvent.name ? selectedEvent.name : 'Chưa có chủ đề'}
-                                        </p>
-                                    </div>
-                                </div>
-                                <div className='border-[1px] p-3 '>
-                                    <h2 className='text-2xl font-bold  text-blue-500'>{selectedEvent.title}</h2>
-                                    <div className='flex items-center mt-3'>
-                                        <div className='flex items-center'>
-                                            <BsCalendarDay />
-                                            <p className="ml-3">{format(new Date(selectedEvent.created_at), 'dd-MM-yyyy')}</p>
-                                        </div>
-                                        <div className='flex items-center ml-8'>
-                                            <CiLocationOn />
-                                            <p className="ml-1">{selectedEvent.location}</p>
-                                        </div>
-                                    </div>
-                                    <div className='flex items-center mt-3'>
-                                        <div className='flex items-center'>
-                                            <MdAccountBox />
-                                            <p className="ml-4">{selectedEvent.user_name}</p>
-                                        </div>
-                                        <div className='flex items-center ml-12'>
-                                            <AiOutlineUsergroupAdd />
-                                            <p className="ml-1">{selectedEvent.participants_count}</p>
-                                        </div>
-                                    </div>
 
-                                    {/* <div className='flex items-center mt-3'>
-                                        <AiOutlineLike />
-                                        <p className="ml-4">{selectedBlog.likes_count}</p>
-                                    </div>
-                                    <div className='flex items-center mt-3'>
-                                        <FaRegComments />
-                                        <p className="ml-4">{selectedBlog.comments_count}</p>
-                                    </div> */}
-                                    <div className='mt-3 w-[500px]'>
-                                        <p className='text-xl font-semibold'>Mô tả:</p>
-                                        <p>{selectedEvent.description}</p>
-                                    </div>
-
-                                    <div className='mt-5 flex'>
-                                        <div className={`border-[1px] w-[90px] rounded-xl flex justify-center items-center h-[40px] ${selectedEvent.is_approve ? 'bg-[#11AC83]' : 'bg-gray-300'}`}>
-                                            <p className={selectedEvent.is_approve ? 'text-white' : 'text-black'}>
-                                                {selectedEvent.is_approve ? 'Đã duyệt' : 'Chưa duyệt'}
-                                            </p>
-                                        </div>
-                                        {selectedEvent.is_approve ? null : (
-                                            <div className="border-[1px] w-[90px] rounded-xl flex justify-center ml-5 items-center h-[40px] bg-[#245BCA]">
-                                                <p>Đoạn văn bản bạn muốn hiển thị khi is_approve là false</p>
-                                            </div>
-                                        )}
-                                    </div>
-                                </div>
                             </div>
                         )}
                         <button onClick={() => setModalIsOpen(false)} className="absolute top-0 right-0 mt-2 mr-2  hover:bg-red-600 text-gray-800 font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">

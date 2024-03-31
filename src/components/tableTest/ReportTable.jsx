@@ -32,6 +32,26 @@ const ReportTable = ({ reports }) => {
                 Cell: ({ value }) => <span className='text-xl'>{value}</span>
             },
             {
+                Header: 'Trạng thái',
+                accessor: 'is_approve',
+                Cell: ({ cell: { value } }) => (
+                    <label className="flex items-center cursor-pointer">
+                        <div className="relative">
+                            <input
+                                type="checkbox"
+                                className="sr-only"
+                                checked={value}
+                            // onChange={() => handleStatusChange(!value)}
+                            />
+                            {/* <div className="toggle__line w-10 h-4 bg-gray-400 rounded-full shadow-inner"></div> */}
+                            {/* <div className={`toggle__dot absolute w-6 h-6 bg-white rounded-full shadow top-0 left-0 transition-transform transform ${value ? 'translate-x-6' : 'translate-x-0'}`}></div> */}
+                        </div>
+                        <div className="ml-3 text-gray-700 font-medium">Toggle</div>
+                    </label>
+                ),
+            },
+
+            {
                 Header: 'Thông tin',
                 Cell: ({ row }) => (
                     <div className="flex justify-center">
@@ -203,7 +223,7 @@ const ReportTable = ({ reports }) => {
                     </button>
                 </div>
                 <Modal isOpen={modalIsOpen} onRequestClose={() => setModalIsOpen(false)} className="modal">
-                    <div className="w-4/5 h-fit bg-white rounded-lg p-12 absolute overflow-y-auto left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 shadow-lg border border-gray-300">
+                    <div className="w-4/5 h-2/3 bg-white rounded-lg p-12 absolute overflow-y-auto left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 shadow-lg border border-gray-300">
                         {selectedReport && (
                             <div>
                                 <h2 className="text-2xl font-semibold mb-4">{selectedReport.title}</h2>

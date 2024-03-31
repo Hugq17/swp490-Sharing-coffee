@@ -59,7 +59,6 @@ export default function Admin(props) {
             }
         });
     };
-
     // document.documentElement.dir = "ltr";
     return (
         <div className="flex h-full w-full bg-zinc-950">
@@ -67,7 +66,6 @@ export default function Admin(props) {
             {/* Navbar & Main Content */}
             <div className="h-full w-full bg-white">
                 {/* Main Content */}
-
                 <main
                     className={`mx-[12px] h-full flex-none transition-all md:pr-2 xl:ml-[313px]`}
                 >
@@ -87,7 +85,6 @@ export default function Admin(props) {
                                     element={<Navigate to="/admin/default" replace />}
                                 />
                             </Routes>
-
                         </div>
                     </div>
                 </main>
