@@ -7,6 +7,7 @@ import { Checkbox } from '../table/checkbox';
 import { MdClose } from "react-icons/md";
 import Modal from 'react-modal';
 import { format } from 'date-fns';
+import axios from 'axios';
 
 const ReportTable = ({ reports }) => {
     const [selectedReport, setselectedReport] = useState(null);
@@ -35,22 +36,11 @@ const ReportTable = ({ reports }) => {
                 Header: 'Trạng thái',
                 accessor: 'is_approve',
                 Cell: ({ cell: { value } }) => (
-                    <label className="flex items-center cursor-pointer">
-                        <div className="relative">
-                            <input
-                                type="checkbox"
-                                className="sr-only"
-                                checked={value}
-                            // onChange={() => handleStatusChange(!value)}
-                            />
-                            {/* <div className="toggle__line w-10 h-4 bg-gray-400 rounded-full shadow-inner"></div> */}
-                            {/* <div className={`toggle__dot absolute w-6 h-6 bg-white rounded-full shadow top-0 left-0 transition-transform transform ${value ? 'translate-x-6' : 'translate-x-0'}`}></div> */}
-                        </div>
-                        <div className="ml-3 text-gray-700 font-medium">Toggle</div>
-                    </label>
-                ),
+                    <span className={`text-xl ${value ? 'text-green-500' : 'text-red-500'}`}>
+                        {value ? 'Đang hoạt động' : 'Vô hiệu hóa'}
+                    </span>
+                )
             },
-
             {
                 Header: 'Thông tin',
                 Cell: ({ row }) => (
@@ -103,6 +93,63 @@ const ReportTable = ({ reports }) => {
         usePagination
     );
     const { globalFilter, pageSize, pageIndex } = state;
+    const [blogId, setBlogId] = useState("")
+    const token = localStorage.getItem('token');
+    const handleUpdateStatus = async (newStatus, blogId) => {
+        try {
+            // Lấy token từ localStorage
+            const token = localStorage.getItem('token');
+
+            // Kiểm tra nếu token không tồn tại, thông báo cho người dùng
+            if (!token) {
+                alert('Bạn cần đăng nhập để thực hiện hành động này.');
+                return;
+            }
+
+            // Gửi yêu cầu cập nhật trạng thái của bài viết
+            const response = await axios.put(
+                `https://sharing-coffee-be-capstone-com.onrender.com/api/admin/blog/${blogId}`,
+                { is_approve: newStatus },
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                }
+            );
+
+            // Kiểm tra kết quả và thông báo cho người dùng
+            if (response.status === 200) {
+                alert('Cập nhật trạng thái thành công!');
+            } else {
+                alert('Có lỗi xảy ra khi cập nhật trạng thái.');
+            }
+
+            // Đóng modal (nếu cần)
+            setModalIsOpen(false);
+        } catch (error) {
+            console.error('Error updating status:', error);
+            alert('Có lỗi xảy ra khi cập nhật trạng thái.');
+        }
+    };
+    const handleModal = (blog_id) => {
+        setBlogId(blog_id);
+        // Hiển thị cửa sổ lựa chọn và lấy kết quả từ người dùng
+        const choice = window.prompt("Chọn 'accept' để chấp nhận hoặc 'reject' để từ chối:");
+
+        // Kiểm tra sự lựa chọn từ người dùng và thực hiện hành động tương ứng
+        if (choice !== null) {
+            if (choice.toLowerCase() === 'accept') {
+                // Thực hiện hành động chấp nhận
+                handleUpdateStatus(true, blog_id);
+            } else if (choice.toLowerCase() === 'reject') {
+                // Thực hiện hành động từ chối
+                handleUpdateStatus(false, blog_id);
+            } else {
+                // Xử lý lựa chọn không hợp lệ
+                alert("Lựa chọn không hợp lệ!");
+            }
+        }
+    }
 
     return (
         <>
@@ -226,7 +273,15 @@ const ReportTable = ({ reports }) => {
                     <div className="w-4/5 h-2/3 bg-white rounded-lg p-12 absolute overflow-y-auto left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 shadow-lg border border-gray-300">
                         {selectedReport && (
                             <div>
-                                <h2 className="text-2xl font-semibold mb-4">{selectedReport.title}</h2>
+                                <div className='flex'>
+                                    <h2 className="text-2xl font-semibold mb-4">{selectedReport.title}</h2>
+                                    <button
+                                        className={`mb-4 ml-4 py-2 px-4 rounded ${selectedReport.is_approve ? 'bg-green-500' : 'bg-red-500'} text-white`}
+                                        onClick={() => handleModal(selectedReport.blog_id)}
+                                    >
+                                        {selectedReport.is_approve ? 'Đang hoạt động' : 'Vô hiệu hóa'}
+                                    </button>
+                                </div>
                                 <table className="w-full border-collapse">
                                     <thead>
                                         <tr className="bg-gray-100">

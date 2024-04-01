@@ -93,13 +93,13 @@ const routes = [
         path: "notifications",
         component: <NotificationForUser />
     },
-    {
-        name: "Admin",
-        layout: "/admin",
-        icon: <CgProfile style={{ width: '50px', height: '50px' }} />,
-        path: "profile",
-        component: <Profile />
-    },
+    // {
+    //     name: "Admin",
+    //     layout: "/admin",
+    //     icon: <CgProfile style={{ width: '50px', height: '50px' }} />,
+    //     path: "profile",
+    //     component: <Profile />
+    // },
 ]
 
 export default routes

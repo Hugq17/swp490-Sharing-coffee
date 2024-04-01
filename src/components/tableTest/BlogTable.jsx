@@ -43,7 +43,7 @@ const BlogTable = ({ blogs }) => {
             {
                 Header: 'Trạng thái',
                 accessor: 'is_approve',
-                Cell: ({ cell: { value } }) => <span>{value ? 'Đang hoạt động' : 'Bị từ chối'}</span>,
+                Cell: ({ cell: { value } }) => <span>{value ? 'Đang hoạt động' : 'Vô hiệu hóa'}</span>,
             },
             {
                 Header: 'Tình trạng',
