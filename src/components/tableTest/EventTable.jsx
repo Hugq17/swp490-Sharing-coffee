@@ -3,20 +3,16 @@ import { useTable, usePagination, useGlobalFilter, useSortBy } from 'react-table
 import Modal from 'react-modal';
 import { Card, Typography } from "@material-tailwind/react";
 import { format } from 'date-fns';
-import { BsCalendarDay } from "react-icons/bs";
-import { MdAccountBox } from "react-icons/md";
 import { MdClose } from "react-icons/md";
-import { CiLocationOn } from "react-icons/ci";
-import { AiOutlineUsergroupAdd } from "react-icons/ai";
 import { GlobalFilter } from '../table/GlobalFilter';
 import { FaArrowDown, FaArrowUp } from "react-icons/fa";
 import { Checkbox } from '../table/checkbox';
-
+import { LiaUserTagSolid } from "react-icons/lia";
+import { IoLocationOutline } from "react-icons/io5";
 
 const EventTable = ({ events }) => {
     const [selectedEvent, setSelectedEvent] = useState(null);
     const [modalIsOpen, setModalIsOpen] = useState(false);
-
 
     const data = useMemo(() => events, [events]);
 
@@ -259,9 +255,29 @@ const EventTable = ({ events }) => {
                 <Modal isOpen={modalIsOpen} onRequestClose={() => setModalIsOpen(false)} className="modal">
                     <div className="bg-white rounded-lg p-12 absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 shadow-lg border border-gray-300">
                         {selectedEvent && (
-                            <div className="mb-4 flex font-sans">
-
-                            </div>
+                            <main className="mt-10 overflow-y-scroll h-[700px] w-full flex flex-col items-center">
+                                <div className="mb-4">
+                                    <div className="px-4">
+                                        <h2 className="text-4xl font-semibold text-gray-800 mb-4">
+                                            {selectedEvent.title}
+                                        </h2>
+                                        <div className='flex items-center'>
+                                            <LiaUserTagSolid />
+                                            <p className="font-semibold text-gray-700 text-[20px] ml-3"> {selectedEvent.user_name}</p>
+                                        </div>
+                                        <div className='flex items-center'>
+                                            <IoLocationOutline />
+                                            <p className="font-semibold text-gray-700 text-[20px] ml-3"> {selectedEvent.location}</p>
+                                        </div>
+                                    </div>
+                                    <img src={selectedEvent.background_img} className="w-fit h-fit mt-5" />
+                                </div>
+                                <div class="flex flex-col lg:flex-row lg:space-x-12">
+                                    <div className="px-4 lg:px-0 mt-12 text-gray-700 text-xl leading-relaxed w-full lg:w-3/4">
+                                        <p>{selectedEvent.description}</p>
+                                    </div>
+                                </div>
+                            </main>
                         )}
                         <button onClick={() => setModalIsOpen(false)} className="absolute top-0 right-0 mt-2 mr-2  hover:bg-red-600 text-gray-800 font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
                             <MdClose />

@@ -24,6 +24,9 @@ import ManageInterestTable from "./views/admin/interest/ManageInterestTable";
 import InterestV4 from "./views/admin/interest/indexv4";
 import Report from "./views/admin/report";
 import { VscReport } from "react-icons/vsc";
+import ReportUser from "./views/admin/report/reportUser";
+import { AiOutlineHome } from "react-icons/ai";
+import ReportEvent from "./views/admin/report/reportEvent";
 
 const routes = [
     {
@@ -41,6 +44,7 @@ const routes = [
     {
         name: "Trang chủ",
         layout: "/admin",
+        icon: <AiOutlineHome style={{ width: '50px', height: '50px' }} />,
         path: "default",
         component: <MainDashboardAdmin />
     },
@@ -92,6 +96,20 @@ const routes = [
         icon: <IoMdNotificationsOutline style={{ width: '50px', height: '50px' }} />,
         path: "notifications",
         component: <NotificationForUser />
+    },
+    {
+        name: "",
+        layout: "/admin",
+        // icon: <IoMdNotificationsOutline style={{ width: '50px', height: '50px' }} />,
+        path: "report/reportUser",
+        component: <ReportUser />
+    },
+    {
+        name: "",
+        layout: "/admin",
+        // icon: <IoMdNotificationsOutline style={{ width: '50px', height: '50px' }} />,
+        path: "report/reportEvent",
+        component: <ReportEvent />
     },
     // {
     //     name: "Admin",

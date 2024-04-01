@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import ManageInterestTable from './ManageInterestTable';
 import InterestV4 from './indexv4';
 
 function App() {
@@ -97,7 +96,6 @@ function App() {
         }));
     };
 
-
     const addChildInterest = async (childName, parentId) => {
         try {
             const response = await axios.post(
@@ -124,7 +122,6 @@ function App() {
     const handleUpdateImg = (interest_id) => {
 
     }
-
 
     const [showPopup, setShowPopup] = useState(false);
     const [interest_id, setInterest_id] = useState("")
@@ -155,7 +152,6 @@ function App() {
     }
 
     // Gọi hàm để cập nhật mục quan tâm với interestId cụ thể
-
 
     const handleClosePopup = () => {
         setShowPopup(false);

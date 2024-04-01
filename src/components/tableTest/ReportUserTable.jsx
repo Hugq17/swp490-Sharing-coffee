@@ -11,7 +11,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { IoArrowForward } from "react-icons/io5";
 
-const ReportTable = ({ reports }) => {
+const ReportUserTable = ({ reports }) => {
     const [selectedReport, setselectedReport] = useState(null);
     const [modalIsOpen, setModalIsOpen] = useState(false);
     const navigate = useNavigate();
@@ -31,19 +31,19 @@ const ReportTable = ({ reports }) => {
                 Cell: ({ cell: { value } }) => <img src={value} alt="Hình ảnh" style={{ maxWidth: '50px', maxHeight: '50px' }} />,
             },
             {
-                Header: 'Bài viết',
-                accessor: 'title',
+                Header: 'Người dùng',
+                accessor: 'user_name',
                 Cell: ({ value }) => <span className='text-xl'>{value}</span>
             },
-            {
-                Header: 'Trạng thái',
-                accessor: 'is_approve',
-                Cell: ({ cell: { value } }) => (
-                    <span className={`text-xl ${value ? 'text-green-500' : 'text-red-500'}`}>
-                        {value ? 'Đang hoạt động' : 'Vô hiệu hóa'}
-                    </span>
-                )
-            },
+            // {
+            //     Header: 'Trạng thái',
+            //     accessor: 'is_approve',
+            //     Cell: ({ cell: { value } }) => (
+            //         <span className={`text-xl ${value ? 'text-green-500' : 'text-red-500'}`}>
+            //             {value ? 'Đang hoạt động' : 'Vô hiệu hóa'}
+            //         </span>
+            //     )
+            // },
             {
                 Header: 'Thông tin',
                 Cell: ({ row }) => (
@@ -64,7 +64,6 @@ const ReportTable = ({ reports }) => {
         ],
         []
     );
-
 
     const {
         getTableProps,
@@ -114,7 +113,7 @@ const ReportTable = ({ reports }) => {
 
             // Gửi yêu cầu cập nhật trạng thái của bài viết
             const response = await axios.put(
-                `https://sharing-coffee-be-capstone-com.onrender.com/api/admin/blog/${blogId}`,
+                `https://sharing-coffee-be-capstone-com.onrender.com/api/admin/user/${blogId}`,
                 { is_approve: newStatus },
                 {
                     headers: {
@@ -157,9 +156,9 @@ const ReportTable = ({ reports }) => {
         }
     }
     //-----------------------------Điều hướng---------------------------------------//
-    const handleClickReportUser = () => {
+    const handleClickReporBlog = () => {
         // Điều hướng đến một đường dẫn cụ thể khi người dùng click vào button
-        navigate('/admin/report/reportUser');
+        navigate('/admin/report');
     };
     const handleClickReportEvent = () => {
         // Điều hướng đến một đường dẫn cụ thể khi người dùng click vào button
@@ -171,9 +170,9 @@ const ReportTable = ({ reports }) => {
                 <div className='flex'>
                     <button
                         className='py-2 px-4 bg-[#F6EFED] rounded flex items-center justify-center transition duration-300 ease-in-out hover:bg-[#A4634D]'
-                        onClick={handleClickReportUser}
+                        onClick={handleClickReporBlog}
                     >
-                        <p>Bảng báo cáo người dùng</p>
+                        <p>Bảng báo cáo bài viết</p>
                         <IoArrowForward className='ml-2 mt-1' />
                     </button>
                     <button
@@ -204,7 +203,7 @@ const ReportTable = ({ reports }) => {
                     }
                 </div>
                 <Card className="h-full w-full overflow-scroll">
-                    <h2 className='font-sans text-2xl mb-3 font-medium'>Bảng báo cáo các bài viết</h2>
+                    <h2 className='font-sans text-2xl mb-3 font-medium'>Bảng báo cáo các người dùng</h2>
                     <table {...getTableProps()} className="w-full min-w-max table-auto text-left">
                         <thead>
                             {headerGroups.map(headerGroup => (
@@ -308,7 +307,7 @@ const ReportTable = ({ reports }) => {
                                     <h2 className="text-2xl font-semibold mb-4">{selectedReport.title}</h2>
                                     <button
                                         className={`mb-4 ml-4 py-2 px-4 rounded ${selectedReport.is_approve ? 'bg-green-500' : 'bg-red-500'} text-white`}
-                                        onClick={() => handleModal(selectedReport.blog_id)}
+                                        onClick={() => handleModal(selectedReport.user_id)}
                                     >
                                         {selectedReport.is_approve ? 'Đang hoạt động' : 'Vô hiệu hóa'}
                                     </button>
@@ -345,4 +344,4 @@ const ReportTable = ({ reports }) => {
     );
 };
 
-export default ReportTable;
+export default ReportUserTable;

@@ -20,7 +20,7 @@ const Navbar = (props) => {
     <nav className="sticky top-4 z-40 flex flex-row flex-wrap items-center justify-between rounded-xl bg-white/10 p-2 backdrop-blur-xl dark:bg-[#0b14374d] ml-3">
       <div className="ml-[6px]">
         <div className="h-6 w-full pt-1">
-          <a
+          {/* <a
             className="text-3xl font-normal text-navy-700 hover:underline dark:text-white dark:hover:text-white"
             href=" "
           >
@@ -29,7 +29,7 @@ const Navbar = (props) => {
               {" "}
               /{" "}
             </span>
-          </a>
+          </a> */}
           <Link
             className="text-3xl font-normal capitalize text-navy-700 hover:underline dark:text-white dark:hover:text-white"
             to="#"
