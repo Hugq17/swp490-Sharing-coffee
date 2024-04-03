@@ -52,8 +52,8 @@ export default function SignIn() {
             <div class="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0 w-[600px]">
                 <div class="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
                     <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
-                        <h1 class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
-                            Đăng nhập vào hệ thống
+                        <h1 class="text-3xl font-bold leading-tight tracking-tight text-gray-900 md:text-3xl dark:text-white">
+                            Sharing café
                         </h1>
                         <div class="space-y-4 md:space-y-6" action="#">
                             {status ? <p className="text-red-700 mb-6 flex justify-center"> Email hoặc mật khẩu không đúng</p> : ""}

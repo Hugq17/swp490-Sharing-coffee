@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import InterestV4 from './indexv4';
+import { LuUpload } from "react-icons/lu";
 
 function App() {
     const [data, setData] = useState([]);
@@ -63,6 +64,7 @@ function App() {
         setImage(file.secure_url)
         setLoading(false)
         console.log(file.secure_url)
+        setSelectedFile(e.target.files[0]);
     }
 
     //---------------------------------------------------------------------------------------------------------//
@@ -162,7 +164,11 @@ function App() {
     const toggleCodeVisibility = () => {
         setShowCurrentCode(!showCurrentCode);
     };
+    const [selectedFile, setSelectedFile] = useState(null);
 
+    const handleFileChange = (e) => {
+        setSelectedFile(e.target.files[0]);
+    };
     return (
         <div>
             {/* <h1 className="text-2xl font-bold mb-4">Data from API:</h1> */}
@@ -175,40 +181,45 @@ function App() {
                 {showCurrentCode && (
                     <div className='flex flex-col items-center justify-center'>
                         <div className="container mx-auto px-4 py-8">
-                            <div className="max-w-lg mx-auto bg-white shadow-md rounded px-8 py-6 flex">
-                                <div className="mb-4">
-                                    <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="fileInput">
-                                        Tải ảnh
+                            <div className="max-w-lg mx-auto bg-white shadow-md rounded px-8 py-6 flex flex-col justify-center items-center">
+                                <div className='border-black w-fit '>
+                                    <label htmlFor="fileInput" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white border-[1px]">
+                                        <div className='flex flex-col justify-center items-center p-3'>
+                                            <LuUpload />
+                                            <span className=''>Tải ảnh</span>
+                                        </div>
+                                        <input
+                                            type="file"
+                                            id="fileInput"
+                                            name="fileInput"
+                                            onChange={uploadImage}
+                                            style={{ display: 'none' }}
+                                        />
                                     </label>
-                                    <input
-                                        type='file'
-                                        name='file'
-                                        id='fileInput'
-                                        onChange={uploadImage}
-                                        className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                                    />
+                                    <div id="fileName">
+                                        {selectedFile && <p>{selectedFile.name}</p>}
+                                    </div>
                                 </div>
-                                <div className="mb-6 ml-3">
-                                    <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="nameInput">
-                                        Nhập chủ đề
-                                    </label>
-                                    <input
-                                        type='text'
-                                        name='name'
-                                        id='nameInput'
-                                        placeholder='Nhập chủ đề'
-                                        value={nameParent}
-                                        onChange={handleNameChange}
-                                        className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                                    />
-                                </div>
-                                <div className="flex items-center justify-between ml-2">
-                                    <button
-                                        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-                                        onClick={handleSubmit}
-                                    >
-                                        Thêm
-                                    </button>
+                                <div className='flex mt-4'>
+                                    <div>
+                                        <input
+                                            type='text'
+                                            name='name'
+                                            id='nameInput'
+                                            placeholder='Nhập chủ đề'
+                                            value={nameParent}
+                                            onChange={handleNameChange}
+                                            className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                        />
+                                    </div>
+                                    <div className="flex items-center justify-between ml-2">
+                                        <button
+                                            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                                            onClick={handleSubmit}
+                                        >
+                                            Thêm
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
