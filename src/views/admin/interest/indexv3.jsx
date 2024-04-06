@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import InterestV4 from './indexv4';
 import { LuUpload } from "react-icons/lu";
-import { IoIosClose } from "react-icons/io";
-
+import { IoSend } from "react-icons/io5";
+import { FaPen } from "react-icons/fa";
 function App() {
     const [data, setData] = useState([]);
     const [itemsWithNullParentId, setItemsWithNullParentId] = useState([]);
@@ -174,11 +174,10 @@ function App() {
     const handleInputChange = (event) => {
         setInputValue(event.target.value);
     };
-    const handleUpdateClick = async (interestId, newName) => {
+    const handleUpdateClick = async (interestId, newName, childName) => {
         try {
             const apiUrl = `https://sharing-coffee-be-capstone-com.onrender.com/api/interest/${interestId}`;
             const newData = { name: newName }; // Dữ liệu mới cần cập nhật
-
             // Gửi yêu cầu PUT để cập nhật thông tin
             const response = await axios.put(apiUrl, newData);
 
@@ -188,6 +187,7 @@ function App() {
                 // Cập nhật state `itemsWithNonNullParentId` với dữ liệu mới
                 const updatedItem = response.data; // Dữ liệu được trả về từ API sau khi cập nhật
                 // Cập nhật `itemsWithNonNullParentId` bằng cách thay thế hoặc thêm dữ liệu mới
+                setInputValue("")
                 setItemsWithNonNullParentId(prevData => {
                     // Kiểm tra xem item đã tồn tại trong danh sách chưa
                     const itemIndex = prevData.findIndex(item => item.id === updatedItem.id);
@@ -217,6 +217,7 @@ function App() {
         const updatedItems = [...itemsWithNonNullParentId];
         updatedItems[index].name = originalName; // Khôi phục tên ban đầu của mục
         setItemsWithNonNullParentId(updatedItems);
+        setInputValue("")
         setEditingIndex(-1); // Thoát khỏi chế độ chỉnh sửa
     };
     const [originalName, setOriginalName] = useState('');
@@ -313,31 +314,32 @@ function App() {
                                                 .map((childItem, childIndex) => (
                                                     <li key={childIndex} className="flex items-center justify-center p-2 border border-gray-300 rounded-xl m-2">
                                                         {editingIndex === childIndex ? (
-                                                            <div>
-                                                                <input
-                                                                    type="text"
-                                                                    value={inputValue}
-                                                                    onChange={(e) => handleInputChange(e, childIndex)}
-                                                                    className="border border-gray-400 px-2 py-1 rounded mr-2"
-                                                                />
-                                                                <button
-                                                                    className="text-blue-500 hover:text-blue-700"
-                                                                    onClick={() => handleUpdateClick(childItem.interest_id, inputValue)}
-                                                                >
-                                                                    Update
-                                                                </button>
-                                                                <button
-                                                                    className="text-red-500 hover:text-red-700 ml-2"
-                                                                    onClick={() => handleCancelClick(childIndex)}
-                                                                >
-                                                                    Cancel
-                                                                </button>
+                                                            <div className='flex flex-col justify-center items-center'>
+                                                                <div className='flex'>
+                                                                    <input
+                                                                        type="text"
+                                                                        value={inputValue}
+                                                                        onChange={(e) => handleInputChange(e, childIndex)}
+                                                                        className="border border-gray-400 px-2 py-1 rounded mr-2 w-full"
+                                                                    />
+                                                                    <button
+                                                                        className="text-blue-500 hover:text-blue-700"
+                                                                        onClick={() => handleUpdateClick(childItem.interest_id, inputValue, childItem.name)}
+                                                                    >
+                                                                        <IoSend />
+                                                                    </button>
+                                                                </div>
+                                                                <div className='flex'>
+                                                                    <button className="text-blue-500 hover:text-blue-700 hover:underline ml-2" onClick={() => handleCancelClick(childIndex)}>
+                                                                        Hủy
+                                                                    </button>
+                                                                </div>
                                                             </div>
                                                         ) : (
                                                             <>
-                                                                {childItem.name}
+                                                                <p className='font-sans text-lg'>{childItem.name}</p>
                                                                 <button className="ml-2 text-red-500 hover:text-red-700" onClick={() => setEditingIndex(childIndex)}>
-                                                                    Update
+                                                                    <FaPen className='text-black' />
                                                                 </button>
                                                             </>
                                                         )}
