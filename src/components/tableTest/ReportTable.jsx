@@ -111,7 +111,6 @@ const ReportTable = ({ reports }) => {
                 alert('Bạn cần đăng nhập để thực hiện hành động này.');
                 return;
             }
-
             // Gửi yêu cầu cập nhật trạng thái của bài viết
             const response = await axios.put(
                 `https://sharing-coffee-be-capstone-com.onrender.com/api/admin/blog/${blogId}`,
@@ -170,7 +169,7 @@ const ReportTable = ({ reports }) => {
             <div className='mt-[40px] p-1'>
                 <div className='flex'>
                     <button
-                        className='py-2 px-4 bg-[#F6EFED] rounded flex items-center justify-center transition duration-300 ease-in-out hover:bg-[#A4634D]'
+                        className='py-2 px-4 bg-[#F6EFED] rounded flex items-center justify-center transition duration-300 ease-in-out hover:bg-[#A4634D] hover:text-white'
                         onClick={handleClickReportUser}
                     >
                         <p>Bảng báo cáo người dùng</p>
