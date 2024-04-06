@@ -47,18 +47,16 @@ const ReportUserTable = ({ reports }) => {
             {
                 Header: 'Thông tin',
                 Cell: ({ row }) => (
-                    <div className="flex justify-center">
-                        <button
-                            onClick={() => {
-                                setselectedReport(row.original);
-                                setModalIsOpen(true);
-                            }}
-                            type="button"
-                            className="text-xl text-[#2579f2]"
-                        >
-                            Chi tiết
-                        </button>
-                    </div>
+                    <button
+                        onClick={() => {
+                            setselectedReport(row.original);
+                            setModalIsOpen(true);
+                        }}
+                        type="button"
+                        className="text-xl text-[#2579f2]"
+                    >
+                        Chi tiết
+                    </button>
                 ),
             },
         ],
@@ -169,7 +167,7 @@ const ReportUserTable = ({ reports }) => {
             <div className='mt-[40px] p-1'>
                 <div className='flex'>
                     <button
-                        className='py-2 px-4 bg-[#F6EFED] rounded flex items-center justify-center transition duration-300 ease-in-out hover:bg-[#A4634D] hover:text-white'
+                        className='py-2 px-4 bg-[#F6EFED] rounded flex items-center justify-center transition duration-300 ease-in-out hover:bg-[#A4634D]'
                         onClick={handleClickReporBlog}
                     >
                         <p>Bảng báo cáo bài viết</p>

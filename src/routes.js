@@ -56,7 +56,7 @@ const routes = [
         component: <IndexV3 />,
     },
     {
-        name: "Người dùng",
+        name: "Tài khoản",
         layout: "/admin",
         icon: <MdSupervisorAccount style={{ width: '50px', height: '50px' }} />,
         path: "account",

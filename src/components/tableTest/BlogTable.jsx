@@ -53,18 +53,16 @@ const BlogTable = ({ blogs }) => {
             {
                 Header: 'Thông tin',
                 Cell: ({ row }) => (
-                    <div className="flex justify-center">
-                        <button
-                            onClick={() => {
-                                setSelectedBlog(row.original);
-                                setModalIsOpen(true);
-                            }}
-                            type="button"
-                            className="text-xl text-[#2579f2]"
-                        >
-                            Chi tiết
-                        </button>
-                    </div>
+                    <button
+                        onClick={() => {
+                            setSelectedBlog(row.original);
+                            setModalIsOpen(true);
+                        }}
+                        type="button"
+                        className="text-xl text-[#2579f2]"
+                    >
+                        Chi tiết
+                    </button>
                 ),
             },
         ],

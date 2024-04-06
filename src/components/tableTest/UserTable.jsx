@@ -7,12 +7,40 @@ import { Checkbox } from '../table/checkbox';
 import { MdClose } from "react-icons/md";
 import Modal from 'react-modal';
 import coffeAvatar from '../../assets/img/coffe-avatar.jpg'
+import axios from 'axios';
 
 const UserTable = ({ users }) => {
     const [selectedUser, setSelectedUser] = useState(null);
     const [modalIsOpen, setModalIsOpen] = useState(false);
+    const [modalConfirm, setModalConfirm] = useState(false);
 
+    const [actionConfirmed, setActionConfirmed] = useState(false); // State để theo dõi xác nhận hành động
     const data = useMemo(() => users, [users]);
+    const updateUserAvailability = async (userId, currentAvailability) => {
+        try {
+            // Gọi API để cập nhật trạng thái is_available của người dùng
+            const response = await axios.put(`https://sharing-coffee-be-capstone-com.onrender.com/api/admin/user/${userId}`, {
+                is_available: !currentAvailability // Đảo ngược trạng thái hiện tại
+            });
+
+            // Xử lý phản hồi từ API nếu cần
+            console.log('Cập nhật trạng thái thành công:', response.data);
+
+            // Cập nhật lại danh sách người dùng hoặc xử lý các thay đổi liên quan
+            // Ví dụ: gọi lại API để lấy danh sách người dùng mới
+        } catch (error) {
+            console.error('Lỗi khi cập nhật trạng thái:', error);
+            // Xử lý lỗi nếu có
+        }
+    };
+    const handleConfirmAction = () => {
+        // Đặt lại state xác nhận và đóng modal
+        setActionConfirmed(true);
+        setModalConfirm(false);
+
+        // Thực hiện hành động (cập nhật trạng thái)
+        updateUserAvailability(selectedUser.user_id, selectedUser.is_available);
+    };
 
     const columns = useMemo(
         () => [
@@ -46,24 +74,50 @@ const UserTable = ({ users }) => {
                 accessor: 'is_available',
                 Cell: ({ value }) => (
                     <span className={`text-xl ${value ? 'text-green-500' : 'text-red-500'}`}>
-                        {value ? 'Đang hoạt động' : 'Vô hiệu hóa'}
+                        {value ? 'Kích hoạt' : 'Vô hiệu hóa'}
                     </span>
                 )
             },
             {
+                Header: 'Ngày tạo',
+                accessor: 'registration',
+                Cell: ({ value }) => <span className='text-xl'>{value}</span>
+            },
+            {
                 Header: 'Thông tin',
                 Cell: ({ row }) => (
-                    <div className="flex justify-center">
-                        <button
-                            onClick={() => {
-                                setSelectedUser(row.original);
-                                setModalIsOpen(true);
-                            }}
-                            type="button"
-                            className="text-xl text-[#2579f2]"
+                    <div className='flex'>
+                        {/* Button "Xem hồ sơ người dùng" */}
+                        <div className='border border-blue-500 rounded w-fit p-1'>
+                            <button
+                                onClick={() => {
+                                    setSelectedUser(row.original);
+                                    setModalIsOpen(true);
+                                }}
+                                type="button"
+                                className="text-xl text-blue-500 p-2"
+                            >
+                                Xem hồ sơ người dùng
+                            </button>
+                        </div>
+                        {/* Button "Vô hiệu hóa" */}
+                        <div
+                            className={`border border-red-500 rounded w-fit p-1 ml-2 ${row.original.is_available ? 'bg-red-500' : 'bg-green-500'}`}
                         >
-                            Chi tiết
-                        </button>
+                            <button
+                                onClick={() => {
+                                    // Mở modal xác nhận hành động
+                                    setSelectedUser(row.original);
+                                    setModalConfirm(true);
+                                    setActionConfirmed(false); // Đặt lại trạng thái xác nhận
+                                }}
+                                type="button"
+                                className="text-xl text-white p-2"
+                            // disabled={!row.original.is_available}
+                            >
+                                {row.original.is_available ? 'Vô hiệu hóa' : 'Kích hoạt'}
+                            </button>
+                        </div>
                     </div>
                 ),
             },
@@ -106,7 +160,7 @@ const UserTable = ({ users }) => {
         <>
             <div className='mt-[40px] p-1'>
                 <GlobalFilter filter={globalFilter} setFilter={setGlobalFilter} />
-                <div className="checkbox-group flex  justify-center">
+                {/* <div className="checkbox-group flex  justify-center">
                     <div className="checkbox-container">
                         <Checkbox {...getToggleHideAllColumnsProps()} /><p className='text-xl font-sans'>Tất cả</p>
                     </div>
@@ -123,7 +177,7 @@ const UserTable = ({ users }) => {
                             </div>
                         ))
                     }
-                </div>
+                </div> */}
                 <Card className="h-full w-full overflow-scroll">
                     <table {...getTableProps()} className="w-full min-w-max table-auto text-left">
                         <thead>
@@ -282,6 +336,16 @@ const UserTable = ({ users }) => {
                         <button onClick={() => setModalIsOpen(false)} className="absolute top-0 right-0 mt-2 mr-2  hover:bg-red-600 text-gray-800 font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
                             <MdClose />
                         </button>
+                    </div>
+                </Modal>
+                <Modal isOpen={modalConfirm} onClose={() => setModalConfirm(false)}>
+                    <div className="modal-content">
+                        <h2>Xác nhận hành động</h2>
+                        <p>Bạn có chắc chắn muốn {selectedUser && selectedUser.is_available ? 'vô hiệu hóa' : 'kích hoạt'} người dùng này?</p>
+                        <div className="modal-actions">
+                            <button onClick={handleConfirmAction}>Xác nhận</button>
+                            <button onClick={() => setModalConfirm(false)}>Hủy</button>
+                        </div>
                     </div>
                 </Modal>
             </div >
