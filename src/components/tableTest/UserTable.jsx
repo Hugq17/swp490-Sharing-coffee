@@ -102,7 +102,7 @@ const UserTable = ({ users }) => {
                         </div>
                         {/* Button "Vô hiệu hóa" */}
                         <div
-                            className={`border border-red-500 rounded w-fit p-1 ml-2 ${row.original.is_available ? 'bg-red-500' : 'bg-green-500'}`}
+                            className={` rounded w-fit p-1 ml-2 ${row.original.is_available ? 'bg-red-500' : 'bg-green-500'}`}
                         >
                             <button
                                 onClick={() => {
