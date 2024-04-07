@@ -38,25 +38,29 @@ const ReportEventTable = ({ reports }) => {
             {
                 Header: 'Trạng thái',
                 accessor: 'is_approve',
-                Cell: ({ cell: { value } }) => (
-                    <span className={`text-xl ${value ? 'text-green-500' : 'text-red-500'}`}>
-                        {value ? 'Đang hoạt động' : 'Vô hiệu hóa'}
+                Cell: ({ value }) => (
+                    <span className={`font-sans p-2 rounded ${value ? 'bg-[#4AAF57] text-white' : 'bg-[#F54336] text-white'}`}>
+                        {value ? 'Kích hoạt' : 'Vô hiệu hóa'}
                     </span>
                 )
             },
             {
                 Header: 'Thông tin',
                 Cell: ({ row }) => (
-                    <button
-                        onClick={() => {
-                            setselectedReport(row.original);
-                            setModalIsOpen(true);
-                        }}
-                        type="button"
-                        className="text-xl text-[#2579f2]"
-                    >
-                        Chi tiết
-                    </button>
+                    <div>
+                        <div className='border border-[#246BFD] bg-[#246BFD] rounded w-fit p-1'>
+                            <button
+                                onClick={() => {
+                                    setselectedReport(row.original);
+                                    setModalIsOpen(true);
+                                }}
+                                type="button"
+                                className="text-xl text-white p-2"
+                            >
+                                Chi tiết
+                            </button>
+                        </div>
+                    </div>
                 ),
             },
         ],
@@ -182,7 +186,7 @@ const ReportEventTable = ({ reports }) => {
                     </button>
                 </div>
                 <GlobalFilter filter={globalFilter} setFilter={setGlobalFilter} />
-                <div className="checkbox-group flex  justify-center">
+                {/* <div className="checkbox-group flex  justify-center">
                     <div className="checkbox-container">
                         <Checkbox {...getToggleHideAllColumnsProps()} /><p className='text-xl font-sans'>Tất cả</p>
                     </div>
@@ -199,7 +203,7 @@ const ReportEventTable = ({ reports }) => {
                             </div>
                         ))
                     }
-                </div>
+                </div> */}
                 <Card className="h-full w-full overflow-scroll">
                     <h2 className='font-sans text-2xl mb-3 font-medium'>Bảng báo cáo các sự kiện</h2>
                     <table {...getTableProps()} className="w-full min-w-max table-auto text-left">
@@ -322,7 +326,7 @@ const ReportEventTable = ({ reports }) => {
                                     <tbody>
                                         {selectedReport.user_report.map((report, index) => (
                                             <tr key={index} className={index % 2 === 0 ? "bg-gray-50" : ""}>
-                                                <td>{index}</td>
+                                                <td>{index + 1}</td>
                                                 <td className="border border-gray-300 px-4 py-2">{report.reporter}</td>
                                                 <td className="border border-gray-300 px-4 py-2">{format(new Date(report.created_at), 'dd-MM-yyyy HH:mm')}</td>
                                                 <td className="border border-gray-300 px-4 py-2">{report.report_status}</td>

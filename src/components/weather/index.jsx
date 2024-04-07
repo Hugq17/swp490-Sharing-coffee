@@ -34,7 +34,7 @@ function Weather() {
     };
 
     return (
-        <div className="mt-4 border-[1px] w-fit rounded-xl bg-slate-50">
+        <div className="mt-7 border-[1px] w-fit rounded-xl bg-slate-50">
             <div className='p-5'>
                 <div>
                     <h1 className='font-bold text-xl'>Thời tiết</h1>
