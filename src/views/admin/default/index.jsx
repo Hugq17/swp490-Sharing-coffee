@@ -164,7 +164,7 @@ const DashboardAdmin = () => {
                     />
                     <Tooltip content={customTooltip} />
                     <Legend />
-                    <Bar dataKey="event_count" fill="#8884d8" name="Sự kiện" />
+                    <Bar dataKey="event_count" fill="#A4634D" name="Sự kiện" />
                 </BarChart>
             </div>
         </div>

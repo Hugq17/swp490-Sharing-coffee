@@ -74,7 +74,7 @@ const UserTable = ({ users }) => {
                 Header: 'Trạng thái',
                 accessor: 'is_available',
                 Cell: ({ value }) => (
-                    <span className={`text-xl font-sans p-2 rounded ${value ? 'bg-[#299555] text-white' : 'bg-red-500 text-white'}`}>
+                    <span className={`text-xl font-sans p-2 rounded ${value ? 'bg-[#4AAF57] text-white' : 'bg-[#F54336] text-white'}`}>
                         {value ? 'Kích hoạt' : 'Vô hiệu hóa'}
                     </span>
                 )
@@ -89,7 +89,7 @@ const UserTable = ({ users }) => {
                 Cell: ({ row }) => (
                     <div className='flex'>
                         {/* Button "Xem hồ sơ người dùng" */}
-                        <div className='border border-blue-500 bg-blue-500 rounded w-fit p-1'>
+                        <div className='border border-[#246BFD] bg-[#246BFD] rounded w-fit p-1'>
                             <button
                                 onClick={() => {
                                     setSelectedUser(row.original);
@@ -102,7 +102,7 @@ const UserTable = ({ users }) => {
                             </button>
                         </div>
                         <div
-                            className={` rounded w-fit p-1 ml-2 ${row.original.is_available ? 'bg-red-500' : 'bg-green-500'}`}
+                            className={` rounded w-fit p-1 ml-2 ${row.original.is_available ? 'bg-[#F75555]' : 'bg-green-500'}`}
                         >
                             <button
                                 onClick={() => {
