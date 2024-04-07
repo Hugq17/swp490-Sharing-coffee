@@ -17,6 +17,7 @@
     "axios": "^1.6.7",
     "classnames": "^2.5.1",
     "cloudinary-react": "^1.8.1",
+    "d3": "^7.9.0",
     "date-fns": "^3.3.1",
     "react": "^18.2.0",
     "react-bootstrap": "^2.10.1",
@@ -32,6 +33,7 @@
     "react-table": "^7.8.0",
     "react-toastify": "^10.0.5",
     "reactstrap": "^9.2.2",
+    "recharts": "^2.12.4",
     "simplebar-react": "^3.2.4",
     "web-vitals": "^2.1.4"
   },

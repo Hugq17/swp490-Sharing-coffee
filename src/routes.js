@@ -10,7 +10,6 @@ import ManageAccount from "./views/admin/account";
 import { MdSupervisorAccount } from "react-icons/md";
 import { MdEvent } from "react-icons/md";
 import { BsFileEarmarkPost } from "react-icons/bs";
-import Matching from "./views/admin/matching";
 import { TbHeartSearch } from "react-icons/tb";
 import { IoMdNotificationsOutline } from "react-icons/io";
 import NotificationForUser from "./views/admin/notification";
@@ -24,6 +23,9 @@ import ManageInterestTable from "./views/admin/interest/ManageInterestTable";
 import InterestV4 from "./views/admin/interest/indexv4";
 import Report from "./views/admin/report";
 import { VscReport } from "react-icons/vsc";
+import ReportUser from "./views/admin/report/reportUser";
+import { AiOutlineHome } from "react-icons/ai";
+import ReportEvent from "./views/admin/report/reportEvent";
 
 const routes = [
     {
@@ -41,6 +43,7 @@ const routes = [
     {
         name: "Trang chủ",
         layout: "/admin",
+        icon: <AiOutlineHome style={{ width: '50px', height: '50px' }} />,
         path: "default",
         component: <MainDashboardAdmin />
     },
@@ -52,7 +55,7 @@ const routes = [
         component: <IndexV3 />,
     },
     {
-        name: "Người dùng",
+        name: "Tài khoản",
         layout: "/admin",
         icon: <MdSupervisorAccount style={{ width: '50px', height: '50px' }} />,
         path: "account",
@@ -94,12 +97,26 @@ const routes = [
         component: <NotificationForUser />
     },
     {
-        name: "Admin",
+        name: "",
         layout: "/admin",
-        icon: <CgProfile style={{ width: '50px', height: '50px' }} />,
-        path: "profile",
-        component: <Profile />
+        // icon: <IoMdNotificationsOutline style={{ width: '50px', height: '50px' }} />,
+        path: "report/reportUser",
+        component: <ReportUser />
     },
+    {
+        name: "",
+        layout: "/admin",
+        // icon: <IoMdNotificationsOutline style={{ width: '50px', height: '50px' }} />,
+        path: "report/reportEvent",
+        component: <ReportEvent />
+    },
+    // {
+    //     name: "Admin",
+    //     layout: "/admin",
+    //     icon: <CgProfile style={{ width: '50px', height: '50px' }} />,
+    //     path: "profile",
+    //     component: <Profile />
+    // },
 ]
 
 export default routes

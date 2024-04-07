@@ -74,36 +74,3 @@ p {
     margin-top: 40px;
     /* Khoảng cách giữa các thành phần */
 }
-
-.input-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: 20px 0;
-    /* Thêm một chút khoảng cách xung quanh container */
-    border: 2px solid #5766E5;
-}
-
-.input-style {
-    width: 80%;
-    /* Điều chỉnh chiều rộng của input */
-    padding: 15px;
-    /* Điều chỉnh padding để input rộng rãi hơn */
-    border: 2px solid #5766E5;
-    /* Thêm viền với độ dày 2px và màu sắc */
-    border-radius: 20px;
-    /* Làm tròn góc */
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    /* Thêm bóng đổ nhẹ */
-    outline: none;
-    /* Loại bỏ đường viền mặc định khi focus */
-    transition: all 0.3s ease;
-    /* Thêm hiệu ứng chuyển đổi mượt mà */
-}
-
-.input-style:focus {
-    border-color: #4054b2;
-    /* Thay đổi màu viền khi input được focus */
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-    /* Tăng bóng đổ khi focus */
-}

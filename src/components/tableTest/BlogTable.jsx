@@ -43,7 +43,7 @@ const BlogTable = ({ blogs }) => {
             {
                 Header: 'Trạng thái',
                 accessor: 'is_approve',
-                Cell: ({ cell: { value } }) => <span>{value ? 'Đang hoạt động' : 'Bị từ chối'}</span>,
+                Cell: ({ cell: { value } }) => <span>{value ? 'Đang hoạt động' : 'Vô hiệu hóa'}</span>,
             },
             {
                 Header: 'Tình trạng',
@@ -53,18 +53,16 @@ const BlogTable = ({ blogs }) => {
             {
                 Header: 'Thông tin',
                 Cell: ({ row }) => (
-                    <div className="flex justify-center">
-                        <button
-                            onClick={() => {
-                                setSelectedBlog(row.original);
-                                setModalIsOpen(true);
-                            }}
-                            type="button"
-                            className="text-xl text-[#2579f2]"
-                        >
-                            Chi tiết
-                        </button>
-                    </div>
+                    <button
+                        onClick={() => {
+                            setSelectedBlog(row.original);
+                            setModalIsOpen(true);
+                        }}
+                        type="button"
+                        className="text-xl text-[#2579f2]"
+                    >
+                        Chi tiết
+                    </button>
                 ),
             },
         ],
@@ -238,10 +236,10 @@ const BlogTable = ({ blogs }) => {
                 <Modal isOpen={modalIsOpen} onRequestClose={() => setModalIsOpen(false)} className="modal">
                     <div className=" w-4/5 bg-white rounded-lg p-12 absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 shadow-lg border border-gray-300">
                         {selectedBlog && (
-                            <main className="mt-10 overflow-y-scroll h-[700px] w-full">
-                                <div className="mb-4 md:mb-0 w-full mx-auto relative">
-                                    <div className="px-4 lg:px-0">
-                                        <h2 className="text-4xl font-semibold text-gray-800 leading-tight mb-4">
+                            <main className="mt-10 overflow-y-scroll h-[700px] w-full flex flex-col items-center">
+                                <div className="mb-4">
+                                    <div className="px-4">
+                                        <h2 className="text-4xl font-semibold text-gray-800 mb-4">
                                             {selectedBlog.title}
                                         </h2>
                                         <div className='flex items-center'>
@@ -249,7 +247,7 @@ const BlogTable = ({ blogs }) => {
                                             <p className="font-semibold text-gray-700 text-[20px] ml-3"> {selectedBlog.user_name}</p>
                                         </div>
                                     </div>
-                                    <img src={selectedBlog.image} className="w-fit h-fit object-cover lg:rounded mt-5" />
+                                    <img src={selectedBlog.image} className="w-fit h-fit mt-5" />
                                 </div>
                                 <div class="flex flex-col lg:flex-row lg:space-x-12">
                                     <div className="px-4 lg:px-0 mt-12 text-gray-700 text-xl leading-relaxed w-full lg:w-3/4">

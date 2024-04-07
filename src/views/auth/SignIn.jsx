@@ -1,8 +1,7 @@
 // import InputField from "../../components/fields/InputField";
-import { FcGoogle } from "react-icons/fc";
 import { useState } from 'react'
 import axios from 'axios';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 export default function SignIn() {
     const [email, setEmail] = useState('');
@@ -49,51 +48,12 @@ export default function SignIn() {
             });
     }
     return (
-        // <div className="mt-[100px] w-full max-w-full flex-col items-center md:pl-4 lg:pl-0 xl:max-w-[420px]">
-        //     <h4 className="mb-2.5 text-[50px] font-bold text-navy-700 dark:text-white">
-        //         Đăng nhập
-        //     </h4>
-
-        //     {status ? <p className="text-red-700 mb-6 flex justify-center"> Email hoặc mật khẩu không đúng</p> : ""}
-
-        //     <input
-        //         className={`mb-3 w-full h-[70px] px-3 py-2 rounded-lg border ${status ? 'border-red-500' : 'border-gray-300'} focus:outline-none focus:border-brand-500`}
-        //         type="email"
-        //         placeholder="mail@simmmple.com"
-        //         value={email}
-        //         onChange={(e) => setEmail(e.target.value)}
-        //     />
-
-        //     <input
-        //         className="mb-3 w-full px-3 py-2 rounded-lg border border-gray-300 focus:outline-none focus:border-brand-500"
-        //         type="password"
-        //         placeholder="Min. 8 characters"
-        //         value={password}
-        //         onChange={(e) => setPassword(e.target.value)}
-        //     />
-        //     {/* Checkbox */}
-        //     <div className="mb-4 flex items-center justify-between px-2">
-        //         <div className="flex items-center">
-
-        //         </div>
-        //         <Link
-        //             className=" text-sm font-medium text-brand-500 hover:text-brand-600 dark:text-white"
-        //             to={"/auth/Forget-Password"}
-        //         >
-        //             Quên mật khẩu
-        //         </Link>
-        //     </div>
-
-        //     <button onClick={handleSignIn} className="linear mt-2 w-full rounded-xl bg-[#A4634D] py-[12px] text-base font-medium text-white transition duration-200 hover:bg-brand-600 active:bg-brand-700 dark:bg-brand-400 dark:text-white dark:hover:bg-brand-300 dark:active:bg-brand-200">
-        //         Đăng nhập
-        //     </button>
-        // </div>
         <section class="bg-gray-50 dark:bg-gray-900 w-[1000px]">
             <div class="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0 w-[600px]">
                 <div class="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
                     <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
-                        <h1 class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
-                            Đăng nhập vào hệ thống
+                        <h1 class="text-3xl font-bold leading-tight tracking-tight text-gray-900 md:text-3xl dark:text-white">
+                            Sharing café
                         </h1>
                         <div class="space-y-4 md:space-y-6" action="#">
                             {status ? <p className="text-red-700 mb-6 flex justify-center"> Email hoặc mật khẩu không đúng</p> : ""}

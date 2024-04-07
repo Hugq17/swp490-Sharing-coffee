@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import ManageInterestTable from './ManageInterestTable';
 import InterestV4 from './indexv4';
-
+import { LuUpload } from "react-icons/lu";
+import { IoSend } from "react-icons/io5";
+import { FaPen } from "react-icons/fa";
 function App() {
     const [data, setData] = useState([]);
     const [itemsWithNullParentId, setItemsWithNullParentId] = useState([]);
@@ -64,6 +65,7 @@ function App() {
         setImage(file.secure_url)
         setLoading(false)
         console.log(file.secure_url)
+        setSelectedFile(e.target.files[0]);
     }
 
     //---------------------------------------------------------------------------------------------------------//
@@ -97,7 +99,6 @@ function App() {
         }));
     };
 
-
     const addChildInterest = async (childName, parentId) => {
         try {
             const response = await axios.post(
@@ -124,7 +125,6 @@ function App() {
     const handleUpdateImg = (interest_id) => {
 
     }
-
 
     const [showPopup, setShowPopup] = useState(false);
     const [interest_id, setInterest_id] = useState("")
@@ -156,7 +156,6 @@ function App() {
 
     // Gọi hàm để cập nhật mục quan tâm với interestId cụ thể
 
-
     const handleClosePopup = () => {
         setShowPopup(false);
     };
@@ -166,36 +165,91 @@ function App() {
     const toggleCodeVisibility = () => {
         setShowCurrentCode(!showCurrentCode);
     };
+    const [selectedFile, setSelectedFile] = useState(null);
 
+    const handleFileChange = (e) => {
+        setSelectedFile(e.target.files[0]);
+    };
+    const [editingIndex, setEditingIndex] = useState(-1); // -1 là không có ô input nào được chỉnh sửa
+    const handleInputChange = (event) => {
+        setInputValue(event.target.value);
+    };
+    const handleUpdateClick = async (interestId, newName, childName) => {
+        try {
+            const apiUrl = `https://sharing-coffee-be-capstone-com.onrender.com/api/interest/${interestId}`;
+            const newData = { name: newName }; // Dữ liệu mới cần cập nhật
+            // Gửi yêu cầu PUT để cập nhật thông tin
+            const response = await axios.put(apiUrl, newData);
+
+            // Kiểm tra kết quả của yêu cầu cập nhật
+            if (response.status === 200) {
+                console.log('Cập nhật thành công!');
+                // Cập nhật state `itemsWithNonNullParentId` với dữ liệu mới
+                const updatedItem = response.data; // Dữ liệu được trả về từ API sau khi cập nhật
+                // Cập nhật `itemsWithNonNullParentId` bằng cách thay thế hoặc thêm dữ liệu mới
+                setInputValue("")
+                setItemsWithNonNullParentId(prevData => {
+                    // Kiểm tra xem item đã tồn tại trong danh sách chưa
+                    const itemIndex = prevData.findIndex(item => item.id === updatedItem.id);
+                    if (itemIndex !== -1) {
+                        // Nếu item đã tồn tại, thay thế item cũ bằng item mới cập nhật
+                        const updatedData = [...prevData];
+                        updatedData[itemIndex] = updatedItem;
+                        return updatedData;
+                    } else {
+                        // Nếu item chưa tồn tại, thêm item mới vào danh sách
+                        return [...prevData, updatedItem];
+                    }
+                });
+            } else {
+                console.log('Cập nhật không thành công.');
+                // Xử lý khi cập nhật không thành công
+            }
+            // Sau khi cập nhật xong, đặt lại state `editingIndex` về -1 để thoát khỏi chế độ chỉnh sửa
+            setEditingIndex(-1);
+        } catch (error) {
+            console.error('Lỗi khi gửi yêu cầu cập nhật:', error);
+            // Xử lý khi có lỗi xảy ra trong quá trình gửi yêu cầu cập nhật
+        }
+    };
+
+    const handleCancelClick = (index) => {
+        const updatedItems = [...itemsWithNonNullParentId];
+        updatedItems[index].name = originalName; // Khôi phục tên ban đầu của mục
+        setItemsWithNonNullParentId(updatedItems);
+        setInputValue("")
+        setEditingIndex(-1); // Thoát khỏi chế độ chỉnh sửa
+    };
+    const [originalName, setOriginalName] = useState('');
+    const [inputValue, setInputValue] = useState('');
     return (
-        <div>
-            {/* <h1 className="text-2xl font-bold mb-4">Data from API:</h1> */}
-            <div>
-                <button className='mt-8 ml-10 text-blue-700 hover:text-white border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:hover:bg-blue-500 dark:focus:ring-blue-800' onClick={toggleCodeVisibility}>
-                    {showCurrentCode ? 'Dạng thẻ' : 'Dạng bảng'}
-                </button>
-                {/* Hiển thị component mới nếu showCurrentCode là false */}
-                {!showCurrentCode && <InterestV4 />}
-                {showCurrentCode && (
-                    <div className='flex flex-col items-center justify-center'>
-                        <div className="container mx-auto px-4 py-8">
-                            <div className="max-w-lg mx-auto bg-white shadow-md rounded px-8 py-6 flex">
-                                <div className="mb-4">
-                                    <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="fileInput">
-                                        Tải ảnh
-                                    </label>
+        <div className='mt-3'>
+            {/* Hiển thị component mới nếu showCurrentCode là false */}
+            {!showCurrentCode && <InterestV4 />}
+            {showCurrentCode && (
+                <div className='flex flex-col items-center justify-center'>
+                    <div className="container mx-auto px-4 py-8">
+                        <div className="max-w-lg mx-auto bg-white shadow-md rounded px-8 py-6 flex flex-col justify-center items-center">
+                            <div className='border-black w-fit '>
+                                <label htmlFor="fileInput" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white border-[1px]">
+                                    <div className='flex flex-col justify-center items-center p-3'>
+                                        <LuUpload />
+                                        <span className=''>Tải ảnh</span>
+                                    </div>
                                     <input
-                                        type='file'
-                                        name='file'
-                                        id='fileInput'
+                                        type="file"
+                                        id="fileInput"
+                                        name="fileInput"
                                         onChange={uploadImage}
-                                        className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                        style={{ display: 'none' }}
                                     />
+                                </label>
+                                <div id="fileName">
+                                    {selectedFile && <p>{selectedFile.name}</p>}
                                 </div>
-                                <div className="mb-6 ml-3">
-                                    <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="nameInput">
-                                        Nhập chủ đề
-                                    </label>
+                            </div>
+                            <div className='flex mt-4'>
+                                <div>
                                     <input
                                         type='text'
                                         name='name'
@@ -216,66 +270,90 @@ function App() {
                                 </div>
                             </div>
                         </div>
-                        {/* <h2 className="text-xl font-bold mb-2">Items with null parent_interest_id:</h2> */}
-                        <div className="flex flex-wrap gap-5 justify-center">
-                            {itemsWithNullParentId.map((item, index) => (
-                                <div key={index} className="relative flex flex-col justify-center items-center mt-8 text-gray-700 bg-white shadow-md bg-clip-border rounded-xl w-96">
-                                    {item.image ? (
-                                        // <div className='relative flex items-center justify-center h-56 mx-4 -mt-6 overflow-hidden text-white shadow-lg bg-clip-border rounded-xl bg-blue-gray-500 shadow-blue-gray-500/40'>
-                                        <img className='rounded-2xl w-2/3 object-cover' src={item.image} onClick={() => handleUpdateImg(item.interest_id)} />
-                                        // </div>
-                                    ) : (
-                                        <button onClick={() => handleUploadButton(item.interest_id)}>Upload ảnh</button>
-                                    )}
-                                    {showPopup && (
-                                        <div className="popup">
-                                            {/* Nội dung của popup ở đây */}
-                                            <input
-                                                type='file'
-                                                name='file'
-                                                id='fileInput'
-                                                onChange={uploadImage}
-                                                className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                                            />
-                                            <button onClick={() => updateInterest()}>update hình nè</button>
-
-                                            <button onClick={handleClosePopup}>Đóng</button>
-                                        </div>
-                                    )}
-                                    <p className='text-2xl font-sans' onClick={() => toggleItem(item.interest_id)}>{item.name}</p>
-                                    <br />
-                                    {expandedItems[item.interest_id] && (
-                                        <div>
-                                            {showInput[item.interest_id] && (
-                                                <div className="flex items-center mb-2">
-                                                    <input type="text" className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Nhập" onChange={(e) => setChildName(e.target.value)} />
-                                                    <button onClick={() => addChildInterest(childName, item.interest_id)} className="ml-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Thêm</button>
-                                                </div>
-                                            )}
-                                            <button onClick={() => setShowInput(prevState => ({ ...prevState, [item.interest_id]: !prevState[item.interest_id] }))}>
-                                                {showInput[item.interest_id] ? 'Đóng' : 'Thêm chủ đề'}
-                                            </button>
-                                            <ul>
-                                                {itemsWithNonNullParentId
-                                                    .filter(childItem => childItem.parent_interest_id === item.interest_id)
-                                                    .map((childItem, childIndex) => (
-                                                        <li key={childIndex}>
-
-                                                            <div className='font-sans flex'>
-                                                                <div>{childIndex}.</div>
-                                                                <div className='ml-2'>{childItem.name}</div>
-                                                            </div>
-                                                        </li>
-                                                    ))}
-                                            </ul>
-                                        </div>
-                                    )}
-                                </div>
-                            ))}
-                        </div>
                     </div>
-                )}
-            </div >
+                    {/* <h2 className="text-xl font-bold mb-2">Items with null parent_interest_id:</h2> */}
+                    <div className="flex flex-wrap gap-5 justify-center">
+                        {itemsWithNullParentId.map((item, index) => (
+                            <div key={index} className="relative flex flex-col justify-center items-center mt-8 text-gray-700 bg-white shadow-md bg-clip-border rounded-xl w-96">
+                                {item.image ? (
+                                    <img className='rounded-2xl w-2/3 object-cover' src={item.image} onClick={() => handleUpdateImg(item.interest_id)} />
+                                ) : (
+                                    <button onClick={() => handleUploadButton(item.interest_id)}>Upload ảnh</button>
+                                )}
+                                {showPopup && (
+                                    <div className="popup">
+                                        {/* Nội dung của popup ở đây */}
+                                        <input
+                                            type='file'
+                                            name='file'
+                                            id='fileInput'
+                                            onChange={uploadImage}
+                                            className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                        />
+                                        <button onClick={() => updateInterest()}>update hình nè</button>
+
+                                        <button onClick={handleClosePopup}>Đóng</button>
+                                    </div>
+                                )}
+                                <p className='text-2xl font-sans' onClick={() => toggleItem(item.interest_id)}>{item.name}</p>
+                                <br />
+                                {expandedItems[item.interest_id] && (
+                                    <div className='w-full'>
+                                        {showInput[item.interest_id] && (
+                                            <div className="flex items-center mb-2">
+                                                <input type="text" className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Nhập" onChange={(e) => setChildName(e.target.value)} />
+                                                <button onClick={() => addChildInterest(childName, item.interest_id)} className="ml-2 bg-[#F6EFED] hover:bg-[#A4634D] text-[#A4634D] py-2 px-4 rounded focus:outline-none hover:text-white focus:shadow-outline">Thêm</button>
+                                            </div>
+                                        )}
+                                        <button className='m-2' onClick={() => setShowInput(prevState => ({ ...prevState, [item.interest_id]: !prevState[item.interest_id] }))}>
+                                            {showInput[item.interest_id] ? 'Đóng' : 'Thêm chủ đề'}
+                                        </button>
+                                        <ul className="grid grid-cols-2 gap-4">
+                                            {itemsWithNonNullParentId
+                                                .filter(childItem => childItem.parent_interest_id === item.interest_id)
+                                                .map((childItem, childIndex) => (
+                                                    <li key={childIndex} className="flex items-center justify-center p-2 border border-gray-300 rounded-xl m-2">
+                                                        {editingIndex === childIndex ? (
+                                                            <div className='flex flex-col justify-center items-center'>
+                                                                <div className='flex'>
+                                                                    <input
+                                                                        type="text"
+                                                                        value={inputValue}
+                                                                        onChange={(e) => handleInputChange(e, childIndex)}
+                                                                        className="border border-gray-400 px-2 py-1 rounded mr-2 w-full"
+                                                                    />
+                                                                    <button
+                                                                        className="text-blue-500 hover:text-blue-700"
+                                                                        onClick={() => handleUpdateClick(childItem.interest_id, inputValue, childItem.name)}
+                                                                    >
+                                                                        <IoSend />
+                                                                    </button>
+                                                                </div>
+                                                                <div className='flex'>
+                                                                    <button className="text-blue-500 hover:text-blue-700 hover:underline ml-2" onClick={() => handleCancelClick(childIndex)}>
+                                                                        Hủy
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+                                                        ) : (
+                                                            <>
+                                                                <p className='font-sans text-lg'>{childItem.name}</p>
+                                                                <button className="ml-2 text-red-500 hover:text-red-700" onClick={() => setEditingIndex(childIndex)}>
+                                                                    <FaPen className='text-black' />
+                                                                </button>
+                                                            </>
+                                                        )}
+                                                    </li>
+                                                ))}
+                                        </ul>
+
+                                    </div>
+                                )}
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            )}
         </div >
     );
 }
