@@ -6,7 +6,8 @@ import { useNavigate } from 'react-router-dom';
 import { format } from 'date-fns';
 import { MdOutlineLocalCafe } from "react-icons/md";
 import * as d3 from 'd3';
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, PieChart, Pie, Cell } from 'recharts';
+import { MdOutlineSmsFailed } from "react-icons/md";
 const DashboardAdmin = () => {
     const [profitData, setProfitData] = useState([]);
     const [events, setEvents] = useState([]);
@@ -32,8 +33,11 @@ const DashboardAdmin = () => {
                         case 'Blog':
                             icon = <Icon.Bold />;
                             break;
-                        case 'Total Matched':
+                        case 'Matched Succeed':
                             icon = <MdOutlineLocalCafe />;
+                            break;
+                        case 'Matched Failed':
+                            icon = <MdOutlineSmsFailed />
                             break;
                         default:
                             break;
@@ -43,8 +47,9 @@ const DashboardAdmin = () => {
                         title: entity.entity_type === 'Blog' ? `Tổng số bài viết` :
                             entity.entity_type === 'Account' ? `Tổng số tài khoản` :
                                 entity.entity_type === 'Event' ? `Tổng số sự kiện` :
-                                    entity.entity_type === 'Total Matched' ? `Tổng số lượt ghép thành công` :
-                                        `Tổng số ${entity.entity_type}s`,
+                                    entity.entity_type === 'Matched Succeed' ? `Tổng số lượt ghép thành công` :
+                                        entity.entity_type === 'Matched Failed' ? `Tổng số lượt ghép thất bại` :
+                                            `Tổng số ${entity.entity_type}s`,
                         amount: entity.entity_count
                     };
                 });
@@ -62,7 +67,8 @@ const DashboardAdmin = () => {
     const [data, setData] = useState([]);
     const [selectedYear, setSelectedYear] = useState('');
     const [years, setYears] = useState([]);
-    const [maxEventCount, setMaxEventCount] = useState(0);
+    const [maxYear, setMaxYear] = useState('');
+    const [maxEventCount, setMaxEventCount] = useState(0); // Định nghĩa maxEventCount ở đây
 
     useEffect(() => {
         const fetchData = async () => {
@@ -74,6 +80,11 @@ const DashboardAdmin = () => {
                 // Extract unique years from the data
                 const uniqueYears = [...new Set(eventData.map(item => item.event_year))];
                 setYears(uniqueYears);
+
+                // Find the maximum year
+                const maxYear = Math.max(...uniqueYears);
+                setMaxYear(maxYear.toString()); // Convert to string for select value
+                setSelectedYear(maxYear.toString()); // Select the maximum year by default
             } catch (error) {
                 console.error('Error fetching data:', error);
             }
@@ -83,7 +94,7 @@ const DashboardAdmin = () => {
     }, []);
 
     useEffect(() => {
-        if (selectedYear) {
+        if (selectedYear && data.length > 0) {
             // Calculate maximum event count for the selected year
             const filteredYearData = data.filter(d => d.event_year === selectedYear);
             const maxCount = Math.max(...filteredYearData.map(d => +d.event_count));
@@ -116,13 +127,43 @@ const DashboardAdmin = () => {
         ];
         return monthNames[parseInt(month) - 1]; // Chuyển đổi số tháng thành tên tháng
     };
+    //----------------------------------Thông kế số matching----------------------------------------------------//
+    const [entityData, setEntityData] = useState([]);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await fetch('https://sharing-coffee-be-capstone-com.onrender.com/api/admin/statics');
+                const data = await response.json();
+                setEntityData(data); // Đổi tên biến data thành entityData
+            } catch (error) {
+                console.error('Error fetching data:', error);
+            }
+        };
+
+        fetchData();
+    }, []);
+
+    // Filter data for "Matched Succeed" and "Matched Failed" entities
+    const matchedSucceedData = entityData.find(item => item.entity_type === 'Matched Succeed');
+    const matchedFailedData = entityData.find(item => item.entity_type === 'Matched Failed');
+
+    // Prepare data for pie chart
+    const pieData = [
+        { name: 'Ghép thành công', value: matchedSucceedData ? parseInt(matchedSucceedData.entity_count) : 0 },
+        { name: 'Ghép thất bại', value: matchedFailedData ? parseInt(matchedFailedData.entity_count) : 0 }
+    ];
+
+    // Custom colors for pie chart sectors
+    const colors = ['#7A5548', '#607D8A'];
+
     return (
         <div>
             <div className="grid xl:grid-cols-3 md:grid-cols-3 grid-cols-1 mt-6 gap-6">
                 {profitData.map((item, index) => (
                     <div className="relative overflow-hidden rounded-md shadow dark:shadow-gray-700 bg-white dark:bg-slate-900" key={index}>
                         <div className="p-5 flex items-center">
-                            <span className="flex justify-center items-center rounded-md h-14 w-14 min-w-[56px] bg-indigo-600/5 dark:bg-indigo-600/10 shadow shadow-indigo-600/5 dark:shadow-indigo-600/10 text-indigo-600">
+                            <span className="flex justify-center items-center rounded-md h-14 w-14 min-w-[56px] bg-indigo-600/5 dark:bg-indigo-600/10 shadow shadow-indigo-600/5 dark:shadow-indigo-600/10 text-[#AD735F]">
                                 {item.icon}
                             </span>
                             <span className="ms-3">
@@ -132,41 +173,62 @@ const DashboardAdmin = () => {
                                 </span>
                             </span>
                         </div>
-                        <div className="px-5 py-4 bg-gray-50 dark:bg-slate-800 ">
+                        {/* <div className="px-5 py-4 bg-gray-50 dark:bg-slate-800 ">
                             <div href="#" className="mb-3 float-right relative inline-flex items-center font-sans tracking-wide align-middle text-base text-center border-none after:content-[''] after:absolute after:h-px after:w-0 hover:after:w-full after:end-0 hover:after:end-auto after:bottom-0 after:start-0 after:transition-all after:duration-500 text-indigo-600 dark:text-white/70 hover:text-indigo-600 dark:hover:text-white after:bg-indigo-600 dark:after:bg-white duration-500">
                                 Chi tiết
                             </div>
-                        </div>
+                        </div> */}
                     </div>
                 ))}
             </div>
-            <div className='w-2/3 mt-4'>
-                <h2 className='font-bold mb-3'>Thống kê các sự kiện theo tháng</h2>
-                <select onChange={handleYearChange} value={selectedYear}>
-                    <option value="">All Years</option>
-                    {years.map(year => (
-                        <option key={year} value={year}>
-                            {year}
-                        </option>
-                    ))}
-                </select>
-                <BarChart
-                    width={800}
-                    height={400}
-                    data={filteredData}
-                    margin={{ top: 30, right: 30, left: 20, bottom: 50 }}
-                >
-                    <CartesianGrid strokeDasharray="3 3" />
-                    <XAxis dataKey="event_month" tickFormatter={formatXAxis} />
-                    <YAxis
-                        label={{ value: 'Số sự kiện', angle: -90, position: 'insideLeft', offset: -10 }}
-                        domain={[0, maxEventCount]}
-                    />
-                    <Tooltip content={customTooltip} />
-                    <Legend />
-                    <Bar dataKey="event_count" fill="#8884d8" name="Sự kiện" />
-                </BarChart>
-            </div>
+            <div className='flex'>
+                <div className='w-[500px] mt-5'>
+                    <h2 className='font-bold text-xl mb-4'>Thống kê sự kiện</h2>
+                    <select onChange={handleYearChange} value={selectedYear}>
+                        {years.map(year => (
+                            <option key={year} value={year}>
+                                {year}
+                            </option>
+                        ))}
+                    </select>
+                    <BarChart
+                        width={800}
+                        height={400}
+                        data={filteredData}
+                        margin={{ top: 30, right: 30, left: 20, bottom: 50 }}
+                    >
+                        <CartesianGrid strokeDasharray="3 3" />
+                        <XAxis dataKey="event_month" tickFormatter={formatXAxis} />
+                        <YAxis
+                            label={{ value: 'Số sự kiện', angle: -90, position: 'insideLeft', offset: -10 }}
+                            domain={[0, maxEventCount]}
+                        />
+                        <Tooltip content={customTooltip} />
+                        <Legend />
+                        <Bar dataKey="event_count" fill="#AD735F" name="Sự kiện" />
+                    </BarChart>
+                </div>
+                <div style={{ width: '400px', margin: 'auto' }}>
+                    <h2>Thống kê tỉ lệ thành công, thất bại</h2>
+                    <PieChart width={400} height={400}>
+                        <Pie
+                            data={pieData}
+                            dataKey="value"
+                            nameKey="name"
+                            cx="50%"
+                            cy="50%"
+                            outerRadius={150}
+                            fill="#8884d8"
+                            label
+                        >
+                            {pieData.map((entry, index) => (
+                                <Cell key={`cell-${index}`} fill={colors[index % colors.length]} />
+                            ))}
+                        </Pie>
+                        <Tooltip />
+                        <Legend />
+                    </PieChart>
+                </div></div>
         </div>
     );
 };

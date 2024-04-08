@@ -26,6 +26,8 @@ import { VscReport } from "react-icons/vsc";
 import ReportUser from "./views/admin/report/reportUser";
 import { AiOutlineHome } from "react-icons/ai";
 import ReportEvent from "./views/admin/report/reportEvent";
+import Schedule from "./views/admin/schedule";
+import { GrSchedule } from "react-icons/gr";
 
 const routes = [
     {
@@ -62,6 +64,13 @@ const routes = [
         component: <ManageAccount />
     },
     {
+        name: "Cuộc hẹn",
+        layout: "/admin",
+        icon: <GrSchedule style={{ width: '50px', height: '50px' }} />,
+        path: "schedule",
+        component: <Schedule />
+    },
+    {
         name: "Sự kiện",
         layout: "/admin",
         icon: <MdEvent style={{ width: '50px', height: '50px' }} />,
@@ -89,13 +98,13 @@ const routes = [
         path: "report",
         component: <Report />
     },
-    {
-        name: "Thông báo",
-        layout: "/admin",
-        icon: <IoMdNotificationsOutline style={{ width: '50px', height: '50px' }} />,
-        path: "notifications",
-        component: <NotificationForUser />
-    },
+    // {
+    //     name: "Thông báo",
+    //     layout: "/admin",
+    //     icon: <IoMdNotificationsOutline style={{ width: '50px', height: '50px' }} />,
+    //     path: "notifications",
+    //     component: <NotificationForUser />
+    // },
     {
         name: "",
         layout: "/admin",
