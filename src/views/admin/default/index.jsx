@@ -6,7 +6,8 @@ import { useNavigate } from 'react-router-dom';
 import { format } from 'date-fns';
 import { MdOutlineLocalCafe } from "react-icons/md";
 import * as d3 from 'd3';
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, PieChart, Pie, Cell } from 'recharts';
+import { MdOutlineSmsFailed } from "react-icons/md";
 const DashboardAdmin = () => {
     const [profitData, setProfitData] = useState([]);
     const [events, setEvents] = useState([]);
@@ -32,8 +33,11 @@ const DashboardAdmin = () => {
                         case 'Blog':
                             icon = <Icon.Bold />;
                             break;
-                        case 'Total Matched':
+                        case 'Matched Succeed':
                             icon = <MdOutlineLocalCafe />;
+                            break;
+                        case 'Matched Failed':
+                            icon = <MdOutlineSmsFailed />
                             break;
                         default:
                             break;
@@ -43,8 +47,9 @@ const DashboardAdmin = () => {
                         title: entity.entity_type === 'Blog' ? `Tổng số bài viết` :
                             entity.entity_type === 'Account' ? `Tổng số tài khoản` :
                                 entity.entity_type === 'Event' ? `Tổng số sự kiện` :
-                                    entity.entity_type === 'Total Matched' ? `Tổng số lượt ghép thành công` :
-                                        `Tổng số ${entity.entity_type}s`,
+                                    entity.entity_type === 'Matched Succeed' ? `Tổng số lượt ghép thành công` :
+                                        entity.entity_type === 'Matched Failed' ? `Tổng số lượt ghép thất bại` :
+                                            `Tổng số ${entity.entity_type}s`,
                         amount: entity.entity_count
                     };
                 });
@@ -122,6 +127,36 @@ const DashboardAdmin = () => {
         ];
         return monthNames[parseInt(month) - 1]; // Chuyển đổi số tháng thành tên tháng
     };
+    //----------------------------------Thông kế số matching----------------------------------------------------//
+    const [entityData, setEntityData] = useState([]);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await fetch('https://sharing-coffee-be-capstone-com.onrender.com/api/admin/statics');
+                const data = await response.json();
+                setEntityData(data); // Đổi tên biến data thành entityData
+            } catch (error) {
+                console.error('Error fetching data:', error);
+            }
+        };
+
+        fetchData();
+    }, []);
+
+    // Filter data for "Matched Succeed" and "Matched Failed" entities
+    const matchedSucceedData = entityData.find(item => item.entity_type === 'Matched Succeed');
+    const matchedFailedData = entityData.find(item => item.entity_type === 'Matched Failed');
+
+    // Prepare data for pie chart
+    const pieData = [
+        { name: 'Ghép thành công', value: matchedSucceedData ? parseInt(matchedSucceedData.entity_count) : 0 },
+        { name: 'Ghép thất bại', value: matchedFailedData ? parseInt(matchedFailedData.entity_count) : 0 }
+    ];
+
+    // Custom colors for pie chart sectors
+    const colors = ['#7A5548', '#607D8A'];
+
     return (
         <div>
             <div className="grid xl:grid-cols-3 md:grid-cols-3 grid-cols-1 mt-6 gap-6">
@@ -146,32 +181,54 @@ const DashboardAdmin = () => {
                     </div>
                 ))}
             </div>
-            <div className='w-[500px] mt-5'>
-                <h2 className='font-bold text-xl mb-4'>Thống kê sự kiện</h2>
-                <select onChange={handleYearChange} value={selectedYear}>
-                    {years.map(year => (
-                        <option key={year} value={year}>
-                            {year}
-                        </option>
-                    ))}
-                </select>
-                <BarChart
-                    width={800}
-                    height={400}
-                    data={filteredData}
-                    margin={{ top: 30, right: 30, left: 20, bottom: 50 }}
-                >
-                    <CartesianGrid strokeDasharray="3 3" />
-                    <XAxis dataKey="event_month" tickFormatter={formatXAxis} />
-                    <YAxis
-                        label={{ value: 'Số sự kiện', angle: -90, position: 'insideLeft', offset: -10 }}
-                        domain={[0, maxEventCount]}
-                    />
-                    <Tooltip content={customTooltip} />
-                    <Legend />
-                    <Bar dataKey="event_count" fill="#AD735F" name="Sự kiện" />
-                </BarChart>
-            </div>
+            <div className='flex'>
+                <div className='w-[500px] mt-5'>
+                    <h2 className='font-bold text-xl mb-4'>Thống kê sự kiện</h2>
+                    <select onChange={handleYearChange} value={selectedYear}>
+                        {years.map(year => (
+                            <option key={year} value={year}>
+                                {year}
+                            </option>
+                        ))}
+                    </select>
+                    <BarChart
+                        width={800}
+                        height={400}
+                        data={filteredData}
+                        margin={{ top: 30, right: 30, left: 20, bottom: 50 }}
+                    >
+                        <CartesianGrid strokeDasharray="3 3" />
+                        <XAxis dataKey="event_month" tickFormatter={formatXAxis} />
+                        <YAxis
+                            label={{ value: 'Số sự kiện', angle: -90, position: 'insideLeft', offset: -10 }}
+                            domain={[0, maxEventCount]}
+                        />
+                        <Tooltip content={customTooltip} />
+                        <Legend />
+                        <Bar dataKey="event_count" fill="#AD735F" name="Sự kiện" />
+                    </BarChart>
+                </div>
+                <div style={{ width: '400px', margin: 'auto' }}>
+                    <h2>Thống kê tỉ lệ thành công, thất bại</h2>
+                    <PieChart width={400} height={400}>
+                        <Pie
+                            data={pieData}
+                            dataKey="value"
+                            nameKey="name"
+                            cx="50%"
+                            cy="50%"
+                            outerRadius={150}
+                            fill="#8884d8"
+                            label
+                        >
+                            {pieData.map((entry, index) => (
+                                <Cell key={`cell-${index}`} fill={colors[index % colors.length]} />
+                            ))}
+                        </Pie>
+                        <Tooltip />
+                        <Legend />
+                    </PieChart>
+                </div></div>
         </div>
     );
 };
