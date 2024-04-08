@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-
+import { CiSearch } from "react-icons/ci";
 function Weather() {
     const [cityName, setCityName] = useState('');
     const [weatherData, setWeatherData] = useState(null);
@@ -41,7 +41,9 @@ function Weather() {
                     <div className='flex items-center mt-[20px]'>
                         <form onSubmit={handleSubmit}>
                             <div className='flex items-center mt-[20px]'>
-                                <div className='border-[1px] rounded-xl w-[350px] h-[52px] shadow-xl'>
+                                <div className='border-[1px] rounded-xl w-[350px] h-[52px] shadow-xl flex items-center'>
+                                    <CiSearch className='ml-1 w-8' />
+
                                     <input
                                         type="text"
                                         value={cityName}

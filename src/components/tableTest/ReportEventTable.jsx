@@ -14,10 +14,45 @@ import { IoArrowForward } from "react-icons/io5";
 const ReportEventTable = ({ reports }) => {
     const [selectedReport, setselectedReport] = useState(null);
     const [modalIsOpen, setModalIsOpen] = useState(false);
+    const [modalConfirm, setModalConfirm] = useState(false);
     const navigate = useNavigate();
 
+    const [actionConfirmed, setActionConfirmed] = useState(false); // State để theo dõi xác nhận hành động
     const data = useMemo(() => reports, [reports]);
 
+    const updateEventAvailability = async (eventId, currentAvailability) => {
+        try {
+            const response = await axios.put(`https://sharing-coffee-be-capstone-com.onrender.com/api/admin/event/${eventId}`, {
+                is_approve: !currentAvailability
+            });
+
+            console.log('Cập nhật trạng thái thành công:', response.data);
+
+            // Cập nhật trực tiếp trạng thái của blog trong mảng data
+            const updatedBlog = response.data;
+            const updatedData = data.map(blog => {
+                if (blog.blog_id === updatedBlog.blog_id) {
+                    return { ...blog, is_approve: updatedBlog.is_approve };
+                }
+                return blog;
+            });
+
+            // Không cần cập nhật state, dữ liệu được cập nhật trực tiếp trong useMemo
+
+        } catch (error) {
+            console.error('Lỗi khi cập nhật trạng thái:', error);
+            // Xử lý lỗi nếu có
+        }
+    };
+
+    const handleConfirmAction = () => {
+        // Đặt lại state xác nhận và đóng modal
+        setActionConfirmed(true);
+        setModalConfirm(false);
+
+        // Thực hiện hành động (cập nhật trạng thái)
+        updateEventAvailability(selectedReport.event_id, selectedReport.is_approve);
+    };
     const columns = useMemo(
         () => [
             {
@@ -47,7 +82,7 @@ const ReportEventTable = ({ reports }) => {
             {
                 Header: 'Thông tin',
                 Cell: ({ row }) => (
-                    <div>
+                    <div className='flex'>
                         <div className='border border-[#246BFD] bg-[#246BFD] rounded w-fit p-1'>
                             <button
                                 onClick={() => {
@@ -58,6 +93,22 @@ const ReportEventTable = ({ reports }) => {
                                 className="text-xl text-white p-2"
                             >
                                 Chi tiết
+                            </button>
+                        </div>
+                        <div
+                            className={` rounded w-fit p-1 ml-2 ${row.original.is_approve ? 'bg-[#F75555]' : 'bg-green-500'}`}
+                        >
+                            <button
+                                onClick={() => {
+                                    // Mở modal xác nhận hành động
+                                    setselectedReport(row.original);
+                                    setModalConfirm(true);
+                                    setActionConfirmed(false); // Đặt lại trạng thái xác nhận
+                                }}
+                                type="button"
+                                className="text-xl text-white p-2"
+                            >
+                                {row.original.is_approve ? 'Vô hiệu hóa' : 'Kích hoạt'}
                             </button>
                         </div>
                     </div>
@@ -339,6 +390,27 @@ const ReportEventTable = ({ reports }) => {
                         <button onClick={() => setModalIsOpen(false)} className="absolute top-0 right-0 mt-2 mr-2 hover:bg-red-600 text-gray-800 font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
                             <MdClose />
                         </button>
+                    </div>
+                </Modal>
+                <Modal className="w-fit flex justify-center items-center" isOpen={modalConfirm} onClose={() => setModalConfirm(false)}>
+                    <div className="px-4 min-h-screen md:flex items-center justify-center ml-[700px]">
+                        <div class="bg-black opacity-25 w-full h-full absolute z-10 inset-0"></div>
+                        <div class="bg-white rounded-lg md:max-w-md md:mx-auto p-4 fixed inset-x-0 bottom-0 z-50 mb-4 mx-4 md:relative">
+                            <div class="md:flex items-center">
+                                {/* <div class="rounded-full border border-gray-300 flex items-center justify-center w-16 h-16 flex-shrink-0 mx-auto">
+                                    <i class="bx bx-error text-3xl"></i>
+                                </div> */}
+                                <div class="mt-4 md:mt-0 md:ml-6 text-center md:text-left">
+                                    <p className='font-bold'>Bạn có chắc chắn muốn {selectedReport && selectedReport.is_approve ? 'vô hiệu hóa' : 'kích hoạt'} sự kiện ?</p>
+                                    {/* <p class="text-sm text-gray-700 mt-1">You will lose all of your data by deleting your account. This action cannot be undone.
+                                    </p> */}
+                                </div>
+                            </div>
+                            <div className="modal-actions text-center md:text-right mt-4 md:flex md:justify-end">
+                                <button className="block w-full md:inline-block md:w-auto px-4 py-3 md:py-2 bg-red-200 text-red-700 rounded-lg font-semibold text-sm md:ml-2 md:order-2" onClick={handleConfirmAction}>Xác nhận</button>
+                                <button className="block w-full md:inline-block md:w-auto px-4 py-3 md:py-2 bg-gray-200 rounded-lg font-semibold text-sm" onClick={() => setModalConfirm(false)}>Hủy</button>
+                            </div>
+                        </div>
                     </div>
                 </Modal>
             </div >
