@@ -161,9 +161,9 @@ const DashboardAdmin = () => {
         <div>
             <div className="grid xl:grid-cols-3 md:grid-cols-3 grid-cols-1 mt-6 gap-6">
                 {profitData.map((item, index) => (
-                    <div className="relative overflow-hidden rounded-md shadow dark:shadow-gray-700 bg-white dark:bg-slate-900" key={index}>
+                    <div className="relative overflow-hidden rounded-md shadow  bg-white" key={index}>
                         <div className="p-5 flex items-center">
-                            <span className="flex justify-center items-center rounded-md h-14 w-14 min-w-[56px] bg-indigo-600/5 dark:bg-indigo-600/10 shadow shadow-indigo-600/5 dark:shadow-indigo-600/10 text-[#AD735F]">
+                            <span className="flex justify-center items-center rounded-md h-14 w-14 min-w-[56px] bg-indigo-600/5  shadow shadow-indigo-600/5 text-[#AD735F]">
                                 {item.icon}
                             </span>
                             <span className="ms-3">
