@@ -17,12 +17,12 @@ const Navbar = (props) => {
   const [darkmode, setDarkmode] = React.useState(false);
 
   return (
-    <nav className="sticky top-4 z-40 flex flex-row flex-wrap items-center justify-between rounded-xl bg-white/10 p-2 backdrop-blur-xl dark:bg-[#0b14374d] ml-3">
+    <nav className="sticky top-4 z-40 flex flex-row flex-wrap items-center justify-between rounded-xl bg-white/10 p-2 backdrop-blur-xl ml-3">
       <div className="ml-[6px]">
         <div className="h-6 w-full pt-1">
 
           <Link
-            className="text-3xl font-normal text-navy-700 hover:underline dark:text-white dark:hover:text-white"
+            className="text-3xl font-normal text-navy-700 hover:underline"
             to="#"
           >
             {brandText}
