@@ -3,9 +3,7 @@ import { useTable, usePagination, useGlobalFilter, useSortBy } from 'react-table
 import { Card, Typography } from "@material-tailwind/react";
 import { GlobalFilter } from '../table/GlobalFilter';
 import { FaArrowDown, FaArrowUp } from "react-icons/fa";
-import { MdClose } from "react-icons/md";
-import Modal from 'react-modal';
-import { format } from 'date-fns';
+
 function ScheduleTable({ schedule }) {
     const [selectedSchedule, setSelectedSchedule] = useState(null);
     const [modalIsOpen, setModalIsOpen] = useState(false);
@@ -98,7 +96,7 @@ function ScheduleTable({ schedule }) {
                         ))
                     }
                 </div> */}
-                <Card className="h-full w-full overflow-scroll">
+                <Card className="h-full w-full">
                     <table {...getTableProps()} className="w-full min-w-max table-auto text-left">
                         <thead >
                             {headerGroups.map(headerGroup => (
