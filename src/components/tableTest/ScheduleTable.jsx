@@ -98,7 +98,7 @@ function ScheduleTable({ schedule }) {
                         ))
                     }
                 </div> */}
-                <Card className="h-full w-full overflow-scroll">
+                <Card className="h-full w-full">
                     <table {...getTableProps()} className="w-full min-w-max table-auto text-left">
                         <thead >
                             {headerGroups.map(headerGroup => (

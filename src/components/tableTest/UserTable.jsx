@@ -159,25 +159,7 @@ const UserTable = ({ users }) => {
         <>
             <div className='mt-[40px] p-1'>
                 <GlobalFilter filter={globalFilter} setFilter={setGlobalFilter} />
-                {/* <div className="checkbox-group flex  justify-center">
-                    <div className="checkbox-container">
-                        <Checkbox {...getToggleHideAllColumnsProps()} /><p className='text-xl font-sans'>Tất cả</p>
-                    </div>
-                    {
-                        allColumns.map(column => (
-                            <div key={column.id} className="checkbox-container">
-                                <label style={{ marginLeft: "30px" }}>
-                                    <input
-                                        type='checkbox' {...column.getToggleHiddenProps()}
-                                        className="mr-3"
-                                    />
-                                    <p className='text-xl font-sans'>{column.Header}</p>
-                                </label>
-                            </div>
-                        ))
-                    }
-                </div> */}
-                <Card className="h-full w-full overflow-scroll">
+                <Card className="h-full w-full">
                     <table {...getTableProps()} className="w-full min-w-max table-auto text-left">
                         <thead>
                             {headerGroups.map(headerGroup => (
