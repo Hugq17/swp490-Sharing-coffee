@@ -262,7 +262,7 @@ function App() {
                                 </div>
                                 <div className="flex items-center justify-between ml-2">
                                     <button
-                                        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                                        className="bg-[#F6EFED] hover:bg-[#A4634D] text-[#A4634D] hover:text-[#F6EFED] font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
                                         onClick={handleSubmit}
                                     >
                                         Thêm
