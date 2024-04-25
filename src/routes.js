@@ -3,7 +3,6 @@ import SignIn from "./views/auth/SignIn";
 import MainDashboardAdmin from './views/admin/default'
 import Interest from './views/admin/interest'
 import { MdInterests } from "react-icons/md";
-import Forgotpassword from "./views/auth/Forgotpassword";
 import Blog from "./views/admin/blog";
 import ManageEvent from "./views/admin/event";
 import ManageAccount from "./views/admin/account";
@@ -35,12 +34,6 @@ const routes = [
         layout: "/auth",
         path: "sign-in",
         component: <SignIn />,
-    },
-    {
-        name: "Forget Password",
-        layout: "/auth",
-        path: "Forget-Password",
-        component: <Forgotpassword />,
     },
     {
         name: "Trang chủ",

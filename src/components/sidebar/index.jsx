@@ -37,7 +37,7 @@ const Sidebar = ({ open, onClose }) => {
                 <button className="hover:bg-red-600 text-gray-800 font-bold w-max p-3 rounded-xl focus:outline-none focus:shadow-outline" onClick={() => {
                     localStorage.removeItem('token');
                     window.location.reload();
-                }}>Logout</button>
+                }}>Đăng xuất</button>
             </span>
         </div>
     )
