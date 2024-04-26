@@ -38,42 +38,42 @@ const routes = [
     {
         name: "Trang chủ",
         layout: "/admin",
-        icon: <AiOutlineHome style={{ width: '50px', height: '50px' }} />,
+        icon: <AiOutlineHome style={{ width: '40px', height: '40px' }} />,
         path: "default",
         component: <MainDashboardAdmin />
     },
     {
         name: "Chủ đề quan tâm",
         layout: "/admin",
-        icon: <MdInterests style={{ width: '50px', height: '50px' }} />,
+        icon: <MdInterests style={{ width: '40px', height: '40px' }} />,
         path: "interest",
         component: <IndexV3 />,
     },
     {
         name: "Tài khoản",
         layout: "/admin",
-        icon: <MdSupervisorAccount style={{ width: '50px', height: '50px' }} />,
+        icon: <MdSupervisorAccount style={{ width: '40px', height: '40px' }} />,
         path: "account",
         component: <ManageAccount />
     },
     {
         name: "Cuộc hẹn",
         layout: "/admin",
-        icon: <GrSchedule style={{ width: '50px', height: '50px' }} />,
+        icon: <GrSchedule style={{ width: '40px', height: '40px' }} />,
         path: "schedule",
         component: <Schedule />
     },
     {
         name: "Sự kiện",
         layout: "/admin",
-        icon: <MdEvent style={{ width: '50px', height: '50px' }} />,
+        icon: <MdEvent style={{ width: '40px', height: '40px' }} />,
         path: "event",
         component: <ManageEvent />
     },
     {
         name: "Bài viết",
         layout: "/admin",
-        icon: <BsFileEarmarkPost style={{ width: '50px', height: '50px' }} />,
+        icon: <BsFileEarmarkPost style={{ width: '40px', height: '40px' }} />,
         path: "blog",
         component: <Blog />
     },
@@ -87,7 +87,7 @@ const routes = [
     {
         name: "Báo cáo",
         layout: "/admin",
-        icon: <VscReport style={{ width: '50px', height: '50px' }} />,
+        icon: <VscReport style={{ width: '40px', height: '40px' }} />,
         path: "report",
         component: <Report />
     },
