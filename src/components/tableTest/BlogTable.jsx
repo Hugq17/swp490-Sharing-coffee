@@ -60,6 +60,10 @@ const BlogTable = ({ blogs }) => {
                 Cell: ({ value }) => <span>{value}</span>,
             },
             {
+                Header: 'Id bài viết',
+                accessor: 'blog_id',
+            },
+            {
                 Header: 'Hình ảnh',
                 accessor: 'image',
                 Cell: ({ cell: { value } }) => <img src={value} alt="Hình ảnh" style={{ maxWidth: '100px', maxHeight: '100px' }} />,

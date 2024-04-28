@@ -51,7 +51,12 @@ const UserTable = ({ users }) => {
                 Cell: ({ value }) => <span className='text-xl'>{value}</span>
             },
             {
-                Header: 'Hình ảnh',
+                Header: 'Id người dùng',
+                accessor: 'user_id',
+                Cell: ({ value }) => <span className='text-xl'>{value}</span>
+            },
+            {
+                Header: 'Hình ảnh', 
                 accessor: 'profile_avatar',
                 Cell: ({ cell: { value } }) => {
                     if (!value || value === '' || value === null) {
