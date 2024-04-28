@@ -4,7 +4,8 @@ import InterestV4 from "./indexv4";
 import { LuUpload } from "react-icons/lu";
 import { IoSend } from "react-icons/io5";
 import { FaPen } from "react-icons/fa";
-import { toast } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 function App() {
   const [data, setData] = useState([]);
   const [itemsWithNullParentId, setItemsWithNullParentId] = useState([]);
@@ -15,13 +16,17 @@ function App() {
   const [nameParent, setNameParent] = useState("");
   const [showInput, setShowInput] = useState({}); // Trạng thái hiển thị input
   const [childName, setChildName] = useState("");
+  //---------------------------------------------Danh sach thong bao---------------------------------------//
+  const notifySuccess = () => toast("Thêm chủ đề thành công");
+  const notifyFail = () => toast("Thêm chủ đề thất bại");
+  const notifyEmpty = () => toast("Vui lòng điền đủ thông tin");
   //--------------------------------------------Thêm một parent interest-----------------------------------//
 
   const handleSubmit = async () => {
     // Kiểm tra nếu nameParent hoặc image là null
     if (!nameParent || !image) {
       // Hiển thị thông báo sử dụng react-toastify
-      toast.error("Vui lòng nhập đủ thông tin");
+      notifyEmpty();
       return; // Dừng xử lý hàm
     }
 
@@ -40,7 +45,6 @@ function App() {
           },
         }
       );
-
       console.log("New data:", response.data);
       setData((prevData) => [...prevData, response.data]);
 
@@ -49,6 +53,12 @@ function App() {
       setSelectedFile("");
 
       console.log("Image after posting: " + image);
+      if (response.status === 201){
+        notifyFail()
+      } else {
+        console.error("Failed to add topic");
+        notifySuccess();
+      }
     } catch (error) {
       console.error("Error:", error);
     }
@@ -114,7 +124,7 @@ function App() {
       [interestId]: !prevState[interestId],
     }));
   };
-
+//---------------------------------------------Thêm chủ đề con--------------------------------------------------------------//
   const addChildInterest = async (childName, parentId) => {
     try {
       const response = await axios.post(
@@ -132,6 +142,12 @@ function App() {
 
       // Cập nhật state để hiển thị phần tử mới
       setItemsWithNullParentId((prevItems) => [...prevItems, newItem]);
+      if (response.status === 201){
+        notifyFail()
+      } else {
+        console.error("Failed to add topic");
+        notifySuccess();
+      }
     } catch (error) {
       console.error("Error adding child interest:", error);
     }
@@ -285,6 +301,7 @@ function App() {
                   >
                     Thêm
                   </button>
+                  <ToastContainer />
                 </div>
               </div>
             </div>
@@ -306,23 +323,6 @@ function App() {
                   <button onClick={() => handleUploadButton(item.interest_id)}>
                     Upload ảnh
                   </button>
-                )}
-                {showPopup && (
-                  <div className="popup">
-                    {/* Nội dung của popup ở đây */}
-                    <input
-                      type="file"
-                      name="file"
-                      id="fileInput"
-                      onChange={uploadImage}
-                      className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                    />
-                    <button onClick={() => updateInterest()}>
-                      update hình nè
-                    </button>
-
-                    <button onClick={handleClosePopup}>Đóng</button>
-                  </div>
                 )}
                 <p
                   className="text-2xl font-sans"
@@ -385,7 +385,7 @@ function App() {
                                     className="border border-gray-400 px-2 py-1 rounded mr-2 w-full"
                                   />
                                   <button
-                                    className="text-blue-500 hover:text-blue-700"
+                                    className="text-[#A4634D]"
                                     onClick={() =>
                                       handleUpdateClick(
                                         childItem.interest_id,
@@ -399,7 +399,7 @@ function App() {
                                 </div>
                                 <div className="flex">
                                   <button
-                                    className="text-blue-500 hover:text-blue-700 hover:underline ml-2"
+                                    className="text-[#A4634D]"
                                     onClick={() =>
                                       handleCancelClick(childIndex)
                                     }
