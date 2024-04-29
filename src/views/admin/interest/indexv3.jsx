@@ -53,7 +53,7 @@ function App() {
       setSelectedFile("");
 
       console.log("Image after posting: " + image);
-      if (response.status === 201){
+      if (response.status === 201) {
         notifyFail()
       } else {
         console.error("Failed to add topic");
@@ -124,7 +124,7 @@ function App() {
       [interestId]: !prevState[interestId],
     }));
   };
-//---------------------------------------------Thêm chủ đề con--------------------------------------------------------------//
+  //---------------------------------------------Thêm chủ đề con--------------------------------------------------------------//
   const addChildInterest = async (childName, parentId) => {
     try {
       const response = await axios.post(
@@ -142,7 +142,7 @@ function App() {
 
       // Cập nhật state để hiển thị phần tử mới
       setItemsWithNullParentId((prevItems) => [...prevItems, newItem]);
-      if (response.status === 201){
+      if (response.status === 201) {
         notifyFail()
       } else {
         console.error("Failed to add topic");
@@ -153,7 +153,7 @@ function App() {
     }
   };
   //---------------------------------Xử lý và cập nhật hình ảnh-------------------------------------------------------//
-  const handleUpdateImg = (interest_id) => {};
+  const handleUpdateImg = (interest_id) => { };
 
   const [showPopup, setShowPopup] = useState(false);
   const [interest_id, setInterest_id] = useState("");
@@ -307,128 +307,131 @@ function App() {
             </div>
           </div>
           {/* <h2 className="text-xl font-bold mb-2">Items with null parent_interest_id:</h2> */}
-          <div className="flex flex-wrap gap-5 justify-center">
+          <div className="flex flex-wrap gap-3 justify-center">
             {itemsWithNullParentId.map((item, index) => (
               <div
                 key={index}
-                className="relative flex flex-col justify-center items-center mt-8 text-gray-700 bg-white border-[0.5] border-blue-700 rounded-xl w-96"
+                className="relative flex flex-col justify-center items-center mt-4 text-gray-700 bg-white border-[0.5] border-blue-700 rounded-xl w-60"
               >
-                {item.image ? (
-                  <img
-                    className="rounded-2xl w-2/3 object-cover"
-                    src={item.image}
-                    onClick={() => handleUpdateImg(item.interest_id)}
-                  />
-                ) : (
-                  <button onClick={() => handleUploadButton(item.interest_id)}>
-                    Upload ảnh
-                  </button>
-                )}
-                <p
-                  className="text-2xl font-sans"
-                  onClick={() => toggleItem(item.interest_id)}
-                >
-                  {item.name}
-                </p>
-                <br />
-                {expandedItems[item.interest_id] && (
-                  <div className="w-full">
-                    {showInput[item.interest_id] && (
-                      <div className="flex items-center mb-2">
-                        <input
-                          type="text"
-                          className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                          placeholder="Nhập"
-                          onChange={(e) => setChildName(e.target.value)}
-                        />
-                        <button
-                          onClick={() =>
-                            addChildInterest(childName, item.interest_id)
-                          }
-                          className="ml-2 bg-[#F6EFED] hover:bg-[#A4634D] text-[#A4634D] py-2 px-4 rounded focus:outline-none hover:text-white focus:shadow-outline"
-                        >
-                          Thêm
-                        </button>
-                      </div>
-                    )}
-                    <button
-                      className="m-2"
-                      onClick={() =>
-                        setShowInput((prevState) => ({
-                          ...prevState,
-                          [item.interest_id]: !prevState[item.interest_id],
-                        }))
-                      }
-                    >
-                      {showInput[item.interest_id] ? "Đóng" : "Thêm chủ đề"}
+                <div className="p-3">
+                  {item.image ? (
+                    <img
+                      className="rounded-2xl w-full object-cover mb-2"
+                      src={item.image}
+                      onClick={() => handleUpdateImg(item.interest_id)}
+                      alt={item.name}
+                    />
+                  ) : (
+                    <button onClick={() => handleUploadButton(item.interest_id)}>
+                      Upload ảnh
                     </button>
-                    <ul className="grid grid-cols-2 gap-4">
-                      {itemsWithNonNullParentId
-                        .filter(
-                          (childItem) =>
-                            childItem.parent_interest_id === item.interest_id
-                        )
-                        .map((childItem, childIndex) => (
-                          <li
-                            key={childIndex}
-                            className="flex items-center justify-center p-2 border border-gray-300 rounded-xl m-2"
+                  )}
+                  <p
+                    className="text-lg font-sans mb-1 cursor-pointer"
+                    onClick={() => toggleItem(item.interest_id)}
+                  >
+                    {item.name}
+                  </p>
+                  {expandedItems[item.interest_id] && (
+                    <div className="w-full">
+                      {showInput[item.interest_id] && (
+                        <div className="flex items-center mb-2">
+                          <input
+                            type="text"
+                            className="border rounded py-1 px-2 text-gray-700 leading-tight focus:outline-none focus:shadow-outline flex-grow"
+                            placeholder="Nhập"
+                            onChange={(e) => setChildName(e.target.value)}
+                          />
+                          <button
+                            onClick={() =>
+                              addChildInterest(childName, item.interest_id)
+                            }
+                            className="ml-2 bg-[#F6EFED] hover:bg-[#A4634D] text-[#A4634D] py-1 px-3 rounded focus:outline-none hover:text-white focus:shadow-outline"
                           >
-                            {editingIndex === childIndex ? (
-                              <div className="flex flex-col justify-center items-center">
-                                <div className="flex">
-                                  <input
-                                    type="text"
-                                    value={inputValue}
-                                    onChange={(e) =>
-                                      handleInputChange(e, childIndex)
-                                    }
-                                    className="border border-gray-400 px-2 py-1 rounded mr-2 w-full"
-                                  />
-                                  <button
-                                    className="text-[#A4634D]"
-                                    onClick={() =>
-                                      handleUpdateClick(
-                                        childItem.interest_id,
-                                        inputValue,
-                                        childItem.name
-                                      )
-                                    }
-                                  >
-                                    <IoSend />
-                                  </button>
+                            Thêm
+                          </button>
+                        </div>
+                      )}
+                      <button
+                        className="mb-2"
+                        onClick={() =>
+                          setShowInput((prevState) => ({
+                            ...prevState,
+                            [item.interest_id]: !prevState[item.interest_id],
+                          }))
+                        }
+                      >
+                        {showInput[item.interest_id] ? "Đóng" : "Thêm chủ đề"}
+                      </button>
+                      <ul className="grid grid-cols-1 gap-2">
+                        {itemsWithNonNullParentId
+                          .filter(
+                            (childItem) =>
+                              childItem.parent_interest_id === item.interest_id
+                          )
+                          .map((childItem, childIndex) => (
+                            <li
+                              key={childIndex}
+                              className="flex items-center justify-center p-1 border border-gray-300 rounded-xl"
+                            >
+                              {editingIndex === childIndex ? (
+                                <div className="flex flex-col justify-center items-center">
+                                  <div className="flex">
+                                    <input
+                                      type="text"
+                                      value={inputValue}
+                                      onChange={(e) =>
+                                        handleInputChange(e, childIndex)
+                                      }
+                                      className="border rounded px-1 py-1 mr-2 w-full"
+                                    />
+                                    <button
+                                      className="text-[#A4634D]"
+                                      onClick={() =>
+                                        handleUpdateClick(
+                                          childItem.interest_id,
+                                          inputValue,
+                                          childItem.name
+                                        )
+                                      }
+                                    >
+                                      <IoSend />
+                                    </button>
+                                  </div>
+                                  <div className="flex">
+                                    <button
+                                      className="text-[#A4634D]"
+                                      onClick={() =>
+                                        handleCancelClick(childIndex)
+                                      }
+                                    >
+                                      Hủy
+                                    </button>
+                                  </div>
                                 </div>
-                                <div className="flex">
+                              ) : (
+                                <>
+                                  <p className="font-sans text-base">
+                                    {childItem.name}
+                                  </p>
                                   <button
-                                    className="text-[#A4634D]"
-                                    onClick={() =>
-                                      handleCancelClick(childIndex)
-                                    }
+                                    className="ml-2 text-red-500 hover:text-red-700"
+                                    onClick={() => setEditingIndex(childIndex)}
                                   >
-                                    Hủy
+                                    <FaPen className="text-black" />
                                   </button>
-                                </div>
-                              </div>
-                            ) : (
-                              <>
-                                <p className="font-sans text-lg">
-                                  {childItem.name}
-                                </p>
-                                <button
-                                  className="ml-2 text-red-500 hover:text-red-700"
-                                  onClick={() => setEditingIndex(childIndex)}
-                                >
-                                  <FaPen className="text-black" />
-                                </button>
-                              </>
-                            )}
-                          </li>
-                        ))}
-                    </ul>
-                  </div>
-                )}
+                                </>
+                              )}
+                            </li>
+                          ))}
+                      </ul>
+                    </div>
+                  )}
+                </div>
               </div>
             ))}
           </div>
+
         </div>
       )}
     </div>

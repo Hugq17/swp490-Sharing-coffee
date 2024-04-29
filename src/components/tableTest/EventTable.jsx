@@ -61,6 +61,10 @@ const EventTable = ({ events }) => {
                 Cell: ({ value }) => <span>{value}</span>,
             },
             {
+                Header: 'Id sự kiện',
+                accessor: 'event_id',
+            },
+            {
                 Header: 'Hình ảnh',
                 accessor: 'background_img',
                 Cell: ({ cell: { value } }) => <img src={value} alt="Hình ảnh" style={{ maxWidth: '100px', maxHeight: '100px' }} />,

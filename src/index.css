@@ -1,3 +1,11 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@media (min-width: 1920px) {
+    /* CSS rules for screens with width 1920px or larger */
+}
+
+@media (max-width: 1920px) {
+    /* CSS rules for screens with width up to 1920px */
+}

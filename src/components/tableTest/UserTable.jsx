@@ -48,7 +48,12 @@ const UserTable = ({ users }) => {
             {
                 Header: 'STT',
                 accessor: (row, index) => index + 1,
-                Cell: ({ value }) => <span className='text-xl'>{value}</span>
+                Cell: ({ value }) => <span className='text-sm'>{value}</span>
+            },
+            {
+                Header: 'Id người dùng',
+                accessor: 'user_id',
+                Cell: ({ value }) => <span className='text-sm'>{value}</span>
             },
             {
                 Header: 'Hình ảnh',
@@ -63,18 +68,18 @@ const UserTable = ({ users }) => {
             {
                 Header: 'Người dùng',
                 accessor: 'user_name',
-                Cell: ({ value }) => <span className='text-xl'>{value}</span>
+                Cell: ({ value }) => <span className='text-sm'>{value}</span>
             },
             {
                 Header: 'Số điện thoại',
                 accessor: 'phone',
-                Cell: ({ value }) => <span className='text-xl'>{value}</span>
+                Cell: ({ value }) => <span className='text-sm'>{value}</span>
             },
             {
                 Header: 'Trạng thái',
                 accessor: 'is_available',
                 Cell: ({ value }) => (
-                    <span className={`text-xl font-sans p-2 rounded ${value ? 'bg-[#4AAF57] text-white' : 'bg-[#F54336] text-white'}`}>
+                    <span className={`text-sm font-sans p-2 rounded ${value ? 'bg-[#4AAF57] text-white' : 'bg-[#F54336] text-white'}`}>
                         {value ? 'Kích hoạt' : 'Vô hiệu hóa'}
                     </span>
                 )
@@ -82,7 +87,7 @@ const UserTable = ({ users }) => {
             {
                 Header: 'Ngày tạo',
                 accessor: 'registration',
-                Cell: ({ value }) => <span className='text-xl'>{value}</span>
+                Cell: ({ value }) => <span className='text-sm'>{value}</span>
             },
             {
                 Header: 'Thông tin',
@@ -96,7 +101,7 @@ const UserTable = ({ users }) => {
                                     setModalIsOpen(true);
                                 }}
                                 type="button"
-                                className="text-xl text-white p-2"
+                                className="text-sm text-white p-2"
                             >
                                 Xem hồ sơ người dùng
                             </button>
@@ -112,7 +117,7 @@ const UserTable = ({ users }) => {
                                     setActionConfirmed(false); // Đặt lại trạng thái xác nhận
                                 }}
                                 type="button"
-                                className="text-xl text-white p-2"
+                                className="text-sm text-white p-2"
                             >
                                 {row.original.is_available ? 'Vô hiệu hóa' : 'Kích hoạt'}
                             </button>
@@ -157,10 +162,10 @@ const UserTable = ({ users }) => {
 
     return (
         <>
-            <div className='mt-[40px] p-1'>
+            <div className='mt-3'>
                 <GlobalFilter filter={globalFilter} setFilter={setGlobalFilter} />
-                <Card className="h-full w-full">
-                    <table {...getTableProps()} className="w-full min-w-max table-auto text-left">
+                <Card className="">
+                    <table {...getTableProps()} className="text-left">
                         <thead>
                             {headerGroups.map(headerGroup => (
                                 <tr {...headerGroup.getHeaderGroupProps()}>
@@ -173,7 +178,7 @@ const UserTable = ({ users }) => {
                                                 <Typography
                                                     variant="small"
                                                     color="blue-gray"
-                                                    className="leading-none opacity-70 font-bold text-2xl"
+                                                    className="leading-none opacity-70 font-bold text-base"
                                                 >{column.render('Header')}
                                                 </Typography>
                                                 <span className='ml-5'>
@@ -198,9 +203,9 @@ const UserTable = ({ users }) => {
                                             return (
                                                 <td
                                                     {...cell.getCellProps()}
-                                                    className="p-4"
+                                                    className="p-4 text-sm"
                                                 >
-                                                    <Typography variant="small" className="font-sans"> {cell.render('Cell')}</Typography>
+                                                    <Typography className="text-sm"> {cell.render('Cell')}</Typography>
                                                 </td>
                                             );
                                         })}
