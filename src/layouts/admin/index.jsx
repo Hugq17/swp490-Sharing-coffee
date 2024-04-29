@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { Routes, Route, Navigate, useLocation } from "react-router-dom";
 import Navbar from "../../components/navbar";
 import Sidebar from "../../components/sidebar";
-// import Footer from "components/footer/Footer";
 import routes from "../../routes.js";
 
 export default function Admin(props) {
@@ -37,17 +36,17 @@ export default function Admin(props) {
         }
         return activeRoute;
     };
-    const getActiveNavbar = (routes) => {
-        let activeNavbar = false;
-        for (let i = 0; i < routes.length; i++) {
-            if (
-                window.location.href.indexOf(routes[i].layout + routes[i].path) !== -1
-            ) {
-                return routes[i].secondary;
-            }
-        }
-        return activeNavbar;
-    };
+    // const getActiveNavbar = (routes) => {
+    //     let activeNavbar = false;
+    //     for (let i = 0; i < routes.length; i++) {
+    //         if (
+    //             window.location.href.indexOf(routes[i].layout + routes[i].path) !== -1
+    //         ) {
+    //             return routes[i].secondary;
+    //         }
+    //     }
+    //     return activeNavbar;
+    // };
     const getRoutes = (routes) => {
         return routes.map((prop, key) => {
             if (prop.layout === "/admin") {
@@ -67,15 +66,9 @@ export default function Admin(props) {
             <div className="h-full w-full bg-white">
                 {/* Main Content */}
                 <main
-                    className={`mx-[12px] h-full flex-none transition-all md:pr-2 xl:ml-[313px]`}
+                    className={`mx-[12px] h-full flex-none transition-all md:pr-2 xl:ml-[200px]`}
                 >
                     <div className="h-full">
-                        <Navbar
-                            onOpenSidenav={() => setOpen(true)}
-                            brandText={currentRoute}
-                            secondary={getActiveNavbar(routes)}
-                            {...rest}
-                        />
                         <div className="pt-5s mx-auto mb-auto w-full h-full  p-2 md:pr-2">
                             <Routes>
                                 {getRoutes(routes)}

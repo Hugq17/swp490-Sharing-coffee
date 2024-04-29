@@ -36,44 +36,44 @@ const routes = [
         component: <SignIn />,
     },
     {
-        name: "Trang chủ",
+        name: <p className="text-[19px]">Trang chủ</p>,
         layout: "/admin",
-        icon: <AiOutlineHome style={{ width: '40px', height: '40px' }} />,
+        icon: <AiOutlineHome style={{ width: '30px', height: '30px' }} />,
         path: "default",
         component: <MainDashboardAdmin />
     },
     {
-        name: "Chủ đề quan tâm",
+        name: <p className="text-[19px]">Chủ đề quan tâm</p>,
         layout: "/admin",
-        icon: <MdInterests style={{ width: '40px', height: '40px' }} />,
+        icon: <MdInterests style={{ width: '30px', height: '30px' }} />,
         path: "interest",
         component: <IndexV3 />,
     },
     {
-        name: "Tài khoản",
+        name: <p className="text-[19px]">Tài khoản</p>,
         layout: "/admin",
-        icon: <MdSupervisorAccount style={{ width: '40px', height: '40px' }} />,
+        icon: <MdSupervisorAccount style={{ width: '30px', height: '30px' }} />,
         path: "account",
         component: <ManageAccount />
     },
     {
-        name: "Cuộc hẹn",
+        name: <p className="text-[19px]">Cuộc hẹn</p>,
         layout: "/admin",
-        icon: <GrSchedule style={{ width: '40px', height: '40px' }} />,
+        icon: <GrSchedule style={{ width: '30px', height: '30px' }} />,
         path: "schedule",
         component: <Schedule />
     },
     {
-        name: "Sự kiện",
+        name: <p className="text-[19px]">Sự kiện</p>,
         layout: "/admin",
-        icon: <MdEvent style={{ width: '40px', height: '40px' }} />,
+        icon: <MdEvent style={{ width: '30px', height: '30px' }} />,
         path: "event",
         component: <ManageEvent />
     },
     {
-        name: "Bài viết",
+        name: <p className="text-[19px]">Bài viết</p>,
         layout: "/admin",
-        icon: <BsFileEarmarkPost style={{ width: '40px', height: '40px' }} />,
+        icon: <BsFileEarmarkPost style={{ width: '30px', height: '30px' }} />,
         path: "blog",
         component: <Blog />
     },
@@ -85,11 +85,18 @@ const routes = [
     //     component: <Matching />
     // },
     {
-        name: "Báo cáo",
+        name: <p className="text-[19px]">Báo cáo</p>,
         layout: "/admin",
-        icon: <VscReport style={{ width: '40px', height: '40px' }} />,
+        icon: <VscReport style={{ width: '30px', height: '30px' }} />,
         path: "report",
         component: <Report />
+    },
+    {
+        name: <p className="text-[19px]">Hồ sơ</p>,
+        layout: "/admin",
+        icon: <CgProfile style={{ width: '30px', height: '30px' }} />,
+        path: "profile",
+        component: <Profile />
     },
     // {
     //     name: "Thông báo",
@@ -112,13 +119,7 @@ const routes = [
         path: "report/reportEvent",
         component: <ReportEvent />
     },
-    // {
-    //     name: "Admin",
-    //     layout: "/admin",
-    //     icon: <CgProfile style={{ width: '50px', height: '50px' }} />,
-    //     path: "profile",
-    //     component: <Profile />
-    // },
+
 ]
 
 export default routes

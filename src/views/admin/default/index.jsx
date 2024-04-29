@@ -158,31 +158,26 @@ const DashboardAdmin = () => {
     const colors = ['#7A5548', '#607D8A'];
 
     return (
-        <div>
-            <div className="grid xl:grid-cols-3 md:grid-cols-3 grid-cols-1 mt-6 gap-6">
+        <div className="ml-150px">
+            <div className="grid xl:grid-cols-3 md:grid-cols-2 grid-cols-1 mt-3 gap-3"> {/* Điều chỉnh khoảng cách giữa các phần tử và số cột */}
                 {profitData.map((item, index) => (
-                    <div className="relative overflow-hidden rounded-md shadow  bg-white" key={index}>
-                        <div className="p-5 flex items-center">
-                            <span className="flex justify-center items-center rounded-md h-14 w-14 min-w-[56px] bg-indigo-600/5  shadow shadow-indigo-600/5 text-[#AD735F]">
+                    <div className="relative overflow-hidden rounded-md shadow bg-white p-3" key={index}> {/* Điều chỉnh padding */}
+                        <div className="flex items-center">
+                            <span className="flex justify-center items-center rounded-md h-8 w-8 min-w-[32px] bg-indigo-600/5 shadow shadow-indigo-600/5 text-[#AD735F]"> {/* Điều chỉnh kích thước */}
                                 {item.icon}
                             </span>
-                            <span className="ms-3">
+                            <span className="ms-2"> {/* Điều chỉnh khoảng cách */}
                                 <span className="text-slate-400 font-semibold block">{item.title}</span>
                                 <span className="flex items-center justify-between mt-1">
-                                    <span className="text-xl font-semibold"><span className="counter-value"><CountUp start={0} end={parseInt(item.amount)} /></span></span>
+                                    <span className="text-base font-semibold"><span className="counter-value"><CountUp start={0} end={parseInt(item.amount)} /></span></span> {/* Điều chỉnh kích thước */}
                                 </span>
                             </span>
                         </div>
-                        {/* <div className="px-5 py-4 bg-gray-50 dark:bg-slate-800 ">
-                            <div href="#" className="mb-3 float-right relative inline-flex items-center font-sans tracking-wide align-middle text-base text-center border-none after:content-[''] after:absolute after:h-px after:w-0 hover:after:w-full after:end-0 hover:after:end-auto after:bottom-0 after:start-0 after:transition-all after:duration-500 text-indigo-600 dark:text-white/70 hover:text-indigo-600 dark:hover:text-white after:bg-indigo-600 dark:after:bg-white duration-500">
-                                Chi tiết
-                            </div>
-                        </div> */}
                     </div>
                 ))}
             </div>
-            <div className='flex'>
-                <div className='w-[500px] mt-5'>
+            <div className='flex flex-wrap justify-center'> {/* Thay đổi layout sang flex-wrap và căn giữa */}
+                <div className='w-[calc(50% - 10px)] mt-5 px-2'> {/* Điều chỉnh kích thước và padding */}
                     <h2 className='font-bold text-xl mb-4'>Thống kê sự kiện</h2>
                     <select onChange={handleYearChange} value={selectedYear}>
                         {years.map(year => (
@@ -192,8 +187,8 @@ const DashboardAdmin = () => {
                         ))}
                     </select>
                     <BarChart
-                        width={800}
-                        height={400}
+                        width={400}
+                        height={300}
                         data={filteredData}
                         margin={{ top: 30, right: 30, left: 20, bottom: 50 }}
                     >
@@ -208,16 +203,16 @@ const DashboardAdmin = () => {
                         <Bar dataKey="event_count" fill="#AD735F" name="Sự kiện" />
                     </BarChart>
                 </div>
-                <div style={{ width: '400px', margin: 'auto' }}>
-                    <h2>Thống kê tỉ lệ thành công, thất bại</h2>
-                    <PieChart width={400} height={400}>
+                <div style={{ width: 'calc(50% - 10px)' }} className='mt-5 px-2 ml-[150px]'> {/* Điều chỉnh kích thước và padding */}
+                    <h2 className='font-bold text-xl mb-4'>Thống kê tỉ lệ thành công, thất bại</h2>
+                    <PieChart width={300} height={300}> {/* Giảm kích thước */}
                         <Pie
                             data={pieData}
                             dataKey="value"
                             nameKey="name"
                             cx="50%"
                             cy="50%"
-                            outerRadius={150}
+                            outerRadius={100}
                             fill="#8884d8"
                             label
                         >
@@ -228,7 +223,10 @@ const DashboardAdmin = () => {
                         <Tooltip />
                         <Legend />
                     </PieChart>
-                </div></div>
+                </div>
+            </div>
+
+
         </div>
     );
 };
