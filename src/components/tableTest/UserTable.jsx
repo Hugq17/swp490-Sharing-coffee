@@ -101,7 +101,7 @@ const UserTable = ({ users }) => {
                                     setModalIsOpen(true);
                                 }}
                                 type="button"
-                                className="text-sm text-white p-2"
+                                className="text-sm text-white p-1"
                             >
                                 Xem hồ sơ người dùng
                             </button>
@@ -117,7 +117,7 @@ const UserTable = ({ users }) => {
                                     setActionConfirmed(false); // Đặt lại trạng thái xác nhận
                                 }}
                                 type="button"
-                                className="text-sm text-white p-2"
+                                className="text-sm text-white p-1"
                             >
                                 {row.original.is_available ? 'Vô hiệu hóa' : 'Kích hoạt'}
                             </button>
@@ -203,9 +203,9 @@ const UserTable = ({ users }) => {
                                             return (
                                                 <td
                                                     {...cell.getCellProps()}
-                                                    className="p-4 text-sm"
+                                                    className="p-4 "
                                                 >
-                                                    <Typography className="text-sm"> {cell.render('Cell')}</Typography>
+                                                    <Typography> {cell.render('Cell')}</Typography>
                                                 </td>
                                             );
                                         })}

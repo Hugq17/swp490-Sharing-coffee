@@ -106,7 +106,7 @@ const BlogTable = ({ blogs }) => {
                                     setModalIsOpen(true);
                                 }}
                                 type="button"
-                                className="text-xl text-white p-2"
+                                className="text-sm text-white p-1"
                             >
                                 Chi tiết
                             </button>
@@ -122,7 +122,7 @@ const BlogTable = ({ blogs }) => {
                                     setActionConfirmed(false); // Đặt lại trạng thái xác nhận
                                 }}
                                 type="button"
-                                className="text-xl text-white p-2"
+                                className="text-sm text-white p-1"
                             >
                                 {row.original.is_approve ? 'Vô hiệu hóa' : 'Kích hoạt'}
                             </button>
@@ -167,24 +167,6 @@ const BlogTable = ({ blogs }) => {
         <>
             <div className='mt-[40px] p-1'>
                 <GlobalFilter filter={globalFilter} setFilter={setGlobalFilter} />
-                {/* <div className="checkbox-group flex  justify-center">
-                    <div className="checkbox-container">
-                        <Checkbox {...getToggleHideAllColumnsProps()} /><p className='text-xl font-sans'>Tất cả</p>
-                    </div>
-                    {
-                        allColumns.map(column => (
-                            <div key={column.id} className="checkbox-container">
-                                <label style={{ marginLeft: "30px" }}>
-                                    <input
-                                        type='checkbox' {...column.getToggleHiddenProps()}
-                                        className="mr-3"
-                                    />
-                                    <p className='text-xl font-sans'>{column.Header}</p>
-                                </label>
-                            </div>
-                        ))
-                    }
-                </div> */}
                 <Card className="h-full w-full overflow-scroll">
                     <table {...getTableProps()} className="w-full min-w-max table-auto text-left">
                         <thead >
@@ -199,7 +181,7 @@ const BlogTable = ({ blogs }) => {
                                                 <Typography
                                                     variant="small"
                                                     color="blue-gray"
-                                                    className="leading-none opacity-70 font-bold text-2xl"
+                                                    className="leading-none opacity-70 font-bold text-base"
                                                 >{column.render('Header')}
                                                 </Typography>
                                                 <span className='ml-5'>
@@ -227,7 +209,7 @@ const BlogTable = ({ blogs }) => {
                                                     {...cell.getCellProps()}
                                                     className="p-4"
                                                 >
-                                                    <Typography variant="small" className="font-sans text-black text-xl"> {cell.render('Cell')}</Typography>
+                                                    <Typography variant="small" className="font-sans text-black text-sm"> {cell.render('Cell')}</Typography>
 
                                                 </td>
                                             );

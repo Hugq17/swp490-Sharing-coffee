@@ -92,7 +92,7 @@ const EventTable = ({ events }) => {
                 Header: 'Trạng thái',
                 accessor: 'is_approve',
                 Cell: ({ value }) => (
-                    <span className={`text-xl font-sans p-2 rounded ${value ? 'bg-[#4AAF57] text-white' : 'bg-[#F54336] text-white'}`}>
+                    <span className={`text-sm font-sans p-2 rounded ${value ? 'bg-[#4AAF57] text-white' : 'bg-[#F54336] text-white'}`}>
                         {value ? 'Kích hoạt' : 'Vô hiệu hóa'}
                     </span>
                 )
@@ -113,7 +113,7 @@ const EventTable = ({ events }) => {
                                     setModalIsOpen(true);
                                 }}
                                 type="button"
-                                className="text-xl text-white p-2"
+                                className="text-sm text-white p-1"
                             >
                                 Chi tiết
                             </button>
@@ -129,7 +129,7 @@ const EventTable = ({ events }) => {
                                     setActionConfirmed(false); // Đặt lại trạng thái xác nhận
                                 }}
                                 type="button"
-                                className="text-xl text-white p-2"
+                                className="text-sm text-white p-1"
                             >
                                 {row.original.is_approve ? 'Vô hiệu hóa' : 'Kích hoạt'}
                             </button>
@@ -208,7 +208,7 @@ const EventTable = ({ events }) => {
                                                 <Typography
                                                     variant="small"
                                                     color="blue-gray"
-                                                    className="leading-none opacity-70 font-bold text-2xl"
+                                                    className="leading-none opacity-70 font-bold text-base"
                                                 >{column.render('Header')}
                                                 </Typography>
                                                 <span className='ml-5'>
@@ -236,7 +236,7 @@ const EventTable = ({ events }) => {
                                                     {...cell.getCellProps()}
                                                     className="p-4"
                                                 >
-                                                    <Typography variant="small" className="font-sans text-black text-xl"> {cell.render('Cell')}</Typography>
+                                                    <Typography className="font-sans text-black text-sm"> {cell.render('Cell')}</Typography>
 
                                                 </td>
                                             );
