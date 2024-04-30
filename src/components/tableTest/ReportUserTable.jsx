@@ -59,7 +59,7 @@ const ReportUserTable = ({ reports }) => {
             {
                 Header: 'STT',
                 accessor: (row, index) => index + 1,
-                Cell: ({ value }) => <span className='text-xl'>{value}</span>
+                Cell: ({ value }) => <span className='text-sm'>{value}</span>
             },
             {
                 Header: 'Hình ảnh',
@@ -69,13 +69,13 @@ const ReportUserTable = ({ reports }) => {
             {
                 Header: 'Người dùng',
                 accessor: 'user_name',
-                Cell: ({ value }) => <span className='text-xl'>{value}</span>
+                Cell: ({ value }) => <span className='text-sm'>{value}</span>
             },
             {
                 Header: 'Trạng thái',
                 accessor: 'is_available',
                 Cell: ({ value }) => (
-                    <span className={`font-sans p-2 rounded ${value ? 'bg-[#4AAF57] text-white' : 'bg-[#F54336] text-white'}`}>
+                    <span className={`font-sans p-1 rounded ${value ? 'bg-[#4AAF57] text-white' : 'bg-[#F54336] text-white'}`}>
                         {value ? 'Kích hoạt' : 'Vô hiệu hóa'}
                     </span>
                 )
@@ -91,7 +91,7 @@ const ReportUserTable = ({ reports }) => {
                                     setModalIsOpen(true);
                                 }}
                                 type="button"
-                                className="text-xl text-white p-2"
+                                className="text-sm text-white p-1"
                             >
                                 Chi tiết
                             </button>
@@ -107,7 +107,7 @@ const ReportUserTable = ({ reports }) => {
                                     setActionConfirmed(false); // Đặt lại trạng thái xác nhận
                                 }}
                                 type="button"
-                                className="text-xl text-white p-2"
+                                className="text-sm text-white p-1"
                             >
                                 {row.original.is_available ? 'Vô hiệu hóa' : 'Kích hoạt'}
                             </button>
@@ -271,7 +271,7 @@ const ReportUserTable = ({ reports }) => {
                                                 <Typography
                                                     variant="small"
                                                     color="blue-gray"
-                                                    className="leading-none opacity-70 font-bold text-2xl"
+                                                    className="leading-none opacity-70 font-bold text-base"
                                                 >{column.render('Header')}
                                                 </Typography>
                                                 <span className='ml-5'>
@@ -298,7 +298,7 @@ const ReportUserTable = ({ reports }) => {
                                                     {...cell.getCellProps()}
                                                     className="p-4"
                                                 >
-                                                    <Typography variant="small" className="font-sans"> {cell.render('Cell')}</Typography>
+                                                    <Typography> {cell.render('Cell')}</Typography>
                                                 </td>
                                             );
                                         })}
@@ -363,7 +363,7 @@ const ReportUserTable = ({ reports }) => {
                                             <th></th>
                                             <th className="border border-gray-300 px-4 py-2">Người báo cáo</th>
                                             <th className="border border-gray-300 px-4 py-2">Ngày báo cáo</th>
-                                            <th className="border border-gray-300 px-4 py-2">Trạng thái báo cáo</th>
+                                            <th className="border border-gray-300 px-4 py-2">Nội dung báo cáo</th>
                                         </tr>
                                     </thead>
                                     <tbody>

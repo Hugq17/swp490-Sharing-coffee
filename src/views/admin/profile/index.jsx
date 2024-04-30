@@ -1,63 +1,72 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react';
 
 function Profile() {
     const [userData, setUserData] = useState(null);
-    const userId = 'b43cc80d-9c56-40c0-b170-4950b8cb702e'; // ID của người dùng bạn muốn lấy thông tin
 
     useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const response = await fetch(`https://sharing-coffee-be-capstone-com.onrender.com/api/admin/user/${userId}`);
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-                const userData = await response.json();
-                setUserData(userData);
-            } catch (error) {
-                console.error('Error fetching data:', error);
-            }
-        };
+        fetchUserData();
+    }, []);
 
-        fetchData();
-    }, [userId]);
+    const fetchUserData = async () => {
+        try {
+            const response = await fetch('https://sharing-coffee-be-capstone-com.onrender.com/api/admin/user/b43cc80d-9c56-40c0-b170-4950b8cb702e');
+            const data = await response.json();
+            setUserData(data);
+        } catch (error) {
+            console.error('Error fetching user data:', error);
+        }
+    };
 
     if (!userData) {
         return <div>Loading...</div>;
     }
 
+    const {
+        user_id,
+        user_name,
+        phone,
+        email,
+        profile_avatar,
+        story,
+        registration,
+        purpose,
+        favorite_location,
+        role_id,
+        gender,
+        age,
+        address,
+    } = userData;
+
     return (
-        <div className='mt-[20px]'>
-            <div className="max-w-xs rounded overflow-hidden shadow-lg bg-white m-4">
-                <img className="w-full" src={userData.profile_avatar} alt="Profile Avatar" />
-                <div className="px-6 py-4">
-                    <div className="font-bold text-xl mb-2">{userData.user_name}</div>
-                    <p className="text-gray-700 text-base">
-                        <span className="font-semibold">User ID:</span> {userData.user_id}
-                    </p>
-                    <p className="text-gray-700 text-base">
-                        <span className="font-semibold">Email:</span> {userData.email}
-                    </p>
-                    <p className="text-gray-700 text-base">
-                        <span className="font-semibold">Phone:</span> {userData.phone}
-                    </p>
-                    {/* <p className="text-gray-700 text-base">
-                        <span className="font-semibold">Bio:</span> {userData.Bio || 'N/A'}
-                    </p> */}
-                    <p className="text-gray-700 text-base">
-                        <span className="font-semibold">Registration:</span> {userData.registration || 'N/A'}
-                    </p>
-                    <p className="text-gray-700 text-base">
-                        <span className="font-semibold">Role ID:</span> {userData.role_id}
-                    </p>
-                    <p className="text-gray-700 text-base">
-                        <span className="font-semibold">Is Available:</span> {userData.is_available.toString()}
-                    </p>
+        <div className="bg-gray-100 min-h-screen py-8">
+
+            <div className="container mx-auto px-4 mt-8 max-w-4xl">
+                <div className="bg-white p-8 rounded-lg shadow-lg">
+                    <img className="w-32 h-32 rounded-full mx-auto mb-4" src={profile_avatar} alt="Profile" />
+                    <h2 className="text-2xl font-bold text-center">{user_name}</h2>
+                    <div className="flex flex-col md:flex-row gap-4">
+                        <div className="w-full md:w-1/2">
+                            <div className="flex flex-col">
+                                <p><span className="font-bold">Số điện thoại:</span> {phone}</p>
+                                <p><span className="font-bold">Email:</span> {email}</p>
+                                <p><span className="font-bold">Gender:</span> {gender}</p>
+                                <p><span className="font-bold">Tuổi:</span> {age}</p>
+                                <p><span className="font-bold">Địa chỉ:</span> {address}</p>
+                            </div>
+                        </div>
+                        <div className="w-full md:w-1/2">
+                            <div className="flex flex-col">
+                                <p><span className="font-bold">Câu chuyện:</span> {story}</p>
+                                <p><span className="font-bold">Ngày đăng ký:</span> {registration}</p>
+                                <p><span className="font-bold">Mục đích:</span> {purpose}</p>
+                                <p><span className="font-bold">Địa điểm yêu thích:</span> {favorite_location}</p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-            {console.log(userData)}
         </div>
     );
-
 }
 
-export default Profile
+export default Profile;

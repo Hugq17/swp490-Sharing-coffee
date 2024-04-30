@@ -55,7 +55,7 @@ const ReportTable = ({ reports }) => {
             {
                 Header: 'STT',
                 accessor: (row, index) => index + 1,
-                Cell: ({ value }) => <span className='text-xl'>{value}</span>
+                Cell: ({ value }) => <span className='text-sm'>{value}</span>
             },
             {
                 Header: 'Hình ảnh',
@@ -65,7 +65,7 @@ const ReportTable = ({ reports }) => {
             {
                 Header: 'Bài viết',
                 accessor: 'title',
-                Cell: ({ value }) => <span className='text-xl'>{value}</span>
+                Cell: ({ value }) => <span className='text-sm'>{value}</span>
             },
             {
                 Header: 'Trạng thái',
@@ -87,7 +87,7 @@ const ReportTable = ({ reports }) => {
                                     setModalIsOpen(true);
                                 }}
                                 type="button"
-                                className="text-xl text-white p-2"
+                                className="text-sm text-white p-1"
                             >
                                 Chi tiết
                             </button>
@@ -103,7 +103,7 @@ const ReportTable = ({ reports }) => {
                                     setActionConfirmed(false); // Đặt lại trạng thái xác nhận
                                 }}
                                 type="button"
-                                className="text-xl text-white p-2"
+                                className="text-sm text-white p-1"
                             >
                                 {row.original.is_approve ? 'Vô hiệu hóa' : 'Kích hoạt'}
                             </button>
@@ -215,7 +215,7 @@ const ReportTable = ({ reports }) => {
                                                 <Typography
                                                     variant="small"
                                                     color="blue-gray"
-                                                    className="leading-none opacity-70 font-bold text-2xl"
+                                                    className="leading-none opacity-70 font-bold text-base"
                                                 >{column.render('Header')}
                                                 </Typography>
                                                 <span className='ml-5'>
@@ -242,7 +242,7 @@ const ReportTable = ({ reports }) => {
                                                     {...cell.getCellProps()}
                                                     className="p-4"
                                                 >
-                                                    <Typography variant="small" className="font-sans"> {cell.render('Cell')}</Typography>
+                                                    <Typography> {cell.render('Cell')}</Typography>
                                                 </td>
                                             );
                                         })}
@@ -307,7 +307,7 @@ const ReportTable = ({ reports }) => {
                                             <th></th>
                                             <th className="border border-gray-300 px-4 py-2">Người báo cáo</th>
                                             <th className="border border-gray-300 px-4 py-2">Ngày báo cáo</th>
-                                            <th className="border border-gray-300 px-4 py-2">Trạng thái báo cáo</th>
+                                            <th className="border border-gray-300 px-4 py-2">Nội dung báo cáo</th>
                                         </tr>
                                     </thead>
                                     <tbody>

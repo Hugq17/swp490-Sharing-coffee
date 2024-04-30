@@ -58,7 +58,7 @@ const ReportEventTable = ({ reports }) => {
             {
                 Header: 'STT',
                 accessor: (row, index) => index + 1,
-                Cell: ({ value }) => <span className='text-xl'>{value}</span>
+                Cell: ({ value }) => <span className='text-sm'>{value}</span>
             },
             {
                 Header: 'Hình ảnh',
@@ -68,7 +68,7 @@ const ReportEventTable = ({ reports }) => {
             {
                 Header: 'Người dùng',
                 accessor: 'title',
-                Cell: ({ value }) => <span className='text-xl'>{value}</span>
+                Cell: ({ value }) => <span className='text-sm'>{value}</span>
             },
             {
                 Header: 'Trạng thái',
@@ -90,7 +90,7 @@ const ReportEventTable = ({ reports }) => {
                                     setModalIsOpen(true);
                                 }}
                                 type="button"
-                                className="text-xl text-white p-2"
+                                className="text-sm text-white p-1"
                             >
                                 Chi tiết
                             </button>
@@ -106,7 +106,7 @@ const ReportEventTable = ({ reports }) => {
                                     setActionConfirmed(false); // Đặt lại trạng thái xác nhận
                                 }}
                                 type="button"
-                                className="text-xl text-white p-2"
+                                className="text-sm text-white p-1"
                             >
                                 {row.original.is_approve ? 'Vô hiệu hóa' : 'Kích hoạt'}
                             </button>
@@ -237,24 +237,6 @@ const ReportEventTable = ({ reports }) => {
                     </button>
                 </div>
                 <GlobalFilter filter={globalFilter} setFilter={setGlobalFilter} />
-                {/* <div className="checkbox-group flex  justify-center">
-                    <div className="checkbox-container">
-                        <Checkbox {...getToggleHideAllColumnsProps()} /><p className='text-xl font-sans'>Tất cả</p>
-                    </div>
-                    {
-                        allColumns.map(column => (
-                            <div key={column.id} className="checkbox-container">
-                                <label style={{ marginLeft: "30px" }}>
-                                    <input
-                                        type='checkbox' {...column.getToggleHiddenProps()}
-                                        className="mr-3"
-                                    />
-                                    <p className='text-xl font-sans'>{column.Header}</p>
-                                </label>
-                            </div>
-                        ))
-                    }
-                </div> */}
                 <Card className="h-full w-full overflow-scroll">
                     <h2 className='font-sans text-2xl mb-3 font-medium'>Bảng báo cáo các sự kiện</h2>
                     <table {...getTableProps()} className="w-full min-w-max table-auto text-left">
@@ -270,7 +252,7 @@ const ReportEventTable = ({ reports }) => {
                                                 <Typography
                                                     variant="small"
                                                     color="blue-gray"
-                                                    className="leading-none opacity-70 font-bold text-2xl"
+                                                    className="leading-none opacity-70 font-bold text-base"
                                                 >{column.render('Header')}
                                                 </Typography>
                                                 <span className='ml-5'>
@@ -371,7 +353,7 @@ const ReportEventTable = ({ reports }) => {
                                             <th></th>
                                             <th className="border border-gray-300 px-4 py-2">Người báo cáo</th>
                                             <th className="border border-gray-300 px-4 py-2">Ngày báo cáo</th>
-                                            <th className="border border-gray-300 px-4 py-2">Trạng thái báo cáo</th>
+                                            <th className="border border-gray-300 px-4 py-2">Nội dung báo cáo</th>
                                         </tr>
                                     </thead>
                                     <tbody>
