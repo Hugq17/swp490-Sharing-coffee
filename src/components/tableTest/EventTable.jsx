@@ -325,26 +325,22 @@ const EventTable = ({ events }) => {
                     <div className="bg-white rounded-lg p-12 absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 shadow-lg border border-gray-300">
                         {selectedEvent && (
                             <main className="mt-10 overflow-y-scroll h-[700px] w-full flex flex-col items-center">
-                                <div className="mb-4">
-                                    <div className="px-4">
-                                        <h2 className="text-4xl font-semibold text-gray-800 mb-4">
-                                            {selectedEvent.title}
-                                        </h2>
-                                        <div className='flex items-center'>
-                                            <LiaUserTagSolid />
-                                            <p className="font-semibold text-gray-700 text-[20px] ml-3"> {selectedEvent.user_name}</p>
-                                        </div>
-                                        <div className='flex items-center'>
-                                            <IoLocationOutline />
-                                            <p className="font-semibold text-gray-700 text-[20px] ml-3"> {selectedEvent.location}</p>
-                                        </div>
+                                <div className="max-w-4xl mx-auto px-4">
+                                    <h1 className="text-4xl font-semibold text-gray-800 mb-4">{selectedEvent.title}</h1>
+                                    <div className="flex items-center mb-4">
+                                        <span className="text-gray-700 text-lg mr-2">Người tổ chức:</span>
+                                        <span className="font-semibold text-gray-700 text-lg">{selectedEvent.user_name}</span>
                                     </div>
-                                    <img src={selectedEvent.background_img} className="w-fit h-fit mt-5" />
-                                </div>
-                                <div class="flex flex-col lg:flex-row lg:space-x-12">
-                                    <div className="px-4 lg:px-0 mt-12 text-gray-700 text-xl leading-relaxed w-full lg:w-3/4">
-                                        <p>{selectedEvent.description}</p>
+                                    <div className="flex items-center mb-4">
+                                        <span className="text-gray-700 text-lg mr-2">Thời gian diễn ra:</span>
+                                        <span className="font-semibold text-gray-700 text-lg">{new Date(selectedEvent.time_of_event).toLocaleString()}</span>
                                     </div>
+                                    <div className="flex items-center mb-4">
+                                        <span className="text-gray-700 text-lg mr-2">Địa điểm:</span>
+                                        <span className="font-semibold text-gray-700 text-lg">{selectedEvent.location}</span>
+                                    </div>
+                                    <img src={selectedEvent.background_img} alt={selectedEvent.title} className="w-fit h-[200px] mb-5" />
+                                    <div className="text-gray-700 text-xl leading-relaxed">{selectedEvent.description}</div>
                                 </div>
                             </main>
                         )}

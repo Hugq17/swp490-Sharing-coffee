@@ -280,9 +280,9 @@ const BlogTable = ({ blogs }) => {
                     </button>
                 </div>
                 <Modal isOpen={modalIsOpen} onRequestClose={() => setModalIsOpen(false)} className="modal">
-                    <div className=" w-4/5 bg-white rounded-lg p-12 absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 shadow-lg border border-gray-300">
+                    <div className=" w-4/5 bg-white rounded-lg absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 shadow-lg border border-gray-300">
                         {selectedBlog && (
-                            <main className="mt-10 overflow-y-scroll h-[700px] w-full flex flex-col items-center">
+                            <main className=" overflow-y-scroll h-[700px] w-full flex flex-col items-center">
                                 <div className="mb-4">
                                     <div className="px-4">
                                         <h2 className="text-4xl font-semibold text-gray-800 mb-4">
@@ -293,12 +293,10 @@ const BlogTable = ({ blogs }) => {
                                             <p className="font-semibold text-gray-700 text-[20px] ml-3"> {selectedBlog.user_name}</p>
                                         </div>
                                     </div>
-                                    <img src={selectedBlog.image} className="w-fit h-fit mt-5" />
+                                    <img src={selectedBlog.image} className="w-fit h-[200px] mt-5" />
                                 </div>
-                                <div class="flex flex-col lg:flex-row lg:space-x-12">
-                                    <div className="px-4 lg:px-0 mt-12 text-gray-700 text-xl leading-relaxed w-full lg:w-3/4">
-                                        <p>{selectedBlog.content}</p>
-                                    </div>
+                                <div className="px-4 lg:px-0 mt-12 text-gray-700 text-xl leading-relaxed w-full lg:w-3/4">
+                                    <p>{selectedBlog.content}</p>
                                 </div>
                             </main>
                         )}
