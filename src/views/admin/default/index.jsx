@@ -10,8 +10,7 @@ import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, PieChart, 
 import { MdOutlineSmsFailed } from "react-icons/md";
 const DashboardAdmin = () => {
     const [profitData, setProfitData] = useState([]);
-    const [events, setEvents] = useState([]);
-    const navigate = useNavigate();
+
 
     //----------------------------------Thông kế số blog, người dùng, events----------------------------------------------------//
 
@@ -64,56 +63,85 @@ const DashboardAdmin = () => {
         fetchData();
     }, []); // Empty dependency array ensures this effect runs only once after the initial render
     //----------------------------------Thông kế số sự kiện----------------------------------------------------//
-    const [data, setData] = useState([]);
+    const [eventData, setEventData] = useState([]);
+    const [blogData, setBlogData] = useState([]);
+    const [combinedData, setCombinedData] = useState([]);
     const [selectedYear, setSelectedYear] = useState('');
     const [years, setYears] = useState([]);
-    const [maxYear, setMaxYear] = useState('');
-    const [maxEventCount, setMaxEventCount] = useState(0); // Định nghĩa maxEventCount ở đây
+    const [maxEventCount, setMaxEventCount] = useState(0);
+    const [maxBlogCount, setMaxBlogCount] = useState(0);
 
     useEffect(() => {
-        const fetchData = async () => {
+        const fetchEventData = async () => {
             try {
                 const response = await fetch('https://sharing-coffee-be-capstone-com.onrender.com/api/admin/event-statics');
                 const eventData = await response.json();
-                setData(eventData);
+                setEventData(eventData);
 
-                // Extract unique years from the data
                 const uniqueYears = [...new Set(eventData.map(item => item.event_year))];
                 setYears(uniqueYears);
 
-                // Find the maximum year
-                const maxYear = Math.max(...uniqueYears);
-                setMaxYear(maxYear.toString()); // Convert to string for select value
-                setSelectedYear(maxYear.toString()); // Select the maximum year by default
+                const maxCount = Math.max(...eventData.map(item => +item.event_count));
+                setMaxEventCount(maxCount + 10);
+                setSelectedYear(uniqueYears[0]); // Chọn năm đầu tiên mặc định
             } catch (error) {
-                console.error('Error fetching data:', error);
+                console.error('Error fetching event data:', error);
             }
         };
 
-        fetchData();
+        const fetchBlogData = async () => {
+            try {
+                const response = await fetch('https://sharing-coffee-be-capstone-com.onrender.com/api/admin/blog-statics');
+                const blogData = await response.json();
+                setBlogData(blogData);
+
+                const maxCount = Math.max(...blogData.map(item => +item.blog_count));
+                setMaxBlogCount(maxCount + 10);
+            } catch (error) {
+                console.error('Error fetching blog data:', error);
+            }
+        };
+
+        fetchEventData();
+        fetchBlogData();
     }, []);
 
     useEffect(() => {
-        if (selectedYear && data.length > 0) {
-            // Calculate maximum event count for the selected year
-            const filteredYearData = data.filter(d => d.event_year === selectedYear);
-            const maxCount = Math.max(...filteredYearData.map(d => +d.event_count));
-            setMaxEventCount(maxCount + 10); // Add 10 to the maximum event count
+        if (selectedYear && eventData.length > 0 && blogData.length > 0) {
+            const filteredEventData = eventData.filter(item => item.event_year === selectedYear);
+            const filteredBlogData = blogData.filter(item => item.blog_year === selectedYear);
+            const combinedData = [];
+
+            for (let i = 1; i <= 12; i++) {
+                const eventItem = filteredEventData.find(item => parseInt(item.event_month) === i);
+                const blogItem = filteredBlogData.find(item => parseInt(item.blog_month) === i);
+
+                combinedData.push({
+                    month: i,
+                    event_count: eventItem ? parseInt(eventItem.event_count) : 0,
+                    blog_count: blogItem ? parseInt(blogItem.blog_count) : 0
+                });
+            }
+
+            setCombinedData(combinedData);
+
+            const maxCount = Math.max(...filteredEventData.map(item => parseInt(item.event_count)));
+            const maxBlogCount = Math.max(...filteredBlogData.map(item => parseInt(item.blog_count)));
+            setMaxEventCount(maxCount + 10);
+            setMaxBlogCount(maxBlogCount + 10);
         }
-    }, [selectedYear, data]);
+    }, [selectedYear, eventData, blogData]);
 
     const handleYearChange = (event) => {
         const year = event.target.value;
         setSelectedYear(year);
     };
 
-    const filteredData = selectedYear ? data.filter(d => d.event_year === selectedYear) : data;
-
     const customTooltip = ({ active, payload, label }) => {
         if (active && payload && payload.length) {
             return (
                 <div className="custom-tooltip">
-                    <p>{`${label} (${payload[0].value} sự kiện)`}</p>
+                    <p>{`${label} (${payload[0].value} sự kiện, ${payload[1].value} bài viết)`}</p>
                 </div>
             );
         }
@@ -125,7 +153,7 @@ const DashboardAdmin = () => {
             'Tháng 1', 'Tháng 2', 'Tháng 3', 'Tháng 4', 'Tháng 5', 'Tháng 6',
             'Tháng 7', 'Tháng 8', 'Tháng 9', 'Tháng 10', 'Tháng 11', 'Tháng 12'
         ];
-        return monthNames[parseInt(month) - 1]; // Chuyển đổi số tháng thành tên tháng
+        return monthNames[parseInt(month) - 1];
     };
     //----------------------------------Thông kế số matching----------------------------------------------------//
     const [entityData, setEntityData] = useState([]);
@@ -176,35 +204,40 @@ const DashboardAdmin = () => {
                     </div>
                 ))}
             </div>
-            <div className='flex flex-wrap justify-center'> {/* Thay đổi layout sang flex-wrap và căn giữa */}
+            <div className='flex'> {/* Thay đổi layout sang flex-wrap và căn giữa */}
                 <div className='w-[calc(50% - 10px)] mt-5 px-2'> {/* Điều chỉnh kích thước và padding */}
-                    <h2 className='font-bold text-xl mb-4'>Thống kê sự kiện</h2>
-                    <select onChange={handleYearChange} value={selectedYear}>
-                        {years.map(year => (
-                            <option key={year} value={year}>
-                                {year}
-                            </option>
-                        ))}
-                    </select>
-                    <BarChart
-                        width={400}
-                        height={300}
-                        data={filteredData}
-                        margin={{ top: 30, right: 30, left: 20, bottom: 50 }}
-                    >
-                        <CartesianGrid strokeDasharray="3 3" />
-                        <XAxis dataKey="event_month" tickFormatter={formatXAxis} />
-                        <YAxis
-                            label={{ value: 'Số sự kiện', angle: -90, position: 'insideLeft', offset: -10 }}
-                            domain={[0, maxEventCount]}
-                        />
-                        <Tooltip content={customTooltip} />
-                        <Legend />
-                        <Bar dataKey="event_count" fill="#AD735F" name="Sự kiện" />
-                    </BarChart>
+                    <h2 className='font-bold text-base mb-4'>Thống kê sự kiện và bài viết</h2>
+                    <div style={{ width: '800px', margin: 'auto' }}>
+                        <div style={{ marginBottom: '20px' }}>
+                            <label htmlFor="year-select">Chọn năm:</label>
+                            <select id="year-select" value={selectedYear} onChange={handleYearChange}>
+                                {years.map(year => (
+                                    <option key={year} value={year}>{year}</option>
+                                ))}
+                            </select>
+                        </div>
+                        <BarChart
+                            width={800}
+                            height={400}
+                            data={combinedData}
+                            margin={{ top: 30, right: 30, left: 20, bottom: 50 }}
+                        >
+                            <CartesianGrid strokeDasharray="3 3" />
+                            <XAxis dataKey="month" tickFormatter={formatXAxis} />
+                            <YAxis
+                                label={{ value: 'Số lượng', angle: -90, position: 'insideLeft', offset: -10 }}
+                                domain={[0, Math.max(maxEventCount, maxBlogCount)]}
+                            />
+                            <Tooltip content={customTooltip} />
+                            <Legend />
+                            <Bar dataKey="event_count" fill="#8884d8" name="Sự kiện" />
+                            <Bar dataKey="blog_count" fill="#82ca9d" name="Bài viết" />
+                        </BarChart>
+                    </div>
                 </div>
+                {/* //-----------------------------------------// */}
                 <div style={{ width: 'calc(50% - 10px)' }} className='mt-5 px-2 ml-[150px]'> {/* Điều chỉnh kích thước và padding */}
-                    <h2 className='font-bold text-xl mb-4'>Thống kê tỉ lệ thành công, thất bại</h2>
+                    <h2 className='font-bold text-base mb-4'>Thống kê tỉ lệ matching</h2>
                     <PieChart width={300} height={300}> {/* Giảm kích thước */}
                         <Pie
                             data={pieData}
