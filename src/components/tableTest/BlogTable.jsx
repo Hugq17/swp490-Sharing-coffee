@@ -6,7 +6,6 @@ import { format } from 'date-fns';
 import { MdClose } from "react-icons/md";
 import { GlobalFilter } from '../table/GlobalFilter';
 import { FaArrowDown, FaArrowUp } from "react-icons/fa";
-import { Checkbox } from '../table/checkbox';
 import { LiaUserTagSolid } from "react-icons/lia";
 import axios from 'axios';
 

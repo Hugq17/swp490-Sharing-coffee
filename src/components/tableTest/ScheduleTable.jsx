@@ -3,6 +3,7 @@ import { useTable, usePagination, useGlobalFilter, useSortBy } from 'react-table
 import { Card, Typography } from "@material-tailwind/react";
 import { GlobalFilter } from '../table/GlobalFilter';
 import { FaArrowDown, FaArrowUp } from "react-icons/fa";
+import { format } from 'date-fns';
 
 function ScheduleTable({ schedule }) {
     const [selectedSchedule, setSelectedSchedule] = useState(null);
@@ -15,28 +16,43 @@ function ScheduleTable({ schedule }) {
             {
                 Header: 'STT',
                 accessor: (row, index) => index + 1,
-                Cell: ({ value }) => <span>{value}</span>,
+                Cell: ({ value }) => <span className='text-sm'>{value}</span>,
+            },
+            {
+                Header: 'Id cuộc hẹn',
+                accessor: 'schedule_id',
+                Cell: ({ value }) => <span className='text-sm'>{value}</span>
             },
             {
                 Header: 'Người gửi',
                 accessor: 'sender',
-                Cell: ({ value }) => <span className='text-xl'>{value}</span>
+                Cell: ({ value }) => <span className='text-sm'>{value}</span>
             },
             {
                 Header: 'Người nhận',
                 accessor: 'receiver',
-                Cell: ({ value }) => <span className='text-xl'>{value}</span>
+                Cell: ({ value }) => <span className='text-sm'>{value}</span>
+            },
+            {
+                Header: 'Lịch hẹn',
+                accessor: 'schedule_time',
+                Cell: ({ cell: { value } }) => <span className='text-sm'>{format(new Date(value), 'dd-MM-yyyy HH:mm')}</span>, // Format the date
+            },
+            {
+                Header: 'Địa điểm',
+                accessor: 'location',
+                Cell: ({ value }) => <span className='text-sm'>{value}</span>
             },
             {
                 Header: 'Trạng thái',
                 accessor: 'is_accept',
                 Cell: ({ value }) => {
                     if (value === true) {
-                        return <span className='text-white bg-[#8BC255] rounded p-2'>Thành công</span>;
+                        return <span className='text-white bg-[#8BC255] rounded p-1 text-sm'>Thành công</span>;
                     } else if (value === false) {
-                        return <span className='text-white bg-[#FF5726] rounded p-2'>Từ chối</span>;
+                        return <span className='text-white bg-[#FF5726] rounded p-1 text-sm'>Từ chối</span>;
                     } else {
-                        return <span className='text-white bg-[#FF981F] rounded p-2'>Đang chờ</span>;
+                        return <span className='text-white bg-[#FF981F] rounded p-1 text-sm'>Đang chờ</span>;
                     }
                 }
             }
@@ -78,25 +94,7 @@ function ScheduleTable({ schedule }) {
         <>
             <div className='mt-[40px] p-1'>
                 <GlobalFilter filter={globalFilter} setFilter={setGlobalFilter} />
-                {/* <div className="checkbox-group flex  justify-center">
-                    <div className="checkbox-container">
-                        <Checkbox {...getToggleHideAllColumnsProps()} /><p className='text-xl font-sans'>Tất cả</p>
-                    </div>
-                    {
-                        allColumns.map(column => (
-                            <div key={column.id} className="checkbox-container">
-                                <label style={{ marginLeft: "30px" }}>
-                                    <input
-                                        type='checkbox' {...column.getToggleHiddenProps()}
-                                        className="mr-3"
-                                    />
-                                    <p className='text-xl font-sans'>{column.Header}</p>
-                                </label>
-                            </div>
-                        ))
-                    }
-                </div> */}
-                <Card className="h-full w-full">
+                <Card className="h-full w-full overflow-scroll">
                     <table {...getTableProps()} className="w-full min-w-max table-auto text-left">
                         <thead >
                             {headerGroups.map(headerGroup => (
@@ -110,7 +108,7 @@ function ScheduleTable({ schedule }) {
                                                 <Typography
                                                     variant="small"
                                                     color="blue-gray"
-                                                    className="leading-none opacity-70 font-bold text-2xl"
+                                                    className="leading-none opacity-70 font-bold text-base"
                                                 >{column.render('Header')}
                                                 </Typography>
                                                 <span className='ml-5'>
