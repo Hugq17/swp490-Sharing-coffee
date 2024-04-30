@@ -311,7 +311,7 @@ function App() {
           {/* <h2 className="text-xl font-bold mb-2">Items with null parent_interest_id:</h2> */}
           <div className="flex flex-wrap gap-5 justify-center">
             {itemsWithNullParentId.map((item, index) => (
-              <div key={index} className="relative flex flex-col justify-center items-center mt-8 text-gray-700 bg-white shadow-md bg-clip-border rounded-xl w-96">
+              <div key={index} className="relative flex flex-col justify-center items-center mt-8 text-gray-700 bg-white bg-clip-border rounded-xl w-96">
                 {item.image ? (
                   <img className='rounded-2xl w-2/3 object-cover' src={item.image} onClick={() => handleUpdateImg(item.interest_id)} />
                 ) : (
@@ -332,7 +332,7 @@ function App() {
                     <button onClick={handleClosePopup}>Đóng</button>
                   </div>
                 )}
-                <p className='text-2xl font-sans' onClick={() => toggleItem(item.interest_id)}>{item.name}</p>
+                <p className='text-base font-sans' onClick={() => toggleItem(item.interest_id)}>{item.name}</p>
                 <br />
                 {expandedItems[item.interest_id] && (
                   <div className='w-full'>

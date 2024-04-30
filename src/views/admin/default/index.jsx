@@ -8,6 +8,8 @@ import { MdOutlineLocalCafe } from "react-icons/md";
 import * as d3 from 'd3';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, PieChart, Pie, Cell } from 'recharts';
 import { MdOutlineSmsFailed } from "react-icons/md";
+import { GrSchedule } from "react-icons/gr";
+
 const DashboardAdmin = () => {
     const [profitData, setProfitData] = useState([]);
 
@@ -38,6 +40,9 @@ const DashboardAdmin = () => {
                         case 'Matched Failed':
                             icon = <MdOutlineSmsFailed />
                             break;
+                        case 'Schedule':
+                            icon = <GrSchedule />
+                            break;
                         default:
                             break;
                     }
@@ -48,7 +53,8 @@ const DashboardAdmin = () => {
                                 entity.entity_type === 'Event' ? `Tổng số sự kiện` :
                                     entity.entity_type === 'Matched Succeed' ? `Tổng số lượt ghép thành công` :
                                         entity.entity_type === 'Matched Failed' ? `Tổng số lượt ghép thất bại` :
-                                            `Tổng số ${entity.entity_type}s`,
+                                            entity.entity_type === 'Schedule' ? `Tổng số lịch hẹn` :
+                                                `Tổng số ${entity.entity_type}s`,
                         amount: entity.entity_count
                     };
                 });
