@@ -20,6 +20,7 @@ function App() {
   const notifySuccess = () => toast("Thêm chủ đề thành công");
   const notifyFail = () => toast("Thêm chủ đề thất bại");
   const notifyEmpty = () => toast("Vui lòng điền đủ thông tin");
+  const notifyUpdate = () => toast("Cập nhật chủ đề thành công");
   //--------------------------------------------Thêm một parent interest-----------------------------------//
 
   const handleSubmit = async () => {
@@ -126,30 +127,34 @@ function App() {
   };
   //---------------------------------------------Thêm chủ đề con--------------------------------------------------------------//
   const addChildInterest = async (childName, parentId) => {
+    if (!childName) {
+      notifyEmpty();
+      return;
+    }
     try {
       const response = await axios.post(
-        "https://sharing-coffee-be-capstone-com.onrender.com/api/interest",
+        'https://sharing-coffee-be-capstone-com.onrender.com/api/interest',
         {
           name: childName,
-          parent_interest_id: parentId,
+          parent_interest_id: parentId
         }
       );
-      console.log("Child interest added:", response.data);
+      console.log('Child interest added:', response.data);
 
       // Cập nhật danh sách dữ liệu với phần tử mới
       const newItem = response.data;
-      setData((prevData) => [...prevData, newItem]);
+      setData(prevData => [...prevData, newItem]);
 
       // Cập nhật state để hiển thị phần tử mới
-      setItemsWithNullParentId((prevItems) => [...prevItems, newItem]);
+      setItemsWithNullParentId(prevItems => [...prevItems, newItem]);
       if (response.status === 201) {
         notifyFail()
       } else {
         console.error("Failed to add topic");
-        notifySuccess();
+        notifySuccess()
       }
     } catch (error) {
-      console.error("Error adding child interest:", error);
+      console.error('Error adding child interest:', error);
     }
   };
   //---------------------------------Xử lý và cập nhật hình ảnh-------------------------------------------------------//
@@ -254,41 +259,38 @@ function App() {
   const [originalName, setOriginalName] = useState("");
   const [inputValue, setInputValue] = useState("");
   return (
-    <div className="mt-3">
+    <div className='mt-3'>
       {/* Hiển thị component mới nếu showCurrentCode là false */}
       {!showCurrentCode && <InterestV4 />}
       {showCurrentCode && (
-        <div className="flex flex-col items-center justify-center">
+        <div className='flex flex-col items-center justify-center'>
           <div className="container mx-auto px-4 py-8">
             <div className="max-w-lg mx-auto bg-white shadow-md rounded px-8 py-6 flex flex-col justify-center items-center">
-              <div className="border-black w-fit ">
-                <label
-                  htmlFor="fileInput"
-                  className="block mb-2 text-sm font-medium text-gray-900 dark:text-white border-[1px]"
-                >
-                  <div className="flex flex-col justify-center items-center p-3">
+              <div className='border-black w-fit '>
+                <label htmlFor="fileInput" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white border-[1px]">
+                  <div className='flex flex-col justify-center items-center p-3'>
                     <LuUpload />
-                    <span className="">Tải ảnh</span>
+                    <span className=''>Tải ảnh</span>
                   </div>
                   <input
                     type="file"
                     id="fileInput"
                     name="fileInput"
                     onChange={uploadImage}
-                    style={{ display: "none" }}
+                    style={{ display: 'none' }}
                   />
                 </label>
                 <div id="fileName">
                   {selectedFile && <p>{selectedFile.name}</p>}
                 </div>
               </div>
-              <div className="flex mt-4">
+              <div className='flex mt-4'>
                 <div>
                   <input
-                    type="text"
-                    name="name"
-                    id="nameInput"
-                    placeholder="Nhập chủ đề"
+                    type='text'
+                    name='name'
+                    id='nameInput'
+                    placeholder='Nhập chủ đề'
                     value={nameParent}
                     onChange={handleNameChange}
                     className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
@@ -296,7 +298,7 @@ function App() {
                 </div>
                 <div className="flex items-center justify-between ml-2">
                   <button
-                    className="bg-[#F6EFED] hover:bg-[#A4634D] text-[#A4634D] hover:text-[#F6EFED] font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
                     onClick={handleSubmit}
                   >
                     Thêm
@@ -307,135 +309,91 @@ function App() {
             </div>
           </div>
           {/* <h2 className="text-xl font-bold mb-2">Items with null parent_interest_id:</h2> */}
-          <div className="flex flex-wrap gap-3 justify-center">
+          <div className="flex flex-wrap gap-5 justify-center">
             {itemsWithNullParentId.map((item, index) => (
-              <div
-                key={index}
-                className="relative flex flex-col justify-center items-center mt-4 text-gray-700 bg-white border-[0.5] border-blue-700 rounded-xl w-60"
-              >
-                <div className="p-3">
-                  {item.image ? (
-                    <img
-                      className="rounded-2xl w-full object-cover mb-2"
-                      src={item.image}
-                      onClick={() => handleUpdateImg(item.interest_id)}
-                      alt={item.name}
+              <div key={index} className="relative flex flex-col justify-center items-center mt-8 text-gray-700 bg-white shadow-md bg-clip-border rounded-xl w-96">
+                {item.image ? (
+                  <img className='rounded-2xl w-2/3 object-cover' src={item.image} onClick={() => handleUpdateImg(item.interest_id)} />
+                ) : (
+                  <button onClick={() => handleUploadButton(item.interest_id)}>Upload ảnh</button>
+                )}
+                {showPopup && (
+                  <div className="popup">
+                    {/* Nội dung của popup ở đây */}
+                    <input
+                      type='file'
+                      name='file'
+                      id='fileInput'
+                      onChange={uploadImage}
+                      className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                     />
-                  ) : (
-                    <button onClick={() => handleUploadButton(item.interest_id)}>
-                      Upload ảnh
+                    <button onClick={() => updateInterest()}>update hình nè</button>
+
+                    <button onClick={handleClosePopup}>Đóng</button>
+                  </div>
+                )}
+                <p className='text-2xl font-sans' onClick={() => toggleItem(item.interest_id)}>{item.name}</p>
+                <br />
+                {expandedItems[item.interest_id] && (
+                  <div className='w-full'>
+                    {showInput[item.interest_id] && (
+                      <div className="flex items-center mb-2">
+                        <input type="text" className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Nhập" onChange={(e) => setChildName(e.target.value)} />
+                        <button onClick={() => addChildInterest(childName, item.interest_id)} className="ml-2 bg-[#F6EFED] hover:bg-[#A4634D] text-[#A4634D] py-2 px-4 rounded focus:outline-none hover:text-white focus:shadow-outline">Thêm</button>
+                      </div>
+                    )}
+                    <button className='m-2' onClick={() => setShowInput(prevState => ({ ...prevState, [item.interest_id]: !prevState[item.interest_id] }))}>
+                      {showInput[item.interest_id] ? 'Đóng' : 'Thêm chủ đề'}
                     </button>
-                  )}
-                  <p
-                    className="text-lg font-sans mb-1 cursor-pointer"
-                    onClick={() => toggleItem(item.interest_id)}
-                  >
-                    {item.name}
-                  </p>
-                  {expandedItems[item.interest_id] && (
-                    <div className="w-full">
-                      {showInput[item.interest_id] && (
-                        <div className="flex items-center mb-2">
-                          <input
-                            type="text"
-                            className="border rounded py-1 px-2 text-gray-700 leading-tight focus:outline-none focus:shadow-outline flex-grow"
-                            placeholder="Nhập"
-                            onChange={(e) => setChildName(e.target.value)}
-                          />
-                          <button
-                            onClick={() =>
-                              addChildInterest(childName, item.interest_id)
-                            }
-                            className="ml-2 bg-[#F6EFED] hover:bg-[#A4634D] text-[#A4634D] py-1 px-3 rounded focus:outline-none hover:text-white focus:shadow-outline"
-                          >
-                            Thêm
-                          </button>
-                        </div>
-                      )}
-                      <button
-                        className="mb-2"
-                        onClick={() =>
-                          setShowInput((prevState) => ({
-                            ...prevState,
-                            [item.interest_id]: !prevState[item.interest_id],
-                          }))
-                        }
-                      >
-                        {showInput[item.interest_id] ? "Đóng" : "Thêm chủ đề"}
-                      </button>
-                      <ul className="grid grid-cols-1 gap-2">
-                        {itemsWithNonNullParentId
-                          .filter(
-                            (childItem) =>
-                              childItem.parent_interest_id === item.interest_id
-                          )
-                          .map((childItem, childIndex) => (
-                            <li
-                              key={childIndex}
-                              className="flex items-center justify-center p-1 border border-gray-300 rounded-xl"
-                            >
-                              {editingIndex === childIndex ? (
-                                <div className="flex flex-col justify-center items-center">
-                                  <div className="flex">
-                                    <input
-                                      type="text"
-                                      value={inputValue}
-                                      onChange={(e) =>
-                                        handleInputChange(e, childIndex)
-                                      }
-                                      className="border rounded px-1 py-1 mr-2 w-full"
-                                    />
-                                    <button
-                                      className="text-[#A4634D]"
-                                      onClick={() =>
-                                        handleUpdateClick(
-                                          childItem.interest_id,
-                                          inputValue,
-                                          childItem.name
-                                        )
-                                      }
-                                    >
-                                      <IoSend />
-                                    </button>
-                                  </div>
-                                  <div className="flex">
-                                    <button
-                                      className="text-[#A4634D]"
-                                      onClick={() =>
-                                        handleCancelClick(childIndex)
-                                      }
-                                    >
-                                      Hủy
-                                    </button>
-                                  </div>
-                                </div>
-                              ) : (
-                                <>
-                                  <p className="font-sans text-base">
-                                    {childItem.name}
-                                  </p>
+                    <ToastContainer />
+                    <ul className="grid grid-cols-2 gap-4">
+                      {itemsWithNonNullParentId
+                        .filter(childItem => childItem.parent_interest_id === item.interest_id)
+                        .map((childItem, childIndex) => (
+                          <li key={childIndex} className="flex items-center justify-center p-2 border border-gray-300 rounded-xl m-2">
+                            {editingIndex === childIndex ? (
+                              <div className='flex flex-col justify-center items-center'>
+                                <div className='flex'>
+                                  <input
+                                    type="text"
+                                    value={inputValue}
+                                    onChange={(e) => handleInputChange(e, childIndex)}
+                                    className="border border-gray-400 px-2 py-1 rounded mr-2 w-full"
+                                  />
                                   <button
-                                    className="ml-2 text-red-500 hover:text-red-700"
-                                    onClick={() => setEditingIndex(childIndex)}
+                                    className="text-blue-500 hover:text-blue-700"
+                                    onClick={() => handleUpdateClick(childItem.interest_id, inputValue, childItem.name)}
                                   >
-                                    <FaPen className="text-black" />
+                                    <IoSend />
                                   </button>
-                                </>
-                              )}
-                            </li>
-                          ))}
-                      </ul>
-                    </div>
-                  )}
-                </div>
+                                </div>
+                                <div className='flex'>
+                                  <button className="text-blue-500 hover:text-blue-700 hover:underline ml-2" onClick={() => handleCancelClick(childIndex)}>
+                                    Hủy
+                                  </button>
+                                </div>
+                              </div>
+                            ) : (
+                              <>
+                                <p className='font-sans text-lg'>{childItem.name}</p>
+                                <button className="ml-2 text-red-500 hover:text-red-700" onClick={() => setEditingIndex(childIndex)}>
+                                  <FaPen className='text-black' />
+                                </button>
+                              </>
+                            )}
+                          </li>
+                        ))}
+                    </ul>
+
+                  </div>
+                )}
               </div>
             ))}
           </div>
-
         </div>
       )}
-    </div>
-  );
+    </div >
+  )
 }
 
 export default App;
