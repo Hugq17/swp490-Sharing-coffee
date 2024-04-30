@@ -25,9 +25,9 @@ const Sidebar = ({ open, onClose }) => {
                 <button>Close</button>
             </span>
 
-            <div className="mx-4 mt-8 mb-4">
-                <div className="text-xl font-bold text-navy-700 text-white">
-                    Sharing <span className="font-medium">Café</span>
+            <div className="mx-4 mt-8 mb-4 flex items-center justify-center">
+                <div className="text-xl font-bold text-navy-700 text-white ">
+                    Sharing Café
                 </div>
             </div>
             <div className="my-4 h-px bg-gray-300 dark:bg-white/30" />
@@ -39,7 +39,7 @@ const Sidebar = ({ open, onClose }) => {
 
             {/* Đăng xuất */}
             <div className="flex justify-center mt-4">
-                <button className="px-4 py-2 text-base font-bold text-gray-800 bg-red-500 rounded-xl hover:bg-red-600 focus:outline-none focus:shadow-outline" onClick={() => {
+                <button className="px-4 py-1 text-base  bg-[#F6EFED] hover:bg-[#A4634D] text-[#A4634D] hover:text-[#F6EFED] rounded-xl  focus:outline-none focus:shadow-outline" onClick={() => {
                     localStorage.removeItem('token');
                     window.location.reload();
                 }}>Đăng xuất</button>

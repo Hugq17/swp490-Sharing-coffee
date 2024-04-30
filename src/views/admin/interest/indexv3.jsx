@@ -126,6 +126,11 @@ function App() {
   };
   //---------------------------------------------Thêm chủ đề con--------------------------------------------------------------//
   const addChildInterest = async (childName, parentId) => {
+    if (!childName || !parentId) {
+      // Hiển thị thông báo sử dụng react-toastify
+      notifyEmpty();
+      return; // Dừng xử lý hàm
+    }
     try {
       const response = await axios.post(
         "https://sharing-coffee-be-capstone-com.onrender.com/api/interest",
