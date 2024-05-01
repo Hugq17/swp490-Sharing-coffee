@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import InterestV4 from "./indexv4";
 import { LuUpload } from "react-icons/lu";
 import { IoSend } from "react-icons/io5";
 import { FaPen } from "react-icons/fa";
@@ -261,7 +260,6 @@ function App() {
   return (
     <div className='mt-3'>
       {/* Hiển thị component mới nếu showCurrentCode là false */}
-      {!showCurrentCode && <InterestV4 />}
       {showCurrentCode && (
         <div className='flex flex-col items-center justify-center'>
           <div className="container mx-auto px-4 py-8">
@@ -298,7 +296,7 @@ function App() {
                 </div>
                 <div className="flex items-center justify-between ml-2">
                   <button
-                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                    className="bg-[#A4634D] hover:bg-[#B68271] text-white py-2 px-4 rounded focus:outline-none focus:shadow-outline"
                     onClick={handleSubmit}
                   >
                     Thêm
@@ -339,7 +337,7 @@ function App() {
                     {showInput[item.interest_id] && (
                       <div className="flex items-center mb-2">
                         <input type="text" className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Nhập" onChange={(e) => setChildName(e.target.value)} />
-                        <button onClick={() => addChildInterest(childName, item.interest_id)} className="ml-2 bg-[#F6EFED] hover:bg-[#A4634D] text-[#A4634D] py-2 px-4 rounded focus:outline-none hover:text-white focus:shadow-outline">Thêm</button>
+                        <button onClick={() => addChildInterest(childName, item.interest_id)} className="ml-2 bg-[#A4634D] hover:bg-[#B68271] text-white py-2 px-4 rounded focus:outline-none hover:text-white focus:shadow-outline">Thêm</button>
                       </div>
                     )}
                     <button className='m-2' onClick={() => setShowInput(prevState => ({ ...prevState, [item.interest_id]: !prevState[item.interest_id] }))}>
@@ -361,14 +359,14 @@ function App() {
                                     className="border border-gray-400 px-2 py-1 rounded mr-2 w-full"
                                   />
                                   <button
-                                    className="text-blue-500 hover:text-blue-700"
+                                    className="text-[#A4634D]"
                                     onClick={() => handleUpdateClick(childItem.interest_id, inputValue, childItem.name)}
                                   >
                                     <IoSend />
                                   </button>
                                 </div>
                                 <div className='flex'>
-                                  <button className="text-blue-500 hover:text-blue-700 hover:underline ml-2" onClick={() => handleCancelClick(childIndex)}>
+                                  <button className="text-[#A4634D] hover:underline ml-2" onClick={() => handleCancelClick(childIndex)}>
                                     Hủy
                                   </button>
                                 </div>
