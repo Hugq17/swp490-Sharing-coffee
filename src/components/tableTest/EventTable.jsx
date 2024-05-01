@@ -250,25 +250,12 @@ const EventTable = ({ events }) => {
                 <div className='m-[40px] flex items-center justify-center space-x-4 '>
                     <span>
                         Trang{' '}
-                        <strong className="text-blue-500">
+                        <strong className="text-[#A4634D]">
                             {pageIndex + 1} trên {pageOptions.length}
                         </strong>{' '}
                     </span>
-
-                    {/* <span className="flex items-center">
-                        Đi tới trang:{' '}
-                        <input
-                            type='number'
-                            value={pageIndex + 1}
-                            onChange={e => {
-                                const pageNumber = e.target.value ? Number(e.target.value) - 1 : 0;
-                                gotoPage(pageNumber);
-                            }}
-                            className="w-[100px] p-2 ml-3 text-center border border-gray-300 rounded-md focus:outline-none focus:border-indigo-500"
-                        />
-                    </span> */}
                     <select
-                        className=" p-2 text-sm text-gray-700 bg-white border border-gray-300 rounded-md appearance-none focus:outline-none focus:border-indigo-500"
+                        className=" p-2 text-sm text-gray-700 bg-white border border-gray-300 rounded-md appearance-none focus:outline-none focus:border-[#A4634D]"
                         value={pageSize}
                         onChange={e => setPageSize(Number(e.target.value))}
                     >
@@ -282,14 +269,14 @@ const EventTable = ({ events }) => {
                     </select>
 
                     <button
-                        className=" p-2 text-sm text-white bg-blue-500 rounded-md focus:outline-none focus:bg-blue-600"
+                        className=" p-2 text-sm text-white bg-[#A4634D] rounded-md focus:outline-none focus:bg-[#A4634D]"
                         onClick={() => gotoPage(0)}
                         disabled={!canPreviousPage}
                     >
                         {'<<'}
                     </button>
                     <button
-                        className="p-2 text-sm text-white bg-blue-500 rounded-md focus:outline-none focus:bg-blue-600"
+                        className="p-2 text-sm text-white bg-[#A4634D] rounded-md focus:outline-none focus:bg-[#A4634D]"
                         onClick={() => previousPage()}
                         disabled={!canPreviousPage}
                     >
@@ -298,7 +285,7 @@ const EventTable = ({ events }) => {
                     {pageOptions.slice(0, Math.min(pageIndex + 5, pageOptions.length)).map((page, index) => (
                         <button
                             key={index}
-                            className={`mx-1 px-2 py-1 text-sm rounded-md focus:outline-none ${pageIndex === index ? 'bg-blue-500 text-white' : 'bg-white text-gray-700'
+                            className={`mx-1 px-2 py-1 text-sm rounded-md focus:outline-none ${pageIndex === index ? 'bg-[#A4634D] text-white' : 'bg-white text-gray-700'
                                 }`}
                             onClick={() => gotoPage(index)}
                         >
@@ -306,14 +293,14 @@ const EventTable = ({ events }) => {
                         </button>
                     ))}
                     <button
-                        className="p-2 text-sm text-white bg-blue-500 rounded-md focus:outline-none focus:bg-blue-600"
+                        className="p-2 text-sm text-white bg-[#A4634D] rounded-md focus:outline-none focus:bg-[#A4634D]"
                         onClick={() => nextPage()}
                         disabled={!canNextPage}
                     >
                         {">"}
                     </button>
                     <button
-                        className="p-2 text-sm text-white bg-blue-500 rounded-md focus:outline-none focus:bg-blue-600"
+                        className="p-2 text-sm text-white bg-[#A4634D] rounded-md focus:outline-none focus:bg-[#A4634D]"
                         onClick={() => gotoPage(pageCount - 1)}
                         disabled={!canNextPage}
                     >
