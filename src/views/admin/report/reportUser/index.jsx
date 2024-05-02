@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios';
 import ReportUserTable from '../../../../components/tableTest/ReportUserTable';
-// import ReportTable from '../../../components/tableTest/ReportTable';
 function ReportUser() {
     const [reports, setReports] = useState([]);
 
@@ -18,7 +17,6 @@ function ReportUser() {
     }, []);
     return (
         <div className=''>
-            {/* <TableBlog /> */}
             <ReportUserTable reports={reports} />
         </div>
     )
