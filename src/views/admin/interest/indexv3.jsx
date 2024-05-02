@@ -71,7 +71,7 @@ function App() {
     data.append('upload_preset', 'dating')
     setLoading(true)
     const res = await fetch(
-      "http://api.cloudinary.com/v1_1/durpvwfnl/image/upload",
+      "https://api.cloudinary.com/v1_1/durpvwfnl/image/upload",
       {
         method: "POST",
         body: data
