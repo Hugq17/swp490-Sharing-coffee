@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import { LuUpload } from "react-icons/lu";
 import { IoSend } from "react-icons/io5";
 import { FaPen } from "react-icons/fa";
@@ -10,48 +10,43 @@ function App() {
   const [itemsWithNullParentId, setItemsWithNullParentId] = useState([]);
   const [itemsWithNonNullParentId, setItemsWithNonNullParentId] = useState([]);
   const [expandedItems, setExpandedItems] = useState({});
-  const [image, setImage] = useState(""); //xử lý hình ảnh
-  const [loading, setLoading] = useState(false); //xử lý hình ảnh
-  const [nameParent, setNameParent] = useState("");
+  const [image, setImage] = useState("") //xử lý hình ảnh
+  const [loading, setLoading] = useState(false) //xử lý hình ảnh
+  const [nameParent, setNameParent] = useState('');
   const [showInput, setShowInput] = useState({}); // Trạng thái hiển thị input
-  const [childName, setChildName] = useState("");
-  //---------------------------------------------Danh sach thong bao---------------------------------------//
+  const [childName, setChildName] = useState('');
   const notifySuccess = () => toast("Thêm chủ đề thành công");
   const notifyFail = () => toast("Thêm chủ đề thất bại");
   const notifyEmpty = () => toast("Vui lòng điền đủ thông tin");
   const notifyUpdate = () => toast("Cập nhật chủ đề thành công");
   //--------------------------------------------Thêm một parent interest-----------------------------------//
-
   const handleSubmit = async () => {
-    // Kiểm tra nếu nameParent hoặc image là null
     if (!nameParent || !image) {
       // Hiển thị thông báo sử dụng react-toastify
       notifyEmpty();
       return; // Dừng xử lý hàm
     }
-
-    // Tiếp tục xử lý nếu nameParent và image không null
+    // Create a FormData object to send data
     const formData = new FormData();
-    formData.append("name", nameParent);
-    formData.append("image", image);
+    formData.append('name', nameParent);
+    formData.append('image', image);
 
     try {
-      const response = await axios.post(
-        "https://sharing-coffee-be-capstone-com.onrender.com/api/interest",
-        formData,
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
+      // Send a POST request to the API
+      const response = await axios.post('https://sharing-coffee-be-capstone-com.onrender.com/api/interest', formData, {
+        headers: {
+          'Content-Type': 'application/json'
         }
-      );
-      console.log("New data:", response.data);
-      setData((prevData) => [...prevData, response.data]);
+      });
 
-      // Đặt lại nameParent và image thành null sau khi tạo thành công
-      setNameParent("");
-      setSelectedFile("");
+      // Handle the response if needed
+      console.log('New data:', response.data);
 
+      // Update the state data by adding the new data to the existing array
+      setData(prevData => [...prevData, response.data]);
+
+      // Reset the image state by setting it to an empty string
+      setImage("");
       console.log("Image after posting: " + image);
       if (response.status === 201) {
         notifyFail()
@@ -60,7 +55,8 @@ function App() {
         notifySuccess();
       }
     } catch (error) {
-      console.error("Error:", error);
+      // Handle errors if any
+      console.error('Error:', error);
     }
   };
 
@@ -68,36 +64,34 @@ function App() {
     setNameParent(event.target.value);
   };
   //-------------------------------------------------xử lý hình ảnh--------------------------------------//
-  const uploadImage = async (e) => {
-    const files = e.target.files;
-    const data = new FormData();
-    data.append("file", files[0]);
-    data.append("upload_preset", "dating");
-    setLoading(true);
+  const uploadImage = async e => {
+    const files = e.target.files
+    const data = new FormData()
+    data.append('file', files[0])
+    data.append('upload_preset', 'dating')
+    setLoading(true)
     const res = await fetch(
       "http://api.cloudinary.com/v1_1/durpvwfnl/image/upload",
       {
         method: "POST",
-        body: data,
+        body: data
       }
-    );
-    const file = await res.json();
-    setImage(file.secure_url);
-    setLoading(false);
-    console.log(file.secure_url);
+    )
+    const file = await res.json()
+    setImage(file.secure_url)
+    setLoading(false)
+    console.log(file.secure_url)
     setSelectedFile(e.target.files[0]);
-  };
+  }
 
   //---------------------------------------------------------------------------------------------------------//
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(
-          "https://sharing-coffee-be-capstone-com.onrender.com/api/interest"
-        );
+        const response = await axios.get('https://sharing-coffee-be-capstone-com.onrender.com/api/interest');
         setData(response.data);
       } catch (error) {
-        console.error("Error fetching data:", error);
+        console.error('Error fetching data:', error);
       }
     };
 
@@ -106,30 +100,23 @@ function App() {
 
   useEffect(() => {
     // Filter items with null parent_interest_id
-    const itemsNullParentId = data.filter(
-      (item) => item.parent_interest_id === null
-    );
+    const itemsNullParentId = data.filter(item => item.parent_interest_id === null);
     setItemsWithNullParentId(itemsNullParentId);
 
     // Filter items with non-null parent_interest_id
-    const itemsNonNullParentId = data.filter(
-      (item) => item.parent_interest_id !== null
-    );
+    const itemsNonNullParentId = data.filter(item => item.parent_interest_id !== null);
     setItemsWithNonNullParentId(itemsNonNullParentId);
   }, [data]);
 
   const toggleItem = (interestId) => {
-    setExpandedItems((prevState) => ({
+    setExpandedItems(prevState => ({
       ...prevState,
-      [interestId]: !prevState[interestId],
+      [interestId]: !prevState[interestId]
     }));
   };
-  //---------------------------------------------Thêm chủ đề con--------------------------------------------------------------//
+
   const addChildInterest = async (childName, parentId) => {
-    if (!childName) {
-      notifyEmpty();
-      return;
-    }
+    if (childName === null) { }
     try {
       const response = await axios.post(
         'https://sharing-coffee-be-capstone-com.onrender.com/api/interest',
@@ -146,19 +133,22 @@ function App() {
 
       // Cập nhật state để hiển thị phần tử mới
       setItemsWithNullParentId(prevItems => [...prevItems, newItem]);
+
     } catch (error) {
       console.error('Error adding child interest:', error);
     }
   };
   //---------------------------------Xử lý và cập nhật hình ảnh-------------------------------------------------------//
-  const handleUpdateImg = (interest_id) => { };
+  const handleUpdateImg = (interest_id) => {
+
+  }
 
   const [showPopup, setShowPopup] = useState(false);
-  const [interest_id, setInterest_id] = useState("");
+  const [interest_id, setInterest_id] = useState("")
   const handleUploadButton = (interestID) => {
     setShowPopup(true);
-    console.log(interestID);
-    setInterest_id(interestID);
+    console.log(interestID)
+    setInterest_id(interestID)
   };
 
   // Định nghĩa hàm để cập nhật thông tin cho một mục quan tâm
@@ -210,16 +200,14 @@ function App() {
 
       // Kiểm tra kết quả của yêu cầu cập nhật
       if (response.status === 200) {
-        console.log("Cập nhật thành công!");
+        console.log('Cập nhật thành công!');
         // Cập nhật state `itemsWithNonNullParentId` với dữ liệu mới
         const updatedItem = response.data; // Dữ liệu được trả về từ API sau khi cập nhật
         // Cập nhật `itemsWithNonNullParentId` bằng cách thay thế hoặc thêm dữ liệu mới
-        setInputValue("");
-        setItemsWithNonNullParentId((prevData) => {
+        setInputValue("")
+        setItemsWithNonNullParentId(prevData => {
           // Kiểm tra xem item đã tồn tại trong danh sách chưa
-          const itemIndex = prevData.findIndex(
-            (item) => item.id === updatedItem.id
-          );
+          const itemIndex = prevData.findIndex(item => item.id === updatedItem.id);
           if (itemIndex !== -1) {
             // Nếu item đã tồn tại, thay thế item cũ bằng item mới cập nhật
             const updatedData = [...prevData];
@@ -231,13 +219,13 @@ function App() {
           }
         });
       } else {
-        console.log("Cập nhật không thành công.");
+        console.log('Cập nhật không thành công.');
         // Xử lý khi cập nhật không thành công
       }
       // Sau khi cập nhật xong, đặt lại state `editingIndex` về -1 để thoát khỏi chế độ chỉnh sửa
       setEditingIndex(-1);
     } catch (error) {
-      console.error("Lỗi khi gửi yêu cầu cập nhật:", error);
+      console.error('Lỗi khi gửi yêu cầu cập nhật:', error);
       // Xử lý khi có lỗi xảy ra trong quá trình gửi yêu cầu cập nhật
     }
   };
@@ -246,14 +234,13 @@ function App() {
     const updatedItems = [...itemsWithNonNullParentId];
     updatedItems[index].name = originalName; // Khôi phục tên ban đầu của mục
     setItemsWithNonNullParentId(updatedItems);
-    setInputValue("");
+    setInputValue("")
     setEditingIndex(-1); // Thoát khỏi chế độ chỉnh sửa
   };
-  const [originalName, setOriginalName] = useState("");
-  const [inputValue, setInputValue] = useState("");
+  const [originalName, setOriginalName] = useState('');
+  const [inputValue, setInputValue] = useState('');
   return (
     <div className='mt-3'>
-      {/* Hiển thị component mới nếu showCurrentCode là false */}
       {showCurrentCode && (
         <div className='flex flex-col items-center justify-center'>
           <div className="container mx-auto px-4 py-8">
@@ -290,7 +277,7 @@ function App() {
                 </div>
                 <div className="flex items-center justify-between ml-2">
                   <button
-                    className="bg-[#A4634D] hover:bg-[#B68271] text-white py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
                     onClick={handleSubmit}
                   >
                     Thêm
@@ -303,7 +290,7 @@ function App() {
           {/* <h2 className="text-xl font-bold mb-2">Items with null parent_interest_id:</h2> */}
           <div className="flex flex-wrap gap-5 justify-center">
             {itemsWithNullParentId.map((item, index) => (
-              <div key={index} className="relative flex flex-col justify-center items-center mt-8 text-gray-700 bg-white bg-clip-border rounded-xl w-96">
+              <div key={index} className="relative flex flex-col justify-center items-center mt-8 text-gray-700 bg-white shadow-md bg-clip-border rounded-xl w-96">
                 {item.image ? (
                   <img className='rounded-2xl w-2/3 object-cover' src={item.image} onClick={() => handleUpdateImg(item.interest_id)} />
                 ) : (
@@ -331,13 +318,12 @@ function App() {
                     {showInput[item.interest_id] && (
                       <div className="flex items-center mb-2">
                         <input type="text" className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Nhập" onChange={(e) => setChildName(e.target.value)} />
-                        <button onClick={() => addChildInterest(childName, item.interest_id)} className="ml-2 bg-[#A4634D] hover:bg-[#B68271] text-white py-2 px-4 rounded focus:outline-none hover:text-white focus:shadow-outline">Thêm</button>
+                        <button onClick={() => addChildInterest(childName, item.interest_id)} className="ml-2 bg-[#F6EFED] hover:bg-[#A4634D] text-[#A4634D] py-2 px-4 rounded focus:outline-none hover:text-white focus:shadow-outline">Thêm</button>
                       </div>
                     )}
                     <button className='m-2' onClick={() => setShowInput(prevState => ({ ...prevState, [item.interest_id]: !prevState[item.interest_id] }))}>
                       {showInput[item.interest_id] ? 'Đóng' : 'Thêm chủ đề'}
                     </button>
-                    <ToastContainer />
                     <ul className="grid grid-cols-2 gap-4">
                       {itemsWithNonNullParentId
                         .filter(childItem => childItem.parent_interest_id === item.interest_id)
@@ -353,14 +339,14 @@ function App() {
                                     className="border border-gray-400 px-2 py-1 rounded mr-2 w-full"
                                   />
                                   <button
-                                    className="text-[#A4634D]"
+                                    className="text-blue-500 hover:text-blue-700"
                                     onClick={() => handleUpdateClick(childItem.interest_id, inputValue, childItem.name)}
                                   >
                                     <IoSend />
                                   </button>
                                 </div>
                                 <div className='flex'>
-                                  <button className="text-[#A4634D] hover:underline ml-2" onClick={() => handleCancelClick(childIndex)}>
+                                  <button className="text-blue-500 hover:text-blue-700 hover:underline ml-2" onClick={() => handleCancelClick(childIndex)}>
                                     Hủy
                                   </button>
                                 </div>
@@ -385,7 +371,7 @@ function App() {
         </div>
       )}
     </div >
-  )
+  );
 }
 
 export default App;
