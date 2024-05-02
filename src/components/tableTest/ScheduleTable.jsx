@@ -3,7 +3,7 @@ import { useTable, usePagination, useGlobalFilter, useSortBy } from 'react-table
 import { Card, Typography } from "@material-tailwind/react";
 import { GlobalFilter } from '../table/GlobalFilter';
 import { FaArrowDown, FaArrowUp } from "react-icons/fa";
-import { format } from 'date-fns';
+import { format, subHours } from 'date-fns';
 
 function ScheduleTable({ schedule }) {
     const data = useMemo(() => schedule, [schedule]);
@@ -33,7 +33,12 @@ function ScheduleTable({ schedule }) {
             {
                 Header: 'Lịch hẹn',
                 accessor: 'schedule_time',
-                Cell: ({ cell: { value } }) => <span className='text-sm'>{format(new Date(value), 'dd-MM-yyyy HH:mm')}</span>, // Format the date
+                Cell: ({ cell: { value } }) => {
+                    // Trừ đi 7 tiếng từ thời gian UTC
+                    const adjustedTime = subHours(new Date(value), 7);
+                    // Format thời gian
+                    return <span className='text-sm'>{format(adjustedTime, 'dd-MM-yyyy HH:mm')}</span>;
+                }
             },
             {
                 Header: 'Địa điểm',
