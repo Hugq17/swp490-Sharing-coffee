@@ -56,11 +56,11 @@ const UserTable = ({ users }) => {
                 accessor: (row, index) => index + 1,
                 Cell: ({ value }) => <span className='text-sm'>{value}</span>
             },
-            // {
-            //     Header: 'Id người dùng',
-            //     accessor: 'user_id',
-            //     Cell: ({ value }) => <span className='text-sm'>{value}</span>
-            // },
+            {
+                Header: 'Id người dùng',
+                accessor: 'user_id',
+                Cell: ({ value }) => <span className='text-sm'>{value}</span>
+            },
             {
                 Header: 'Hình ảnh',
                 accessor: 'profile_avatar',
