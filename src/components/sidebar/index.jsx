@@ -18,12 +18,12 @@ const Sidebar = ({ open, onClose }) => {
                 }`}
             style={{ width: "200px" }}
         >
-            <span
+            {/* <span
                 className="absolute top-4 right-4 block cursor-pointer xl:hidden"
                 onClick={onClose}
             >
                 <button>Close</button>
-            </span>
+            </span> */}
 
             <div className="mx-4 mt-8 mb-4 flex items-center justify-center">
                 <div className="text-xl font-bold text-navy-700 text-white ">
