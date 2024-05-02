@@ -9,8 +9,11 @@ import Modal from 'react-modal';
 import coffeAvatar from '../../assets/img/coffe-avatar.jpg'
 import axios from 'axios';
 import { FaRegUser } from "react-icons/fa";
-
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 const UserTable = ({ users }) => {
+    const notifySuccess = () => toast("Cập nhật trạng thái thành công");
+    const notifyFail = () => toast("Cập nhật trạng thái thất bại");
     const [selectedUser, setSelectedUser] = useState(null);
     const [modalIsOpen, setModalIsOpen] = useState(false);
     const [modalConfirm, setModalConfirm] = useState(false);
@@ -26,9 +29,12 @@ const UserTable = ({ users }) => {
 
             // Xử lý phản hồi từ API nếu cần
             console.log('Cập nhật trạng thái thành công:', response.data);
-
-            // Cập nhật lại danh sách người dùng hoặc xử lý các thay đổi liên quan
-            // Ví dụ: gọi lại API để lấy danh sách người dùng mới
+            if (response.status === 201) {
+                notifyFail()
+            } else {
+                console.error("Failed to add topic");
+                notifySuccess()
+            }
         } catch (error) {
             console.error('Lỗi khi cập nhật trạng thái:', error);
             // Xử lý lỗi nếu có
@@ -79,7 +85,7 @@ const UserTable = ({ users }) => {
                 Header: 'Trạng thái',
                 accessor: 'is_available',
                 Cell: ({ value }) => (
-                    <span className={`text-sm font-sans p-2 rounded ${value ? 'bg-[#4AAF57] text-white' : 'bg-[#F54336] text-white'}`}>
+                    <span className={`text-sm font-sans p-1 rounded ${value ? 'bg-[#4AAF57] text-white' : 'bg-[#F54336] text-white'}`}>
                         {value ? 'Kích hoạt' : 'Vô hiệu hóa'}
                     </span>
                 )
@@ -121,6 +127,7 @@ const UserTable = ({ users }) => {
                             >
                                 {row.original.is_available ? 'Vô hiệu hóa' : 'Kích hoạt'}
                             </button>
+                            <ToastContainer />
                         </div>
                     </div>
                 ),

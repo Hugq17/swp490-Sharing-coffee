@@ -68,13 +68,6 @@ const routes = [
         path: "blog",
         component: <Blog />
     },
-    // {
-    //     name: "Matching",
-    //     layout: "/admin",
-    //     icon: <TbHeartSearch style={{ width: '50px', height: '50px' }} />,
-    //     path: "matching",
-    //     component: <Matching />
-    // },
     {
         name: <p className="text-[19px]">Báo cáo</p>,
         layout: "/admin",
@@ -89,13 +82,6 @@ const routes = [
         path: "profile",
         component: <Profile />
     },
-    // {
-    //     name: "Thông báo",
-    //     layout: "/admin",
-    //     icon: <IoMdNotificationsOutline style={{ width: '50px', height: '50px' }} />,
-    //     path: "notifications",
-    //     component: <NotificationForUser />
-    // },
     {
         name: "",
         layout: "/admin",

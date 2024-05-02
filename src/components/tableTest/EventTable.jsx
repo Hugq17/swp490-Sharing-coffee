@@ -6,17 +6,16 @@ import { format } from 'date-fns';
 import { MdClose } from "react-icons/md";
 import { GlobalFilter } from '../table/GlobalFilter';
 import { FaArrowDown, FaArrowUp } from "react-icons/fa";
-import { Checkbox } from '../table/checkbox';
-import { LiaUserTagSolid } from "react-icons/lia";
-import { IoLocationOutline } from "react-icons/io5";
 import axios from 'axios';
-
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const EventTable = ({ events }) => {
+    const notifySuccess = () => toast("Cập nhật trạng thái thành công");
+    const notifyFail = () => toast("Cập nhật trạng thái thất bại");
     const [selectedEvent, setSelectedEvent] = useState(null);
     const [modalIsOpen, setModalIsOpen] = useState(false);
     const [modalConfirm, setModalConfirm] = useState(false);
-
     const [actionConfirmed, setActionConfirmed] = useState(false); // State để theo dõi xác nhận hành động
     const data = useMemo(() => events, [events]);
 
@@ -36,9 +35,12 @@ const EventTable = ({ events }) => {
                 }
                 return event;
             });
-
-            // Không cần cập nhật state, dữ liệu được cập nhật trực tiếp trong useMemo
-
+            if (response.status === 201) {
+                notifyFail()
+            } else {
+                console.error("Failed to add topic");
+                notifySuccess()
+            }
         } catch (error) {
             console.error('Lỗi khi cập nhật trạng thái:', error);
             // Xử lý lỗi nếu có
@@ -133,6 +135,7 @@ const EventTable = ({ events }) => {
                             >
                                 {row.original.is_approve ? 'Vô hiệu hóa' : 'Kích hoạt'}
                             </button>
+                            <ToastContainer />
                         </div>
                     </div>
                 ),

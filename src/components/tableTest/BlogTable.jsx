@@ -8,9 +8,13 @@ import { GlobalFilter } from '../table/GlobalFilter';
 import { FaArrowDown, FaArrowUp } from "react-icons/fa";
 import { LiaUserTagSolid } from "react-icons/lia";
 import axios from 'axios';
-
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const BlogTable = ({ blogs }) => {
+    const notifySuccess = () => toast("Cập nhật trạng thái thành công");
+    const notifyFail = () => toast("Cập nhật trạng thái thất bại");
+
     const [selectedBlog, setSelectedBlog] = useState(null);
     const [modalIsOpen, setModalIsOpen] = useState(false);
     const [modalConfirm, setModalConfirm] = useState(false);
@@ -33,12 +37,14 @@ const BlogTable = ({ blogs }) => {
                 }
                 return blog;
             });
-
-            // Không cần cập nhật state, dữ liệu được cập nhật trực tiếp trong useMemo
-
+            if (response.status === 201) {
+                notifyFail()
+            } else {
+                console.error("Failed to add topic");
+                notifySuccess()
+            }
         } catch (error) {
             console.error('Lỗi khi cập nhật trạng thái:', error);
-            // Xử lý lỗi nếu có
         }
     };
 
@@ -125,6 +131,7 @@ const BlogTable = ({ blogs }) => {
                             >
                                 {row.original.is_approve ? 'Vô hiệu hóa' : 'Kích hoạt'}
                             </button>
+                            <ToastContainer />
                         </div>
                     </div>
                 ),

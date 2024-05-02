@@ -146,12 +146,6 @@ function App() {
 
       // Cập nhật state để hiển thị phần tử mới
       setItemsWithNullParentId(prevItems => [...prevItems, newItem]);
-      if (response.status === 201) {
-        notifyFail()
-      } else {
-        console.error("Failed to add topic");
-        notifySuccess()
-      }
     } catch (error) {
       console.error('Error adding child interest:', error);
     }
