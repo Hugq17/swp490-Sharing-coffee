@@ -68,8 +68,8 @@ const ReportUserTable = ({ reports }) => {
             },
             {
                 Header: 'Hình ảnh',
-                accessor: 'image',
-                Cell: ({ cell: { value } }) => <img src={value} alt="Hình ảnh" style={{ maxWidth: '50px', maxHeight: '50px' }} />,
+                accessor: 'profile_avatar',
+                Cell: ({ cell: { value } }) => <img src={value} alt="Hình ảnh" style={{ maxWidth: '100px', maxHeight: '100px' }} />,
             },
             {
                 Header: 'Người dùng',
