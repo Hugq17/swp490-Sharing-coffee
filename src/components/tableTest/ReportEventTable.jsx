@@ -45,6 +45,8 @@ const ReportEventTable = ({ reports }) => {
                 console.error("Failed to add topic");
                 notifySuccess()
             }
+            window.location.reload();
+
         } catch (error) {
             console.error('Lỗi khi cập nhật trạng thái:', error);
             // Xử lý lỗi nếu có
