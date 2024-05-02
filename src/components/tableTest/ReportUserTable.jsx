@@ -3,15 +3,17 @@ import { useTable, usePagination, useGlobalFilter, useSortBy } from 'react-table
 import { Card, Typography } from "@material-tailwind/react";
 import { GlobalFilter } from '../table/GlobalFilter';
 import { FaArrowDown, FaArrowUp } from "react-icons/fa";
-import { Checkbox } from '../table/checkbox';
 import { MdClose } from "react-icons/md";
 import Modal from 'react-modal';
 import { format } from 'date-fns';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { IoArrowForward } from "react-icons/io5";
-
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 const ReportUserTable = ({ reports }) => {
+    const notifySuccess = () => toast("Cập nhật trạng thái thành công");
+    const notifyFail = () => toast("Cập nhật trạng thái thất bại");
     const [selectedReport, setselectedReport] = useState(null);
     const [modalIsOpen, setModalIsOpen] = useState(false);
     const [modalConfirm, setModalConfirm] = useState(false);
@@ -36,9 +38,12 @@ const ReportUserTable = ({ reports }) => {
                 }
                 return blog;
             });
-
-            // Không cần cập nhật state, dữ liệu được cập nhật trực tiếp trong useMemo
-
+            if (response.status === 201) {
+                notifyFail()
+            } else {
+                console.error("Failed to add topic");
+                notifySuccess()
+            }
         } catch (error) {
             console.error('Lỗi khi cập nhật trạng thái:', error);
             // Xử lý lỗi nếu có
@@ -111,6 +116,7 @@ const ReportUserTable = ({ reports }) => {
                             >
                                 {row.original.is_available ? 'Vô hiệu hóa' : 'Kích hoạt'}
                             </button>
+                            <ToastContainer />
                         </div>
                     </div>
                 ),
@@ -238,24 +244,6 @@ const ReportUserTable = ({ reports }) => {
                     </button>
                 </div>
                 <GlobalFilter filter={globalFilter} setFilter={setGlobalFilter} />
-                {/* <div className="checkbox-group flex  justify-center">
-                    <div className="checkbox-container">
-                        <Checkbox {...getToggleHideAllColumnsProps()} /><p className='text-xl font-sans'>Tất cả</p>
-                    </div>
-                    {
-                        allColumns.map(column => (
-                            <div key={column.id} className="checkbox-container">
-                                <label style={{ marginLeft: "30px" }}>
-                                    <input
-                                        type='checkbox' {...column.getToggleHiddenProps()}
-                                        className="mr-3"
-                                    />
-                                    <p className='text-xl font-sans'>{column.Header}</p>
-                                </label>
-                            </div>
-                        ))
-                    }
-                </div> */}
                 <Card className="h-full w-full overflow-scroll">
                     <h2 className='font-sans text-2xl mb-3 font-medium'>Bảng báo cáo các người dùng</h2>
                     <table {...getTableProps()} className="w-full min-w-max table-auto text-left">

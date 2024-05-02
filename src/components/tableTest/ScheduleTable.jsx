@@ -6,9 +6,6 @@ import { FaArrowDown, FaArrowUp } from "react-icons/fa";
 import { format } from 'date-fns';
 
 function ScheduleTable({ schedule }) {
-    const [selectedSchedule, setSelectedSchedule] = useState(null);
-    const [modalIsOpen, setModalIsOpen] = useState(false);
-
     const data = useMemo(() => schedule, [schedule]);
 
     const columns = useMemo(

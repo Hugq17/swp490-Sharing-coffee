@@ -9,8 +9,11 @@ import { format } from 'date-fns';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { IoArrowForward } from "react-icons/io5";
-
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 const ReportTable = ({ reports }) => {
+    const notifySuccess = () => toast("Cập nhật trạng thái thành công");
+    const notifyFail = () => toast("Cập nhật trạng thái thất bại");
     const [selectedReport, setselectedReport] = useState(null);
     const [modalIsOpen, setModalIsOpen] = useState(false);
     const [modalConfirm, setModalConfirm] = useState(false);
@@ -34,9 +37,12 @@ const ReportTable = ({ reports }) => {
                 }
                 return blog;
             });
-
-            // Không cần cập nhật state, dữ liệu được cập nhật trực tiếp trong useMemo
-
+            if (response.status === 201) {
+                notifyFail()
+            } else {
+                console.error("Failed to add topic");
+                notifySuccess()
+            }
         } catch (error) {
             console.error('Lỗi khi cập nhật trạng thái:', error);
             // Xử lý lỗi nếu có
@@ -107,6 +113,7 @@ const ReportTable = ({ reports }) => {
                             >
                                 {row.original.is_approve ? 'Vô hiệu hóa' : 'Kích hoạt'}
                             </button>
+                            <ToastContainer />
                         </div>
                     </div>
                 ),
