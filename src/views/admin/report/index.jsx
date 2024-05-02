@@ -3,6 +3,7 @@ import axios from 'axios';
 import ReportTable from '../../../components/tableTest/ReportTable';
 function Report() {
     const [reports, setReports] = useState([]);
+    const [selectedButton, setSelectedButton] = useState(null);
 
     useEffect(() => {
         const fetchReports = async () => {
@@ -16,8 +17,7 @@ function Report() {
         fetchReports();
     }, []);
     return (
-        <div className=''>
-            {/* <TableBlog /> */}
+        <div>
             <ReportTable reports={reports} />
         </div>
     )
