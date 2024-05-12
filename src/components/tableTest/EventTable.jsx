@@ -64,10 +64,10 @@ const EventTable = ({ events }) => {
                 accessor: (row, index) => index + 1,
                 Cell: ({ value }) => <span>{value}</span>,
             },
-            {
-                Header: 'Id sự kiện',
-                accessor: 'event_id',
-            },
+            // {
+            //     Header: 'Id sự kiện',
+            //     accessor: 'event_id',
+            // },
             {
                 Header: 'Hình ảnh',
                 accessor: 'background_img',

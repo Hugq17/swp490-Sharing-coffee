@@ -66,10 +66,10 @@ const BlogTable = ({ blogs }) => {
                 accessor: (row, index) => index + 1,
                 Cell: ({ value }) => <span>{value}</span>,
             },
-            {
-                Header: 'Id bài viết',
-                accessor: 'blog_id',
-            },
+            // {
+            //     Header: 'Id bài viết',
+            //     accessor: 'blog_id',
+            // },
             {
                 Header: 'Hình ảnh',
                 accessor: 'image',

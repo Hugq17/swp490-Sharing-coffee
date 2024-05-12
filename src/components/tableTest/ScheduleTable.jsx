@@ -15,11 +15,11 @@ function ScheduleTable({ schedule }) {
                 accessor: (row, index) => index + 1,
                 Cell: ({ value }) => <span className='text-sm'>{value}</span>,
             },
-            {
-                Header: 'Id cuộc hẹn',
-                accessor: 'schedule_id',
-                Cell: ({ value }) => <span className='text-sm'>{value}</span>
-            },
+            // {
+            //     Header: 'Id cuộc hẹn',
+            //     accessor: 'schedule_id',
+            //     Cell: ({ value }) => <span className='text-sm'>{value}</span>
+            // },
             {
                 Header: 'Người gửi',
                 accessor: 'sender',
