@@ -303,7 +303,7 @@ const UserTable = ({ users }) => {
                                             <span class="text-gray-700">{selectedUser.user_name}</span>
                                         </li>
                                         <li class="flex border-b py-2">
-                                            <span class="font-bold w-20">Độ tuổi:</span>
+                                            <span class="font-bold w-20">Tuổi:</span>
                                             <span class="text-gray-700">{selectedUser.age}</span>
                                         </li>
                                         <li class="flex border-b py-2">

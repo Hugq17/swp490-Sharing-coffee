@@ -377,7 +377,7 @@ const ReportUserTable = ({ reports }) => {
                                                 <td>{index + 1}</td>
                                                 <td className="border border-gray-300 px-4 py-2">{report.reporter}</td>
                                                 <td className="border border-gray-300 px-4 py-2">{format(new Date(report.created_at), 'dd-MM-yyyy HH:mm')}</td>
-                                                <td className="border border-gray-300 px-4 py-2">{report.report_status}</td>
+                                                <td className="border border-gray-300 px-4 py-2">{report.content}</td>
                                             </tr>
                                         ))}
                                     </tbody>
