@@ -49,7 +49,7 @@ function Profile() {
                             <div className="flex flex-col">
                                 <p><span className="font-bold">Số điện thoại:</span> {phone}</p>
                                 <p><span className="font-bold">Email:</span> {email}</p>
-                                <p><span className="font-bold">Gender:</span> {gender}</p>
+                                {/* <p><span className="font-bold">Gender:</span> {gender}</p> */}
                                 <p><span className="font-bold">Tuổi:</span> {age}</p>
                                 <p><span className="font-bold">Địa chỉ:</span> {address}</p>
                             </div>
