@@ -84,7 +84,7 @@ const UserTable = ({ users }) => {
                 Cell: ({ value }) => <span className='text-sm'>{value}</span>
             },
             {
-                Header: 'Khoảng tuổi',
+                Header: 'Tuổi',
                 accessor: 'age',
                 Cell: ({ value }) => <span className='text-sm'>{value}</span>
             },
