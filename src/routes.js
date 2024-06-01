@@ -77,13 +77,13 @@ const routes = [
     path: "report",
     component: <Report />,
   },
-  {
-    name: <p className="text-[19px]">Địa chỉ</p>,
-    layout: "/admin",
-    icon: <FaSearchLocation style={{ width: "30px", height: "30px" }} />,
-    path: "address",
-    component: <Address />,
-  },
+  // {
+  //   name: <p className="text-[19px]">Địa chỉ</p>,
+  //   layout: "/admin",
+  //   icon: <FaSearchLocation style={{ width: "30px", height: "30px" }} />,
+  //   path: "address",
+  //   component: <Address />,
+  // },
   {
     name: <p className="text-[19px]">Hồ sơ</p>,
     layout: "/admin",

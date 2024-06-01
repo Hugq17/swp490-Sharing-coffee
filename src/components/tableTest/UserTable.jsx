@@ -324,7 +324,7 @@ const UserTable = ({ users }) => {
                                         </li>
                                         <li class="flex border-b py-2">
                                             <span class="font-bold w-20">Địa chỉ:</span>
-                                            <span class="text-gray-700">{selectedUser.address}</span>
+                                            <span class="text-gray-700">{selectedUser.province}</span>
                                         </li>
                                         {/* <li class="flex border-b py-2">
                                             <span class="font-bold w-24">Ghép thành công:</span>

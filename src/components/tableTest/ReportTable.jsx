@@ -175,13 +175,13 @@ const ReportTable = ({ reports }) => {
         <>
             <div className='mt-[40px] p-1'>
                 <div className='flex'>
-                    <button
+                    {/* <button
                         className='py-2 px-4 bg-[#F6EFED] rounded flex items-center justify-center transition duration-300 ease-in-out hover:bg-[#A4634D] hover:text-white'
                         onClick={handleClickReportUser}
                     >
                         <p>Bảng báo cáo người dùng</p>
                         <IoArrowForward className='ml-2 mt-1' />
-                    </button>
+                    </button> */}
                     <button
                         className='py-2 px-4 ml-4 bg-[#F6EFED] rounded flex items-center justify-center transition duration-300 ease-in-out hover:bg-[#A4634D]'
                         onClick={handleClickReportEvent}
